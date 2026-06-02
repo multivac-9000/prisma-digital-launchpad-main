@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import BrevoContact from "./BrevoContact";
 
 const bullets = [
   "Por qué tu negocio no está vendiendo lo que debería",
@@ -42,17 +43,9 @@ export default function Contact() {
           </p>
         </div>
 
-        {/* Right: formulario real de Brevo */}
-        <div className="bg-white rounded-2xl p-2 md:p-4 shadow-xl border border-border">
-          <iframe
-            title="Formulario de contacto Prisma Digital"
-            src="https://345b4d6b.sibforms.com/v2/serve/MUIFAOVc3B9AWrtg9aM3CAvHScKfp8Ak5Rg3dGgrxrEwFJIdkmi60NP7IEJrxFUR9tuLZsDhfXvfrCdRrsqLYjJxZYg_O6AojNgMU_Eu7jMC4bdABeY2DHZvs65w2JoPPGDcIH6PhFxLeZP72pp_-2xS4iB2b6UveyK2l5Gl3ohVxLeSlTYMIhXkFyzaPy5Wz51z3GVfilH97YmQ"
-            frameBorder={0}
-            scrolling="no"
-            allowFullScreen
-            className="block w-full rounded-xl"
-            style={{ width: "100%", height: 640 }}
-          />
+        {/* Right: formulario real de Brevo (modo HTML nativo, aislado) */}
+        <div>
+          <BrevoContact />
         </div>
       </div>
     </section>
