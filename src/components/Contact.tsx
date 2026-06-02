@@ -48,10 +48,10 @@ export default function Contact() {
             title="Formulario de contacto Prisma Digital"
             src="https://345b4d6b.sibforms.com/v2/serve/MUIFAOVc3B9AWrtg9aM3CAvHScKfp8Ak5Rg3dGgrxrEwFJIdkmi60NP7IEJrxFUR9tuLZsDhfXvfrCdRrsqLYjJxZYg_O6AojNgMU_Eu7jMC4bdABeY2DHZvs65w2JoPPGDcIH6PhFxLeZP72pp_-2xS4iB2b6UveyK2l5Gl3ohVxLeSlTYMIhXkFyzaPy5Wz51z3GVfilH97YmQ"
             frameBorder={0}
-            scrolling="auto"
+            scrolling="no"
             allowFullScreen
             className="block w-full rounded-xl"
-            style={{ width: "100%", minHeight: 480 }}
+            style={{ width: "100%", height: 640 }}
           />
         </div>
       </div>
