@@ -1,11 +1,5 @@
-import {
-  Mail,
-  MessageCircle,
-  CalendarDays,
-  Instagram,
-  Facebook,
-  Linkedin,
-} from "lucide-react";
+import { Mail, MessageCircle, CalendarDays, Instagram, Facebook, Linkedin } from "lucide-react";
+import BrevoNewsletter from "./BrevoNewsletter";
 
 const socials = [
   {
@@ -34,11 +28,7 @@ export default function Footer() {
           {/* LEFT: brand */}
           <div>
             <div className="flex items-center gap-2">
-              <img
-                src="/prisma-digital-black-logo.png"
-                alt="logo"
-                className="w-64 h-auto"
-              />
+              <img src="/prisma-digital-black-logo.png" alt="logo" className="w-64 h-auto" />
             </div>
             <p className="mt-4 text-ink/80 text-sm max-w-xs leading-relaxed">
               Para emprendedores que tienen algo bueno
@@ -48,9 +38,7 @@ export default function Footer() {
 
           {/* RIGHT: contact pills */}
           <div className="lg:justify-self-end">
-            <h4 className="font-bold text-lg text-ink">
-              Elige tu forma para contactarnos
-            </h4>
+            <h4 className="font-bold text-lg text-ink">Elige tu forma para contactarnos</h4>
             <div className="mt-5 flex flex-col sm:flex-row gap-3">
               <a
                 href="mailto:prismadigital.io@gmail.com"
@@ -78,17 +66,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter (formulario real de Brevo) — ancho en desktop */}
-        <div className="mt-14 mx-auto w-full max-w-3xl bg-white rounded-2xl p-2 md:p-4 shadow-xl overflow-hidden">
-          <iframe
-            title="Newsletter Prisma Digital"
-            src="https://345b4d6b.sibforms.com/v2/serve/MUIFAN_Ng8yAMpFy0s-a9kNPr0q_DvozZJp2n-wS7f2_qGo7lq86UoJngwF8dUYM48NJKyqu80nKOeekIcBA_4yHMOx4wXD96ga2bQjBVfCgGj3r3K2-d3LsDnA_knMKhAxuOTN8VK0kTxYqPBa_MZ3u3nsMx8Uv1Ih38RQJ7qMuHXYWKVt99-U8kMCaD96Eup6x69oTx0glTVPi"
-            frameBorder={0}
-            scrolling="no"
-            allowFullScreen
-            className="block w-full rounded-xl"
-            style={{ width: "100%", height: 340 }}
-          />
+        {/* Newsletter (formulario real de Brevo, modo HTML nativo) — ancho en desktop */}
+        <div className="mt-14 mx-auto w-full max-w-xl">
+          <BrevoNewsletter />
         </div>
       </div>
 
