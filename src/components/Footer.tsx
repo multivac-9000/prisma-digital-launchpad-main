@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Mail,
   MessageCircle,
@@ -6,21 +5,10 @@ import {
   Youtube,
   Linkedin,
   Instagram,
-  Triangle,
   Chrome,
 } from "lucide-react";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const subscribe = () => {
-    if (!email) return;
-    setSubscribed(true);
-    setEmail("");
-    setTimeout(() => setSubscribed(false), 4000);
-  };
-
   return (
     <footer className="bg-footer-yellow text-ink">
       <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-3">
@@ -31,31 +19,32 @@ export default function Footer() {
           </div>
           <p className="mt-4 text-ink/80 text-sm max-w-xs leading-relaxed">
             Para emprendedores que tienen algo bueno
-            <br />
-            y quieren que el mundo lo sepa.
+            <br />y quieren que el mundo lo sepa.
           </p>
         </div>
 
         {/* CENTER: contact pills */}
         <div>
-          <h4 className="font-bold text-lg text-ink">
-            Elige tu forma para contactarnos
-          </h4>
+          <h4 className="font-bold text-lg text-ink">Elige tu forma para contactarnos</h4>
           <div className="mt-5 flex flex-col sm:flex-row lg:flex-col gap-3">
             <a
-              href="mailto:hola@prismadigital.com"
+              href="mailto:prismadigital.io@gmail.com"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-ink text-white text-sm font-semibold hover:bg-primary transition"
             >
               <Mail className="h-4 w-4" /> Enviar Email
             </a>
             <a
-              href="#"
+              href="https://api.whatsapp.com/send/?phone=56957151303&text=Hola+equipo+Prisma+Digital%21%2C+quiero+saber+m%C3%A1s+de+sus+servicios.&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-ink text-white text-sm font-semibold hover:bg-secondary transition"
             >
               <MessageCircle className="h-4 w-4" /> Enviar WhatsApp
             </a>
             <a
-              href="#"
+              href="https://meet.brevo.com/prisma-digital"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-ink text-white text-sm font-semibold hover:bg-accent transition"
             >
               <CalendarDays className="h-4 w-4" /> Agendar una Reunión
@@ -63,35 +52,17 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* RIGHT: newsletter card */}
-        <div className="bg-ink text-white rounded-2xl p-6 md:p-7 shadow-xl">
-          <h4 className="font-bold text-lg">Newsletter Digital</h4>
-          <p className="mt-2 text-white/70 text-sm leading-relaxed">
-            Suscríbete para recibir novedades sobre metodologías ágiles,
-            industria tech, datos y marketing digital.
-          </p>
-
-          <label className="mt-5 block text-xs text-white/70">
-            Introduce tu dirección de e-mail para suscribirte
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="EMAIL"
-            className="mt-2 w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 placeholder:text-white/40 text-white focus:bg-white/15 focus:border-secondary outline-none tracking-wide"
+        {/* RIGHT: newsletter (formulario real de Brevo) */}
+        <div className="bg-white rounded-2xl p-2 md:p-4 shadow-xl overflow-hidden">
+          <iframe
+            title="Newsletter Prisma Digital"
+            src="https://345b4d6b.sibforms.com/v2/serve/MUIFAN_Ng8yAMpFy0s-a9kNPr0q_DvozZJp2n-wS7f2_qGo7lq86UoJngwF8dUYM48NJKyqu80nKOeekIcBA_4yHMOx4wXD96ga2bQjBVfCgGj3r3K2-d3LsDnA_knMKhAxuOTN8VK0kTxYqPBa_MZ3u3nsMx8Uv1Ih38RQJ7qMuHXYWKVt99-U8kMCaD96Eup6x69oTx0glTVPi"
+            frameBorder={0}
+            scrolling="auto"
+            allowFullScreen
+            className="block w-full rounded-xl"
+            style={{ width: "100%", minHeight: 340 }}
           />
-          <p className="mt-2 text-xs text-emerald-400">
-            Tus datos están a salvo con nosotros
-          </p>
-
-          <button
-            type="button"
-            onClick={subscribe}
-            className="mt-4 w-full px-5 py-3 rounded-lg bg-secondary text-white font-bold tracking-wide hover:bg-secondary/90 transition-transform hover:scale-[1.01]"
-          >
-            {subscribed ? "¡SUSCRITO!" : "SUSCRIBIRSE"}
-          </button>
         </div>
       </div>
 
