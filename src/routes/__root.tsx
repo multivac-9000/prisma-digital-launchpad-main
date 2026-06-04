@@ -77,27 +77,35 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
+      { title: "Prisma Digital — Más clientes en 90 días, con datos no con suposiciones" },
       {
         name: "description",
         content:
-          "Prisma Digital Launchpad creates a comprehensive landing page for Prisma Digital.",
+          "Agencia de crecimiento digital. Digitalizamos, promocionamos y optimizamos tu negocio con un sistema medible y rentable. Prisma Digital lo hace posible con datos, no con suposiciones.",
       },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
+      {
+        name: "keywords",
+        content:
+          "agencia marketing digital, crecimiento digital, prospección, digitalización de negocios, publicidad online, embudo de ventas, Prisma Digital",
+      },
+      { name: "author", content: "Prisma Digital" },
+      { name: "theme-color", content: "#000139" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:site_name", content: "Prisma Digital" },
+      { property: "og:title", content: "Prisma Digital — Más clientes en 90 días" },
       {
         property: "og:description",
         content:
-          "Prisma Digital Launchpad creates a comprehensive landing page for Prisma Digital.",
+          "Llevamos tu empresa al mundo digital y la convertimos en una máquina de prospección predecible. Con datos, no con suposiciones.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
+      { property: "og:locale", content: "es_CL" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Prisma Digital — Más clientes en 90 días" },
       {
         name: "twitter:description",
         content:
-          "Prisma Digital Launchpad creates a comprehensive landing page for Prisma Digital.",
+          "Llevamos tu empresa al mundo digital y la convertimos en una máquina de prospección predecible. Con datos, no con suposiciones.",
       },
       {
         property: "og:image",
@@ -128,13 +136,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const GTM_ID = "GTM-NLC7LWC";
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
+        {/* Google Tag Manager — lo más arriba posible del <head> */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
+        {/* Google Tag Manager (noscript) — justo después de <body> */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="gtm"
+          />
+        </noscript>
         {children}
         <Scripts />
       </body>

@@ -33,6 +33,12 @@
   --color-hero-dark: var(--hero-dark);
   --color-footer-yellow: var(--footer-yellow);
   --color-ink: var(--ink);
+  /* Paleta corporativa Prisma */
+  --color-prisma-magenta: var(--prisma-magenta);
+  --color-prisma-yellow: var(--prisma-yellow);
+  --color-prisma-navy: var(--prisma-navy);
+  --color-prisma-red: var(--prisma-red);
+  --color-prisma-cyan: var(--prisma-cyan);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -57,20 +63,27 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.04 280);
 
-  --primary: oklch(0.45 0.22 305);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.58 0.27 350);
-  --secondary-foreground: oklch(1 0 0);
-  --accent: oklch(0.7 0.2 45);
-  --accent-foreground: oklch(1 0 0);
+  /* Paleta corporativa Prisma (hex) */
+  --prisma-magenta: #d713f9;
+  --prisma-yellow: #fecd2b;
+  --prisma-navy: #000139;
+  --prisma-red: #fd3833;
+  --prisma-cyan: #32d6ff;
 
-  --hero-dark: oklch(0.16 0.05 285);
-  --footer-yellow: oklch(0.86 0.17 90);
-  --ink: oklch(0.18 0.04 280);
+  --primary: #32d6ff;
+  --primary-foreground: #000139;
+  --secondary: #d713f9;
+  --secondary-foreground: #ffffff;
+  --accent: #fecd2b;
+  --accent-foreground: #000139;
+
+  --hero-dark: #000139;
+  --footer-yellow: #fecd2b;
+  --ink: #000139;
 
   --muted: oklch(0.96 0.01 280);
   --muted-foreground: oklch(0.5 0.03 280);
-  --destructive: oklch(0.6 0.24 27);
+  --destructive: #fd3833;
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.92 0.01 280);
   --input: oklch(0.92 0.01 280);
@@ -91,31 +104,128 @@
   --sidebar-border: oklch(0.92 0.01 280);
   --sidebar-ring: oklch(0.45 0.22 305);
 
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.32 0.14 295) 0%, oklch(0.16 0.05 285) 65%);
-  --gradient-cta: linear-gradient(135deg, oklch(0.72 0.2 45), oklch(0.62 0.24 25));
-  --gradient-brand: linear-gradient(135deg, var(--primary), var(--secondary));
+  --gradient-hero: radial-gradient(
+    ellipse 90% 70% at 50% -10%,
+    #241a6b 0%,
+    #0a0640 38%,
+    #000139 72%
+  );
+  --gradient-cta: linear-gradient(135deg, #d713f9 0%, #fd3833 100%);
+  --gradient-brand: linear-gradient(135deg, #32d6ff 0%, #d713f9 100%);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Compensa el navbar flotante al saltar a anclas */
+  :where(section[id]) {
+    scroll-margin-top: 96px;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
   }
 }
 
 /* Marquee for client logos */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
 
 /* Floating particles */
 @keyframes float-particle {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-  50% { transform: translateY(-30px) translateX(10px); opacity: 0.8; }
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-30px) translateX(10px);
+    opacity: 0.8;
+  }
 }
-.particle { animation: float-particle 8s ease-in-out infinite; }
+.particle {
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+/* Hero magnético: spotlight que sigue el cursor (inspirado en Antigravity) */
+.hero-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 30%),
+    rgba(215, 19, 249, 0.28) 0%,
+    rgba(50, 214, 255, 0.16) 32%,
+    transparent 62%
+  );
+  transition: background 0.18s ease-out;
+  mix-blend-mode: screen;
+}
+
+/* Aura rotatoria suave detrás del titular */
+@keyframes aura-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.hero-aura {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 760px;
+  height: 760px;
+  max-width: 120vw;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg,
+    rgba(215, 19, 249, 0),
+    rgba(50, 214, 255, 0.22),
+    rgba(215, 19, 249, 0.22),
+    rgba(254, 205, 43, 0.12),
+    rgba(215, 19, 249, 0)
+  );
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: aura-spin 26s linear infinite;
+}
+
+/* Botón magnético */
+.magnetic {
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .hero-aura {
+    animation: none;
+  }
+  .hero-spotlight {
+    display: none;
+  }
+  .magnetic {
+    transition: none;
+  }
+}
