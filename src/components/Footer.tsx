@@ -46,52 +46,72 @@ const contactPills = [
 export default function Footer() {
   return (
     <footer className="bg-prisma-navy text-white">
-      <div className="mx-auto max-w-4xl px-6 py-16 flex flex-col items-center text-center">
-        {/* Logo a color */}
-        <img src="/logo.png" alt="Prisma Digital" className="w-56 h-auto" />
-        <p className="mt-5 max-w-md text-sm leading-relaxed text-white/70">
-          Para emprendedores que tienen algo bueno y quieren que el mundo lo sepa.
-        </p>
+      {/* 3 columnas centradas horizontalmente */}
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 items-start justify-items-center text-center">
 
-        {/* Redes sociales */}
-        <div className="mt-6 flex justify-center gap-3">
-          {socials.map(({ icon: Icon, label, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15 text-white hover:bg-secondary hover:ring-transparent hover:scale-110 transition-all"
-            >
-              <Icon className="h-4 w-4" />
-            </a>
-          ))}
-        </div>
+          {/* Columna 1: Logo + tagline + redes */}
+          <div className="flex flex-col items-center gap-5">
+            <img
+              src="/Logo Prisma Digital blanco.webp"
+              alt="Prisma Digital"
+              className="w-48 h-auto"
+            />
+            <p className="text-sm leading-relaxed text-white/70 max-w-[220px]">
+              Para emprendedores que tienen algo bueno y quieren que el mundo lo sepa.
+            </p>
+            <div className="flex justify-center gap-3">
+              {socials.map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15 text-white hover:bg-secondary hover:ring-transparent hover:scale-110 transition-all"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        {/* Botones de contacto */}
-        <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center gap-3">
-          {contactPills.map(({ icon: Icon, label, href, accent, external }) => (
-            <a
-              key={label}
-              href={href}
-              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white/10 ring-1 ring-white/15 text-white text-sm font-semibold hover:bg-white/20 transition"
-            >
-              <Icon className={`h-4 w-4 ${accent}`} /> {label}
-            </a>
-          ))}
-        </div>
+          {/* Columna 2: Contacto */}
+          <div className="flex flex-col items-center gap-4">
+            <p className="text-xs font-semibold tracking-widest uppercase text-white/40">
+              Contacto
+            </p>
+            <div className="flex flex-col gap-3 w-full max-w-[220px]">
+              {contactPills.map(({ icon: Icon, label, href, accent, external }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white/10 ring-1 ring-white/15 text-white text-sm font-semibold hover:bg-white/20 transition w-full"
+                >
+                  <Icon className={`h-4 w-4 shrink-0 ${accent}`} />
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
 
-        {/* Newsletter (ancla #newsletter del menú) */}
-        <div id="newsletter" className="mt-12 w-full max-w-md scroll-mt-28">
-          <BrevoNewsletter />
+          {/* Columna 3: Newsletter */}
+          <div id="newsletter" className="flex flex-col items-center gap-4 w-full max-w-xs scroll-mt-28">
+            <p className="text-xs font-semibold tracking-widest uppercase text-white/40">
+              Newsletter
+            </p>
+            <div className="w-full">
+              <BrevoNewsletter />
+            </div>
+          </div>
+
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="mx-auto max-w-4xl px-6 py-5 text-center text-sm text-white/60">
+        <div className="mx-auto max-w-6xl px-6 py-5 text-center text-sm text-white/60">
           © 2026 Prisma Digital
         </div>
       </div>
