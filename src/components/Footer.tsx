@@ -46,18 +46,17 @@ const contactPills = [
 export default function Footer() {
   return (
     <footer className="bg-prisma-navy text-white">
-      {/* 3 columnas centradas horizontalmente */}
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 items-start justify-items-center text-center">
-
+      {/* 3 columnas distribuidas en todo el ancho, contenido centrado */}
+      <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start text-center">
           {/* Columna 1: Logo + tagline + redes */}
-          <div className="flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center gap-5 w-full">
             <img
               src="/Logo Prisma Digital blanco.webp"
               alt="Prisma Digital"
               className="w-48 h-auto"
             />
-            <p className="text-sm leading-relaxed text-white/70 max-w-[220px]">
+            <p className="text-sm leading-relaxed text-white/70 max-w-xs">
               Para emprendedores que tienen algo bueno y quieren que el mundo lo sepa.
             </p>
             <div className="flex justify-center gap-3">
@@ -77,11 +76,11 @@ export default function Footer() {
           </div>
 
           {/* Columna 2: Contacto */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 w-full">
             <p className="text-xs font-semibold tracking-widest uppercase text-white/40">
               Contacto
             </p>
-            <div className="flex flex-col gap-3 w-full max-w-[220px]">
+            <div className="flex flex-col gap-3 w-full max-w-xs">
               {contactPills.map(({ icon: Icon, label, href, accent, external }) => (
                 <a
                   key={label}
@@ -97,7 +96,7 @@ export default function Footer() {
           </div>
 
           {/* Columna 3: Newsletter */}
-          <div id="newsletter" className="flex flex-col items-center gap-4 w-full max-w-xs scroll-mt-28">
+          <div id="newsletter" className="flex flex-col items-center gap-4 w-full scroll-mt-28">
             <p className="text-xs font-semibold tracking-widest uppercase text-white/40">
               Newsletter
             </p>
@@ -105,7 +104,6 @@ export default function Footer() {
               <BrevoNewsletter />
             </div>
           </div>
-
         </div>
       </div>
 

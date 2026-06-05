@@ -56,8 +56,8 @@ export default function Contact() {
           />
           <div className="relative">
             <div
-              className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl text-white"
-              style={{ background: "var(--gradient-cta)" }}
+              className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl text-prisma-navy"
+              style={{ background: "var(--gradient-agenda)" }}
             >
               <CalendarDays className="h-8 w-8" />
             </div>
@@ -73,8 +73,8 @@ export default function Contact() {
               href={MEET_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-8 inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-white font-bold text-base md:text-lg shadow-xl transition-transform hover:scale-[1.03]"
-              style={{ background: "var(--gradient-cta)" }}
+              className="group mt-8 inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-xl transition-transform hover:scale-[1.03]"
+              style={{ background: "var(--gradient-agenda)" }}
             >
               Reservar mi reunión
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

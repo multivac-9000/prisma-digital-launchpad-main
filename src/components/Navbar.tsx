@@ -59,7 +59,8 @@ export default function Navbar() {
             href={MEET_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-white text-sm font-semibold bg-secondary hover:brightness-110 transition shadow-md"
+            className="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-prisma-navy text-sm font-bold hover:brightness-105 transition shadow-md"
+            style={{ background: "var(--gradient-agenda)" }}
           >
             Diagnóstico Gratis
           </a>
@@ -94,7 +95,8 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="block text-center px-4 py-2.5 mt-1 rounded-full text-white text-sm font-semibold bg-secondary"
+                className="block text-center px-4 py-2.5 mt-1 rounded-full text-prisma-navy text-sm font-bold"
+                style={{ background: "var(--gradient-agenda)" }}
               >
                 Diagnóstico Gratis
               </a>

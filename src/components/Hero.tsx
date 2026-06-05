@@ -3,23 +3,36 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
-type Particle = { size: number; top: number; left: number; delay: number };
+type Stream = {
+  left: number;
+  height: number;
+  duration: number;
+  delay: number;
+  color: string;
+};
+
+const STREAM_COLORS = [
+  "linear-gradient(to bottom, transparent, #32d6ff, transparent)",
+  "linear-gradient(to bottom, transparent, #d713f9, transparent)",
+  "linear-gradient(to bottom, transparent, #fecd2b, transparent)",
+];
 
 /* HERO: fondo navy + efecto magnético (spotlight + botón) inspirado en Antigravity */
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLAnchorElement>(null);
-  const [particles, setParticles] = useState<Particle[]>([]);
+  const [streams, setStreams] = useState<Stream[]>([]);
 
-  // Partículas generadas en cliente (evita mismatch de hidratación SSR).
+  // Trazos de datos generados en cliente (evita mismatch de hidratación SSR).
   useEffect(() => {
-    setParticles(
-      Array.from({ length: 40 }, () => ({
-        size: Math.random() * 4 + 2,
-        top: Math.random() * 100,
+    setStreams(
+      Array.from({ length: 28 }, (_, i) => ({
         left: Math.random() * 100,
-        delay: Math.random() * 8,
+        height: Math.random() * 70 + 40,
+        duration: Math.random() * 1.6 + 1.6, // 1.6s–3.2s: rápido
+        delay: Math.random() * 3,
+        color: STREAM_COLORS[i % STREAM_COLORS.length],
       })),
     );
   }, []);
@@ -84,18 +97,17 @@ export default function Hero() {
       <div className="hero-aura" aria-hidden="true" />
       <div ref={spotlightRef} className="hero-spotlight" aria-hidden="true" />
 
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {particles.map((p, i) => (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        {streams.map((s, i) => (
           <span
             key={i}
-            className="particle absolute rounded-full bg-white/70"
+            className="data-stream"
             style={{
-              width: p.size,
-              height: p.size,
-              top: `${p.top}%`,
-              left: `${p.left}%`,
-              animationDelay: `${p.delay}s`,
-              boxShadow: "0 0 12px rgba(215,19,249,0.6)",
+              left: `${s.left}%`,
+              height: `${s.height}px`,
+              background: s.color,
+              animationDuration: `${s.duration}s`,
+              animationDelay: `${s.delay}s`,
             }}
           />
         ))}
@@ -131,8 +143,8 @@ export default function Hero() {
             href={MEET_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="magnetic group inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold text-base md:text-lg shadow-2xl"
-            style={{ background: "var(--gradient-cta)" }}
+            className="magnetic group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl"
+            style={{ background: "var(--gradient-agenda)" }}
           >
             Agenda tu Diagnóstico Gratis
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

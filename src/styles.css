@@ -112,6 +112,8 @@
   );
   --gradient-cta: linear-gradient(135deg, #d713f9 0%, #fd3833 100%);
   --gradient-brand: linear-gradient(135deg, #32d6ff 0%, #d713f9 100%);
+  /* CTA de agenda: amarillo corporativo (texto navy para contraste) */
+  --gradient-agenda: linear-gradient(135deg, #ffe16b 0%, #fecd2b 55%, #f5b400 100%);
 }
 
 @layer base {
@@ -167,6 +169,32 @@
   animation: float-particle 8s ease-in-out infinite;
 }
 
+/* Data streams: trazos verticales veloces que sugieren velocidad y datos */
+@keyframes data-fall {
+  0% {
+    transform: translateY(-25vh);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(125vh);
+    opacity: 0;
+  }
+}
+.data-stream {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  border-radius: 2px;
+  will-change: transform, opacity;
+  animation: data-fall linear infinite;
+}
+
 /* Hero magnético: spotlight que sigue el cursor (inspirado en Antigravity) */
 .hero-spotlight {
   position: absolute;
@@ -219,8 +247,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .particle,
+  .data-stream,
   .hero-aura {
     animation: none;
+  }
+  .data-stream {
+    display: none;
   }
   .hero-spotlight {
     display: none;
