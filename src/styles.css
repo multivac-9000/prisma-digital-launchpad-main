@@ -169,21 +169,6 @@
   animation: float-particle 8s ease-in-out infinite;
 }
 
-/* Hero magnético: spotlight que sigue el cursor (inspirado en Antigravity) */
-.hero-spotlight {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    520px circle at var(--mx, 50%) var(--my, 30%),
-    rgba(215, 19, 249, 0.28) 0%,
-    rgba(50, 214, 255, 0.16) 32%,
-    transparent 62%
-  );
-  transition: background 0.18s ease-out;
-  mix-blend-mode: screen;
-}
-
 /* Aura rotatoria suave detrás del titular */
 @keyframes aura-spin {
   to {
@@ -223,9 +208,6 @@
   .particle,
   .hero-aura {
     animation: none;
-  }
-  .hero-spotlight {
-    display: none;
   }
   .magnetic {
     transition: none;
