@@ -169,32 +169,6 @@
   animation: float-particle 8s ease-in-out infinite;
 }
 
-/* Data streams: trazos verticales veloces que sugieren velocidad y datos */
-@keyframes data-fall {
-  0% {
-    transform: translateY(-25vh);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(125vh);
-    opacity: 0;
-  }
-}
-.data-stream {
-  position: absolute;
-  top: 0;
-  width: 2px;
-  border-radius: 2px;
-  will-change: transform, opacity;
-  animation: data-fall linear infinite;
-}
-
 /* Hero magnético: spotlight que sigue el cursor (inspirado en Antigravity) */
 .hero-spotlight {
   position: absolute;
@@ -247,12 +221,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .particle,
-  .data-stream,
   .hero-aura {
     animation: none;
-  }
-  .data-stream {
-    display: none;
   }
   .hero-spotlight {
     display: none;

@@ -1,40 +1,120 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
-type Stream = {
-  left: number;
-  height: number;
-  duration: number;
-  delay: number;
-  color: string;
-};
+type RGB = [number, number, number];
+type Node = { x: number; y: number; vx: number; vy: number; r: number; c: RGB };
 
-const STREAM_COLORS = [
-  "linear-gradient(to bottom, transparent, #32d6ff, transparent)",
-  "linear-gradient(to bottom, transparent, #d713f9, transparent)",
-  "linear-gradient(to bottom, transparent, #fecd2b, transparent)",
-];
-
-/* HERO: fondo navy + efecto magnético (spotlight + botón) inspirado en Antigravity */
+/* HERO: fondo navy + red de datos (inteligencia + crecimiento) + efecto magnético */
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLAnchorElement>(null);
-  const [streams, setStreams] = useState<Stream[]>([]);
 
-  // Trazos de datos generados en cliente (evita mismatch de hidratación SSR).
+  // Red de nodos conectados que ascienden: datos, inteligencia y crecimiento/éxito.
   useEffect(() => {
-    setStreams(
-      Array.from({ length: 28 }, (_, i) => ({
-        left: Math.random() * 100,
-        height: Math.random() * 70 + 40,
-        duration: Math.random() * 1.6 + 1.6, // 1.6s–3.2s: rápido
-        delay: Math.random() * 3,
-        color: STREAM_COLORS[i % STREAM_COLORS.length],
-      })),
-    );
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const COLORS: RGB[] = [
+      [50, 214, 255], // cyan
+      [215, 19, 249], // magenta
+      [254, 205, 43], // amarillo
+    ];
+    let nodes: Node[] = [];
+    let w = 0;
+    let h = 0;
+    let dpr = 1;
+    let raf = 0;
+    const LINK = 140;
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = section.clientWidth;
+      h = section.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const init = () => {
+      const count = Math.max(24, Math.min(70, Math.floor(w / 26)));
+      nodes = Array.from({ length: count }, (_, i) => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: -(Math.random() * 0.28 + 0.05), // ascienden = crecimiento/éxito
+        r: Math.random() * 1.6 + 0.9,
+        c: COLORS[i % COLORS.length],
+      }));
+    };
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      // Conexiones entre nodos cercanos
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < LINK * LINK) {
+            const alpha = (1 - Math.sqrt(d2) / LINK) * 0.42;
+            ctx.strokeStyle = `rgba(${a.c[0]},${a.c[1]},${a.c[2]},${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      // Nodos
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${n.c[0]},${n.c[1]},${n.c[2]},0.9)`;
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+    const step = () => {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.y < -12) {
+          n.y = h + 12;
+          n.x = Math.random() * w;
+        }
+        if (n.x < -12) n.x = w + 12;
+        else if (n.x > w + 12) n.x = -12;
+      }
+      draw();
+      raf = requestAnimationFrame(step);
+    };
+
+    resize();
+    init();
+    if (reduce)
+      draw(); // un frame estático, sin animación
+    else step();
+
+    const onResize = () => {
+      resize();
+      init();
+      if (reduce) draw();
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   // Efecto magnético: spotlight sigue el cursor y el botón se atrae hacia él.
@@ -97,21 +177,11 @@ export default function Hero() {
       <div className="hero-aura" aria-hidden="true" />
       <div ref={spotlightRef} className="hero-spotlight" aria-hidden="true" />
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {streams.map((s, i) => (
-          <span
-            key={i}
-            className="data-stream"
-            style={{
-              left: `${s.left}%`,
-              height: `${s.height}px`,
-              background: s.color,
-              animationDuration: `${s.duration}s`,
-              animationDelay: `${s.delay}s`,
-            }}
-          />
-        ))}
-      </div>
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 h-full w-full pointer-events-none opacity-80"
+        aria-hidden="true"
+      />
 
       <div className="relative mx-auto max-w-5xl px-6 text-center">
         {/* Eslogan basado en datos */}
