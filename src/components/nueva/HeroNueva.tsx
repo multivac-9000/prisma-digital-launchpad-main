@@ -26,7 +26,7 @@ const heroClients = [
   { name: "Mundo Deco Store", logo: "/clients/mundodecostore.png" },
 ];
 
-const H1_LINE_1 = "Llevas años llenando tu local.";
+const H1_LINE_1 = "Llevas años consolidando tu negocio.";
 const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
 
 // Cinta de datos: resultados reales de clientes, en vivo bajo el hero.
@@ -272,8 +272,8 @@ export default function HeroNueva() {
       />
 
       <div className="nl-hero-exit relative mx-auto max-w-5xl px-6 text-center">
-        <span className="nl-word inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm">
-          <Sparkles className="h-4 w-4 text-prisma-cyan" aria-hidden="true" />
+        <span className="nl-badge-anim inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm">
+          <Sparkles className="h-4 w-4 text-prisma-cyan shrink-0" aria-hidden="true" />
           Decisiones digitales basadas en datos, con propósito humano
         </span>
 

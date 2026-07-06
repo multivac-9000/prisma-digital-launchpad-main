@@ -94,7 +94,7 @@ const otros = [
 const testimonios = [
   {
     quote:
-      "Llevábamos años vendiendo bien en el local, pero lo digital era una caja negra. Hoy sé exactamente qué campaña me trae ventas y cuánto me cuesta cada cliente nuevo.",
+      "Llevábamos años vendiendo bien de forma tradicional, pero lo digital era una caja negra. Hoy sé exactamente qué campaña me trae ventas y cuánto me cuesta cada cliente nuevo.",
     author: "Gerente Comercial",
     company: "Retail con tienda física, Concepción",
   },

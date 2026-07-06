@@ -61,7 +61,7 @@ export const Route = createFileRoute("/nueva-landing")({
       {
         property: "og:description",
         content:
-          "Tu local ya es conocido. Integramos y medimos tu ecosistema digital para que lo online venda igual de fuerte. Diagnóstico gratis y avances medibles en 90 días.",
+          "Tu marca ya tiene trayectoria. Integramos y medimos tu ecosistema digital para que lo online venda igual de fuerte. Diagnóstico gratis y avances medibles en 90 días.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { name: "twitter:title", content: "Prisma Digital — Duplica tus ventas online con datos" },
@@ -90,7 +90,7 @@ function NuevaLanding() {
     <main className="min-h-screen bg-background">
       {/* Sin JS los revelados quedan visibles (los bots leen el DOM igual) */}
       <noscript>
-        <style>{`.nl-reveal,.nl-word{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>
+        <style>{`.nl-reveal,.nl-word,.nl-badge-anim{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>
       </noscript>
       <ScrollProgress />
       <Navbar />
