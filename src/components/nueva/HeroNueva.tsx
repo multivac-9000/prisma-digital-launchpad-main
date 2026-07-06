@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, Fragment, type CSSProperties } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { trackCta } from "./track";
 import { Reveal } from "./scrolly";
@@ -29,7 +29,9 @@ const heroClients = [
 const H1_LINE_1 = "Llevas años llenando tu local.";
 const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
 
-/* Titular con entrada cinética palabra por palabra (CSS puro, indexable en SSR). */
+/* Titular con entrada cinética palabra por palabra (CSS puro, indexable en SSR).
+   El espacio va FUERA del span animado: dentro de un inline-block CSS lo
+   colapsaría y las palabras quedarían pegadas. */
 function KineticLine({
   text,
   gradient = false,
@@ -39,17 +41,19 @@ function KineticLine({
   gradient?: boolean;
   offset?: number;
 }) {
+  const words = text.split(" ");
   return (
     <span className="block">
-      {text.split(" ").map((word, i) => (
-        <span
-          key={`${word}-${i}`}
-          className={`nl-word ${gradient ? "nl-text-gradient" : ""}`}
-          style={{ "--nl-i": offset + i } as CSSProperties}
-        >
-          {word}
-          {i < text.split(" ").length - 1 ? " " : ""}
-        </span>
+      {words.map((word, i) => (
+        <Fragment key={`${word}-${i}`}>
+          <span
+            className={`nl-word ${gradient ? "nl-text-gradient" : ""}`}
+            style={{ "--nl-i": offset + i } as CSSProperties}
+          >
+            {word}
+          </span>
+          {i < words.length - 1 ? " " : null}
+        </Fragment>
       ))}
     </span>
   );
