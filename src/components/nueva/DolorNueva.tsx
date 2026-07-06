@@ -56,6 +56,13 @@ function DolorCard({
           {String(index + 1).padStart(2, "0")} <span className="text-white/25">/ 03</span>
         </span>
       </div>
+      {/* Feedback continuo: la barra responde a cada tick de scroll (escritorio) */}
+      <div
+        className="hidden lg:block h-[3px] rounded-full bg-white/10 overflow-hidden mb-5"
+        aria-hidden="true"
+      >
+        <div className="nl-rail-fill-x h-full" />
+      </div>
       <h3 className="text-xl lg:text-2xl font-bold text-white leading-snug">{title}</h3>
       <p className="mt-3 text-white/80 leading-relaxed lg:text-lg">{body}</p>
     </article>
@@ -72,7 +79,7 @@ export default function DolorNueva() {
     <section
       id="nosotros"
       ref={wrapRef as Ref<HTMLElement>}
-      className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] lg:h-[300vh]"
+      className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] lg:h-[200vh]"
     >
       <div className="nl-gem" aria-hidden="true" />
       <div
@@ -114,7 +121,7 @@ export default function DolorNueva() {
 
             {/* Riel de progreso: solo en el modo fijado (escritorio) */}
             <div className="hidden lg:flex mt-10 gap-5">
-              <div className="relative w-[3px] rounded-full bg-white/10 overflow-hidden">
+              <div className="relative w-1 rounded-full bg-white/10 overflow-hidden">
                 <div className="nl-rail-fill absolute inset-0" />
               </div>
               <ol className="flex flex-col gap-6 list-none">
@@ -147,17 +154,17 @@ export default function DolorNueva() {
           </div>
 
           {/* Derecha (escritorio): crossfade controlado por el paso */}
-          <div className="relative hidden lg:block lg:h-[300px]" aria-hidden="false">
+          <div className="relative hidden lg:block lg:h-[330px]" aria-hidden="false">
             {dolores.map((dolor, i) => {
               const active = step === i;
               const passed = step > i;
               return (
                 <div
                   key={dolor.title}
-                  className="absolute inset-0 flex items-center transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,0.65,0.3,0.9)]"
+                  className="absolute inset-0 flex items-center transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(0.22,0.65,0.3,0.9)]"
                   style={{
                     opacity: active ? 1 : 0,
-                    transform: `translateY(${active ? "0" : passed ? "-2.5rem" : "2.5rem"})`,
+                    transform: `translateY(${active ? "0" : passed ? "-2rem" : "2rem"})`,
                     pointerEvents: active ? "auto" : "none",
                   }}
                 >

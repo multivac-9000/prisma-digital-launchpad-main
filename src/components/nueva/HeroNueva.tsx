@@ -1,5 +1,5 @@
 import { useEffect, useRef, Fragment, type CSSProperties } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { trackCta } from "./track";
 import { Reveal } from "./scrolly";
 
@@ -28,6 +28,40 @@ const heroClients = [
 
 const H1_LINE_1 = "Llevas años llenando tu local.";
 const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
+
+// Cinta de datos: resultados reales de clientes, en vivo bajo el hero.
+const tickerItems = [
+  "+143% ventas online — Emporio Nacional",
+  "ROAS 4.2x — Liberty Seguros",
+  "+120% leads calificados — Küm",
+  "Primera venta online en 48 h — Fexmin",
+  "+65% conversión en landing — Ozono",
+  "+89% visitas orgánicas — Marco Schulz",
+];
+
+/* Cinta de resultados estilo mercado: el dato duro en movimiento constante. */
+function DataTicker() {
+  return (
+    <div
+      className="nl-ticker nl-marquee-pause relative mt-14 border-y border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden"
+      aria-label="Resultados recientes de clientes de Prisma Digital"
+    >
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#000139] to-transparent z-10" />
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#000139] to-transparent z-10" />
+      <div className="flex w-max animate-marquee items-center py-3">
+        {[...tickerItems, ...tickerItems].map((item, i) => (
+          <span
+            key={`${item}-${i}`}
+            className="nl-tabular flex items-center gap-2 mx-7 text-sm font-semibold text-white/75 whitespace-nowrap"
+          >
+            <TrendingUp className="h-4 w-4 text-prisma-cyan shrink-0" aria-hidden="true" />
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* Titular con entrada cinética palabra por palabra (CSS puro, indexable en SSR).
    El espacio va FUERA del span animado: dentro de un inline-block CSS lo
@@ -224,7 +258,7 @@ export default function HeroNueva() {
     <section
       id="home"
       ref={sectionRef}
-      className="nl-dark relative overflow-hidden pt-28 pb-32 md:pt-40 md:pb-44"
+      className="nl-dark relative overflow-hidden pt-28 pb-20 md:pt-40 md:pb-24"
     >
       {/* Capa decorativa: aura cónica + grano fotográfico */}
       <div className="nl-grain absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -248,12 +282,12 @@ export default function HeroNueva() {
           <KineticLine text={H1_LINE_2} gradient offset={6} />
         </h1>
 
-        <Reveal as="p" variant="blur" delay={650} className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+        <Reveal as="p" variant="blur" delay={380} className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
           Integramos y optimizamos tu ecosistema digital para que dupliques tus ventas online —
           midiendo cada peso invertido, sin que necesites un equipo técnico propio.
         </Reveal>
 
-        <Reveal variant="up" delay={800} className="mt-8 flex flex-col items-center gap-3">
+        <Reveal variant="up" delay={520} className="mt-8 flex flex-col items-center gap-3">
           <a
             href={MEET_URL}
             target="_blank"
@@ -274,7 +308,7 @@ export default function HeroNueva() {
         </Reveal>
 
         {/* Prueba social inmediata: clientes reconocibles bajo el CTA */}
-        <Reveal variant="up" delay={950} className="mt-10 md:mt-12">
+        <Reveal variant="up" delay={650} className="mt-10 md:mt-12">
           <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/50 mb-4">
             Empresas que ya confían en Prisma Digital
           </p>
@@ -296,12 +330,18 @@ export default function HeroNueva() {
         </Reveal>
 
         {/* Invitación al scroll: la historia sigue con los resultados */}
-        <Reveal variant="up" delay={1200} className="mt-12 flex flex-col items-center gap-3">
+        <Reveal variant="up" delay={820} className="mt-12 flex flex-col items-center gap-3">
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/45">
             Los resultados hablan primero
           </span>
           <span className="nl-scrollhint" aria-hidden="true" />
         </Reveal>
+      </div>
+
+      {/* Cinta de datos en movimiento: fuera del contenedor con parallax de
+          salida, para que siga viva mientras el hero se despide */}
+      <div className="relative">
+        <DataTicker />
       </div>
     </section>
   );

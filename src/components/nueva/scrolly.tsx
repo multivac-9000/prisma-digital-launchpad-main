@@ -48,7 +48,9 @@ export function Reveal({
           io.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
+      // Umbral bajo y sin margen negativo: la respuesta llega apenas el
+      // elemento asoma — cada gesto de scroll produce feedback inmediato.
+      { threshold: 0.08 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -70,7 +72,7 @@ export function Reveal({
     En SSR (y para bots) renderiza el valor final: el número siempre es indexable. */
 export function CountUp({
   value,
-  duration = 1500,
+  duration = 1100,
   className = "",
 }: {
   value: string;
@@ -133,7 +135,9 @@ export function usePinnedSteps(count: number) {
       const total = rect.height - window.innerHeight;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
       el.style.setProperty("--nl-p", p.toFixed(4));
-      const next = Math.min(count - 1, Math.floor(p * count));
+      // Sesgo +0.25: el primer cambio llega antes y el último no exige
+      // llegar al fondo exacto — el capítulo se siente ágil, no pegajoso.
+      const next = Math.min(count - 1, Math.floor(p * count + 0.25));
       setStep((prev) => (prev === next ? prev : next));
     };
     const onScroll = () => {

@@ -18,7 +18,7 @@ export default function ContactoNueva() {
   return (
     <section
       id="contacto"
-      className="relative z-[1] -mt-10 rounded-t-[2.5rem] bg-white pt-16 md:pt-24 pb-20 md:pb-28"
+      className="nl-grid-paper relative z-[1] -mt-10 rounded-t-[2.5rem] bg-white pt-16 md:pt-24 pb-20 md:pb-28"
     >
       <div className="nl-gem" aria-hidden="true" />
 

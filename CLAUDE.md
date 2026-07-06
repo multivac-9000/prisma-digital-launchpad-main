@@ -49,6 +49,8 @@ Landing page de Prisma Digital (https://www.prismadigital.io/). Se despliega en 
 - Las secciones se apilan como láminas: `-mt-10 rounded-t-[2.5rem]` + gema centrada en la costura.
 - Solo animar `transform`/`opacity`/`filter`. Todo debe respetar `prefers-reduced-motion` (los revelados quedan visibles, las animaciones se apagan).
 - Los `<h2>` deben ocupar máximo 2 líneas (usar `text-balance` y copys cortos).
+- Ritmo de scroll (regla UX): cada gesto de scroll debe producir feedback visible. Capítulos fijados de máximo ~200vh, pasos con sesgo temprano (+0.25), revelados que disparan apenas asoma el elemento (threshold 0.08, sin rootMargin negativo) y transiciones ≤500ms.
+- Lenguaje visual de datos: ticker de resultados en el hero, sparklines autodibujadas en métricas (`.nl-spark-*`), papel milimetrado en secciones blancas (`.nl-grid-paper`). Los datos del ticker y sparklines salen de resultados reales de clientes.
 
 ## SEO
 

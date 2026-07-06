@@ -1,8 +1,10 @@
+import { Activity } from "lucide-react";
 import { Reveal, CountUp } from "./scrolly";
 
 /* PRUEBA CON RESULTADOS: métricas + logos reales en el tercio superior.
    Los números cuentan desde 0 al entrar en pantalla (el valor final queda
-   renderizado en SSR, así que sigue siendo indexable). */
+   renderizado en SSR, así que sigue siendo indexable) y cada tarjeta lleva
+   una sparkline que dibuja su tendencia al revelarse: datos duros, en vivo. */
 
 const destacados = [
   {
@@ -11,6 +13,8 @@ const destacados = [
     metric: "+143%",
     detail: "en ventas online",
     plazo: "en 60 días · retail con tienda física",
+    color: "#d713f9",
+    spark: "0,30 14,27 28,24 42,26 56,18 70,14 84,9 100,4",
   },
   {
     name: "Liberty Seguros",
@@ -18,6 +22,8 @@ const destacados = [
     metric: "4.2x",
     detail: "de ROAS en campañas",
     plazo: "desde el primer mes · servicios",
+    color: "#32d6ff",
+    spark: "0,28 16,25 32,27 48,20 64,16 80,11 100,5",
   },
   {
     name: "Küm",
@@ -25,8 +31,36 @@ const destacados = [
     metric: "+120%",
     detail: "de leads calificados",
     plazo: "en 30 días · retail especialista",
+    color: "#fd3833",
+    spark: "0,32 20,27 40,23 60,20 80,11 100,6",
   },
 ];
+
+/* Línea de tendencia que se dibuja sola (decorativa; el dato vive en el texto). */
+function Sparkline({ color, points }: { color: string; points: string }) {
+  const last = points.trim().split(" ").pop()!.split(",");
+  const [cx, cy] = [Number(last[0]), Number(last[1])];
+  return (
+    <svg viewBox="0 0 100 38" className="w-full h-10 mt-5" aria-hidden="true" fill="none">
+      <polygon
+        className="nl-spark-fill"
+        points={`${points} 100,38 0,38`}
+        fill={color}
+        fillOpacity="0.08"
+      />
+      <polyline
+        className="nl-spark-path"
+        points={points}
+        stroke={color}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength={1}
+      />
+      <circle className="nl-spark-dot" cx={cx} cy={cy} r="3.5" fill={color} />
+    </svg>
+  );
+}
 
 const otros = [
   { name: "Fexmin", logo: "/clients/Logo-Fexmin.png", result: "Primera venta online en 48 horas" },
@@ -76,12 +110,16 @@ export default function ResultadosNueva() {
   return (
     <section
       id="resultados"
-      className="relative z-[1] -mt-10 rounded-t-[2.5rem] bg-white pt-16 md:pt-24 pb-20 md:pb-28"
+      className="nl-grid-paper relative z-[1] -mt-10 rounded-t-[2.5rem] bg-white pt-16 md:pt-24 pb-20 md:pb-28"
     >
       <div className="nl-gem" aria-hidden="true" />
 
       <div className="mx-auto max-w-7xl px-6">
         <Reveal variant="blur" className="text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-ink/70 shadow-sm mb-5">
+            <Activity className="h-3.5 w-3.5 text-secondary" aria-hidden="true" />
+            Datos duros de clientes reales
+          </span>
           <h2 className="text-3xl md:text-[40px] font-extrabold text-ink leading-[1.15] text-balance">
             Resultados medibles, <span className="nl-metric-gradient">no promesas.</span>
           </h2>
@@ -97,14 +135,14 @@ export default function ResultadosNueva() {
           cuando su mundo digital se empieza a medir en serio.
         </Reveal>
 
-        {/* Métrica dura primero: logo + resultado que cuenta + plazo */}
+        {/* Métrica dura primero: logo + resultado que cuenta + tendencia + plazo */}
         <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {destacados.map(({ name, logo, metric, detail, plazo }, i) => (
+          {destacados.map(({ name, logo, metric, detail, plazo, color, spark }, i) => (
             <Reveal
               key={name}
               as="article"
               variant="scale"
-              delay={i * 140}
+              delay={i * 90}
               className="nl-beam-hover flex flex-col items-center rounded-2xl border border-border bg-white p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex h-16 items-center justify-center mb-5">
@@ -113,6 +151,7 @@ export default function ResultadosNueva() {
                   alt={`Logo ${name}, cliente de Prisma Digital`}
                   className="max-h-12 max-w-32 object-contain"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <p className="text-5xl md:text-6xl font-extrabold nl-metric-gradient">
@@ -120,6 +159,7 @@ export default function ResultadosNueva() {
               </p>
               <p className="mt-1 text-lg font-bold text-ink">{detail}</p>
               <p className="mt-2 text-sm text-muted-foreground">{plazo}</p>
+              <Sparkline color={color} points={spark} />
             </Reveal>
           ))}
         </div>

@@ -71,7 +71,11 @@ export const Route = createFileRoute("/nueva-landing")({
           "Integramos y medimos tu ecosistema digital para duplicar tus ventas online. Diagnóstico gratis.",
       },
     ],
-    links: [{ rel: "canonical", href: CANONICAL_URL }],
+    links: [
+      { rel: "canonical", href: CANONICAL_URL },
+      // El CTA abre la agenda de Brevo: la conexión ya está caliente al clic.
+      { rel: "preconnect", href: "https://meet.brevo.com" },
+    ],
     scripts: [{ type: "application/ld+json", children: JSON_LD }],
   }),
   component: NuevaLanding,

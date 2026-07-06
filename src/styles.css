@@ -312,13 +312,14 @@
   animation: aura-spin 32s linear infinite;
 }
 
-/* --------- Sistema de revelado al hacer scroll (IntersectionObserver) --------- */
+/* --------- Sistema de revelado al hacer scroll (IntersectionObserver) ---------
+   Rápido por diseño: cada interacción del usuario produce respuesta inmediata. */
 .nl-reveal {
   opacity: 0;
   transition:
-    opacity 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
-    transform 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
-    filter 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms);
+    opacity 0.5s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
+    transform 0.5s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
+    filter 0.5s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms);
   will-change: opacity, transform;
 }
 .nl-reveal-up {
@@ -349,8 +350,8 @@
   opacity: 0;
   transform: translateY(28px) rotate(2deg);
   filter: blur(8px);
-  animation: nl-word-in 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) both;
-  animation-delay: calc(var(--nl-i, 0) * 85ms + 120ms);
+  animation: nl-word-in 0.6s cubic-bezier(0.22, 0.65, 0.3, 0.9) both;
+  animation-delay: calc(var(--nl-i, 0) * 55ms + 80ms);
 }
 @keyframes nl-word-in {
   to {
@@ -505,6 +506,65 @@
   transform-origin: top;
   background: var(--nl-g-spectrum);
 }
+/* Variante horizontal: feedback continuo dentro de la tarjeta activa */
+.nl-rail-fill-x {
+  transform: scaleX(var(--nl-p, 0));
+  transform-origin: left;
+  background: var(--nl-g-spectrum);
+}
+
+/* Papel milimetrado sutil: el ADN estadístico de la marca en secciones claras */
+.nl-grid-paper {
+  background-image:
+    linear-gradient(rgba(0, 1, 57, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 1, 57, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* Sparklines: la línea de tendencia se dibuja sola al revelarse la tarjeta
+   (pathLength=1 normaliza el trazo, así el dasharray es idéntico en todas) */
+.nl-spark-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.nl-reveal.is-in .nl-spark-path {
+  animation: nl-draw 1s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes nl-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.nl-spark-fill {
+  opacity: 0;
+  transition: opacity 0.6s ease 0.9s;
+}
+.nl-reveal.is-in .nl-spark-fill {
+  opacity: 1;
+}
+.nl-spark-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.nl-reveal.is-in .nl-spark-dot {
+  animation: nl-dot-pop 0.45s 1.05s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes nl-dot-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Ticker de resultados (cinta de datos estilo mercado) */
+.nl-ticker .animate-marquee {
+  animation-duration: 26s;
+}
 
 /* Número gigante delineado (marca de agua de la garantía) */
 .nl-outline-num {
@@ -546,5 +606,15 @@
   }
   .nl-shine::after {
     display: none;
+  }
+  .nl-spark-path {
+    animation: none !important;
+    stroke-dashoffset: 0;
+  }
+  .nl-spark-fill,
+  .nl-spark-dot {
+    opacity: 1;
+    animation: none !important;
+    transition: none !important;
   }
 }
