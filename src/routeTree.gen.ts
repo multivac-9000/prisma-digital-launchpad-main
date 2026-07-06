@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NuevaLandingRouteImport } from './routes/nueva-landing'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as IndexRouteImport } from './routes/index'
 
+const NuevaLandingRoute = NuevaLandingRouteImport.update({
+  id: '/nueva-landing',
+  path: '/nueva-landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
   id: '/gracias-infinitas',
   path: '/gracias-infinitas',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/nueva-landing': typeof NuevaLandingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/nueva-landing': typeof NuevaLandingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/nueva-landing': typeof NuevaLandingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gracias-infinitas'
+  fullPaths: '/' | '/gracias-infinitas' | '/nueva-landing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gracias-infinitas'
-  id: '__root__' | '/' | '/gracias-infinitas'
+  to: '/' | '/gracias-infinitas' | '/nueva-landing'
+  id: '__root__' | '/' | '/gracias-infinitas' | '/nueva-landing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
+  NuevaLandingRoute: typeof NuevaLandingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/nueva-landing': {
+      id: '/nueva-landing'
+      path: '/nueva-landing'
+      fullPath: '/nueva-landing'
+      preLoaderRoute: typeof NuevaLandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gracias-infinitas': {
       id: '/gracias-infinitas'
       path: '/gracias-infinitas'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
+  NuevaLandingRoute: NuevaLandingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
