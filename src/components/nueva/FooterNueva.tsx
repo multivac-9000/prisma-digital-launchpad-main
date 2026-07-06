@@ -46,7 +46,8 @@ const contactPills = [
 /* FOOTER con el nuevo posicionamiento: empresas consolidadas, datos + propósito humano. */
 export default function FooterNueva() {
   return (
-    <footer className="bg-prisma-navy text-white">
+    <footer className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] text-white">
+      <div className="nl-gem" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start text-center">
           {/* Columna 1: Logo + línea de marca + redes */}

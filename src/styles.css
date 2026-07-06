@@ -213,3 +213,338 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   NUEVA LANDING (/nueva-landing) — sistema visual + scrollytelling
+   Todo con prefijo nl- para no afectar la landing original.
+   Solo se anima transform / opacity / filter (no bloquea el hilo principal).
+   ========================================================================== */
+
+:root {
+  /* Espectro del prisma: la luz se refracta en los colores de marca.
+     Sin amarillo: ese color es exclusivo del CTA de agenda. */
+  --nl-g-spectrum: linear-gradient(90deg, #32d6ff 0 32%, #d713f9 32% 68%, #fd3833 68% 100%);
+}
+
+/* Fondo oscuro asimétrico (menos "gradiente IA por defecto" que el radial centrado) */
+.nl-dark {
+  background-color: #000139;
+  background-image:
+    radial-gradient(120% 90% at 88% -12%, #221465 0%, transparent 55%),
+    radial-gradient(90% 70% at -8% 105%, #14043f 0%, transparent 60%),
+    linear-gradient(#050144, #000139);
+}
+
+/* Grano fotográfico: mata el look plástico de los gradientes generados por IA */
+.nl-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Gradientes de texto con interpolación OKLCH (más vivos en el tramo medio).
+   El fallback sRGB va primero: los navegadores sin soporte lo conservan. */
+.nl-text-gradient {
+  background-image: linear-gradient(115deg, #32d6ff, #d713f9 55%, #fd3833 115%);
+  background-image: linear-gradient(115deg in oklch, #32d6ff, #d713f9 55%, #fd3833 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.nl-metric-gradient {
+  background-image: linear-gradient(115deg, #d713f9, #fd3833);
+  background-image: linear-gradient(115deg in oklch, #d713f9, #fd3833);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.nl-tile-gradient {
+  background-image: radial-gradient(135% 135% at 18% 12%, #32d6ff 0%, #d713f9 62%, #8f0daa 105%);
+}
+
+/* Subrayado espectral bajo los h2 */
+.nl-underline {
+  width: 88px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--nl-g-spectrum);
+}
+
+/* Gema de prisma en la costura entre secciones */
+.nl-gem {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: conic-gradient(from 200deg, #32d6ff, #d713f9 55%, #fd3833 85%, #32d6ff);
+  box-shadow: 0 0 18px rgba(215, 19, 249, 0.55);
+  pointer-events: none;
+}
+
+/* Aura del hero renovada: barrido cónico lento con las tres luces del prisma */
+.nl-aura {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  width: 820px;
+  height: 820px;
+  max-width: 130vw;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  pointer-events: none;
+  background: conic-gradient(
+    from 220deg,
+    rgba(50, 214, 255, 0) 0deg,
+    rgba(50, 214, 255, 0.2) 70deg,
+    rgba(215, 19, 249, 0.24) 150deg,
+    rgba(253, 56, 51, 0.14) 230deg,
+    rgba(50, 214, 255, 0) 320deg
+  );
+  filter: blur(72px);
+  opacity: 0.6;
+  animation: aura-spin 32s linear infinite;
+}
+
+/* --------- Sistema de revelado al hacer scroll (IntersectionObserver) --------- */
+.nl-reveal {
+  opacity: 0;
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
+    transform 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms),
+    filter 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) var(--nl-delay, 0ms);
+  will-change: opacity, transform;
+}
+.nl-reveal-up {
+  transform: translateY(30px);
+}
+.nl-reveal-blur {
+  transform: translateY(16px);
+  filter: blur(10px);
+}
+.nl-reveal-scale {
+  transform: scale(0.92) translateY(14px);
+}
+.nl-reveal-left {
+  transform: translateX(-32px);
+}
+.nl-reveal-right {
+  transform: translateX(32px);
+}
+.nl-reveal.is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Entrada cinética del titular del hero, palabra por palabra */
+.nl-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(28px) rotate(2deg);
+  filter: blur(8px);
+  animation: nl-word-in 0.8s cubic-bezier(0.22, 0.65, 0.3, 0.9) both;
+  animation-delay: calc(var(--nl-i, 0) * 85ms + 120ms);
+}
+@keyframes nl-word-in {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Indicador de scroll del hero */
+.nl-scrollhint {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.nl-scrollhint::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -40%;
+  height: 40%;
+  background: var(--nl-g-spectrum);
+  animation: nl-hint-drop 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes nl-hint-drop {
+  to {
+    top: 110%;
+  }
+}
+
+/* Barra de progreso de lectura (CSS scroll-driven; se oculta sin soporte) */
+.nl-progress-track {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .nl-progress-track {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 60;
+    pointer-events: none;
+  }
+  .nl-progress-bar {
+    height: 100%;
+    background: var(--nl-g-spectrum);
+    transform-origin: 0 50%;
+    animation: nl-progress-grow linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes nl-progress-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* El hero se despide con parallax al salir del viewport (scroll-driven, progresivo) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nl-hero-exit {
+      animation: nl-hero-out linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+    @keyframes nl-hero-out {
+      to {
+        opacity: 0.1;
+        transform: translateY(-56px) scale(0.96);
+      }
+    }
+  }
+}
+
+/* Borde de luz giratoria (refracción recorriendo el contorno de una tarjeta) */
+@property --nl-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.nl-beam,
+.nl-beam-hover {
+  position: relative;
+}
+.nl-beam::before,
+.nl-beam-hover::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--nl-angle, 0deg),
+    rgba(50, 214, 255, 0) 0%,
+    rgba(50, 214, 255, 0.9) 12%,
+    rgba(215, 19, 249, 0.9) 26%,
+    rgba(253, 56, 51, 0.7) 38%,
+    rgba(50, 214, 255, 0) 50%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: nl-angle-spin 5.5s linear infinite;
+}
+.nl-beam-hover::before {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.nl-beam-hover:hover::before {
+  opacity: 1;
+}
+@keyframes nl-angle-spin {
+  to {
+    --nl-angle: 360deg;
+  }
+}
+
+/* Brillo que barre el CTA al pasar el cursor */
+.nl-shine {
+  position: relative;
+  overflow: hidden;
+}
+.nl-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-130%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.nl-shine:hover::after {
+  transform: translateX(130%);
+}
+
+/* Riel de progreso del capítulo fijado (Dolor): se llena según --nl-p */
+.nl-rail-fill {
+  transform: scaleY(var(--nl-p, 0));
+  transform-origin: top;
+  background: var(--nl-g-spectrum);
+}
+
+/* Número gigante delineado (marca de agua de la garantía) */
+.nl-outline-num {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  user-select: none;
+}
+
+/* Utilidades varias */
+.nl-tabular {
+  font-variant-numeric: tabular-nums;
+}
+.nl-noscrollbar {
+  scrollbar-width: none;
+}
+.nl-noscrollbar::-webkit-scrollbar {
+  display: none;
+}
+.nl-marquee-pause:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Movimiento reducido: todo visible, nada animado */
+@media (prefers-reduced-motion: reduce) {
+  .nl-reveal,
+  .nl-word {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .nl-aura,
+  .nl-scrollhint::after,
+  .nl-beam::before,
+  .nl-beam-hover::before,
+  .nl-progress-bar {
+    animation: none !important;
+  }
+  .nl-shine::after {
+    display: none;
+  }
+}

@@ -41,6 +41,15 @@ Landing page de Prisma Digital (https://www.prismadigital.io/). Se despliega en 
 - La garantía explícita ("avances medibles en 90 días o seguimos sin costo") vive en la sección `#garantia` de /nueva-landing; si se quita, quitar también "Garantizado" de cualquier `<title>`.
 - Mobile-first: hero + titular + CTA visibles sin scroll; CTA flotante en móvil (`FloatingCta.tsx`); cuerpo mínimo 16px.
 
+## Sistema visual y scrollytelling de /nueva-landing
+
+- Todas las clases y tokens del rediseño llevan prefijo `nl-` (definidos al final de `src/styles.css`) para no afectar la landing original.
+- Utilidades en `src/components/nueva/scrolly.tsx`: `Reveal` (revelado al entrar al viewport), `CountUp` (métricas que cuentan desde 0, SSR renderiza el valor final), `usePinnedSteps` (capítulos fijados tipo scrollytelling, ej. sección Dolor), `useMagnetic` (botón magnético) y `ScrollProgress` (barra de lectura con CSS scroll-driven).
+- Gradientes de marca renovados: interpolación OKLCH con fallback sRGB (siempre declarar el fallback primero), fondos oscuros asimétricos (`.nl-dark`) con grano fotográfico (`.nl-grain`), y el "espectro del prisma" (`--nl-g-spectrum`, cian→magenta→rojo, SIN amarillo) como acento de subrayados, riel de progreso y gemas de costura (`.nl-gem`).
+- Las secciones se apilan como láminas: `-mt-10 rounded-t-[2.5rem]` + gema centrada en la costura.
+- Solo animar `transform`/`opacity`/`filter`. Todo debe respetar `prefers-reduced-motion` (los revelados quedan visibles, las animaciones se apagan).
+- Los `<h2>` deben ocupar máximo 2 líneas (usar `text-balance` y copys cortos).
+
 ## SEO
 
 - Un solo `<h1>` por página (el del hero). Jerarquía h1 → h2 (secciones) → h3 (tarjetas).

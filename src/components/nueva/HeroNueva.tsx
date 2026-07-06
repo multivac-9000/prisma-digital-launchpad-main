@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { trackCta } from "./track";
+import { Reveal } from "./scrolly";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
@@ -25,8 +26,37 @@ const heroClients = [
   { name: "Mundo Deco Store", logo: "/clients/mundodecostore.png" },
 ];
 
-/* HERO para empresas consolidadas: misma red neuronal de datos del hero original
-   (motivo de constelaciones de la marca), con copy orientado a duplicar ventas online. */
+const H1_LINE_1 = "Llevas años llenando tu local.";
+const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
+
+/* Titular con entrada cinética palabra por palabra (CSS puro, indexable en SSR). */
+function KineticLine({
+  text,
+  gradient = false,
+  offset = 0,
+}: {
+  text: string;
+  gradient?: boolean;
+  offset?: number;
+}) {
+  return (
+    <span className="block">
+      {text.split(" ").map((word, i) => (
+        <span
+          key={`${word}-${i}`}
+          className={`nl-word ${gradient ? "nl-text-gradient" : ""}`}
+          style={{ "--nl-i": offset + i } as CSSProperties}
+        >
+          {word}
+          {i < text.split(" ").length - 1 ? " " : ""}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/* HERO para empresas consolidadas: misma red neuronal de datos (motivo de
+   constelaciones de la marca) sobre una malla oscura asimétrica con grano. */
 export default function HeroNueva() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -190,10 +220,12 @@ export default function HeroNueva() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative overflow-hidden pt-28 pb-32 md:pt-40 md:pb-48"
-      style={{ background: "var(--gradient-hero)" }}
+      className="nl-dark relative overflow-hidden pt-28 pb-32 md:pt-40 md:pb-44"
     >
-      <div className="hero-aura" aria-hidden="true" />
+      {/* Capa decorativa: aura cónica + grano fotográfico */}
+      <div className="nl-grain absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="nl-aura" />
+      </div>
 
       <canvas
         ref={canvasRef}
@@ -201,35 +233,29 @@ export default function HeroNueva() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-5xl px-6 text-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm">
+      <div className="nl-hero-exit relative mx-auto max-w-5xl px-6 text-center">
+        <span className="nl-word inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm">
           <Sparkles className="h-4 w-4 text-prisma-cyan" aria-hidden="true" />
           Decisiones digitales basadas en datos, con propósito humano
         </span>
 
-        <h1 className="mt-6 text-4xl md:text-6xl lg:text-[56px] font-extrabold text-white leading-[1.08] tracking-tight">
-          Llevas años llenando tu local.
-          <br />
-          <span
-            className="bg-clip-text text-transparent"
-            style={{ backgroundImage: "var(--gradient-brand)" }}
-          >
-            Ahora dupliquemos tus ventas online.
-          </span>
+        <h1 className="mt-6 text-4xl md:text-6xl lg:text-[56px] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
+          <KineticLine text={H1_LINE_1} offset={1} />
+          <KineticLine text={H1_LINE_2} gradient offset={6} />
         </h1>
 
-        <p className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+        <Reveal as="p" variant="blur" delay={650} className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
           Integramos y optimizamos tu ecosistema digital para que dupliques tus ventas online —
           midiendo cada peso invertido, sin que necesites un equipo técnico propio.
-        </p>
+        </Reveal>
 
-        <div className="mt-8 flex flex-col items-center gap-3">
+        <Reveal variant="up" delay={800} className="mt-8 flex flex-col items-center gap-3">
           <a
             href={MEET_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackCta("agenda_diagnostico", "hero")}
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ background: "var(--gradient-agenda)" }}
           >
             Agenda tu Diagnóstico Gratis
@@ -241,10 +267,10 @@ export default function HeroNueva() {
           <p className="text-sm text-white/70 font-medium">
             +300 negocios escalados · Resultados medibles en 90 días
           </p>
-        </div>
+        </Reveal>
 
         {/* Prueba social inmediata: clientes reconocibles bajo el CTA */}
-        <div className="mt-10 md:mt-12">
+        <Reveal variant="up" delay={950} className="mt-10 md:mt-12">
           <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/50 mb-4">
             Empresas que ya confían en Prisma Digital
           </p>
@@ -252,7 +278,7 @@ export default function HeroNueva() {
             {heroClients.map(({ name, logo }) => (
               <li
                 key={name}
-                className="flex items-center justify-center rounded-lg bg-white/95 px-4 py-2 h-12 md:h-14"
+                className="flex items-center justify-center rounded-lg bg-white/95 px-4 py-2 h-12 md:h-14 transition-transform duration-300 hover:scale-105"
               >
                 <img
                   src={logo}
@@ -263,21 +289,15 @@ export default function HeroNueva() {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </Reveal>
 
-      <div className="absolute bottom-0 inset-x-0 leading-[0]">
-        <svg
-          viewBox="0 0 1440 120"
-          preserveAspectRatio="none"
-          className="w-full h-[80px] md:h-[120px]"
-          aria-hidden="true"
-        >
-          <path
-            d="M0,64 C240,128 480,0 720,32 C960,64 1200,128 1440,64 L1440,120 L0,120 Z"
-            fill="white"
-          />
-        </svg>
+        {/* Invitación al scroll: la historia sigue con los resultados */}
+        <Reveal variant="up" delay={1200} className="mt-12 flex flex-col items-center gap-3">
+          <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/45">
+            Los resultados hablan primero
+          </span>
+          <span className="nl-scrollhint" aria-hidden="true" />
+        </Reveal>
       </div>
     </section>
   );

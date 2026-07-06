@@ -1,5 +1,13 @@
-import { ShieldCheck, ClipboardList, Map, TrendingUp, ArrowRight, type LucideIcon } from "lucide-react";
+import {
+  ShieldCheck,
+  ClipboardList,
+  Map,
+  TrendingUp,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { trackCta } from "./track";
+import { Reveal } from "./scrolly";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
@@ -27,78 +35,92 @@ const entregables: Entregable[] = [
   },
 ];
 
-/* GARANTÍA EXPLÍCITA (respalda el "Garantizado" del title) + valor del diagnóstico. */
+/* GARANTÍA EXPLÍCITA (respalda el "Garantizado" del title) + valor del diagnóstico.
+   La tarjeta lleva un borde de luz refractada permanente: es la promesa central. */
 export default function GarantiaNueva() {
   return (
-    <section id="garantia" className="relative py-20 md:py-28 overflow-hidden" style={{ background: "var(--gradient-hero)" }}>
+    <section
+      id="garantia"
+      className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] py-20 md:py-28"
+    >
+      <div className="nl-gem" aria-hidden="true" />
       <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 80% 20%, #d713f9 0%, transparent 45%), radial-gradient(circle at 15% 80%, #32d6ff 0%, transparent 45%)",
-        }}
+        className="nl-grain absolute inset-0 overflow-hidden rounded-t-[2.5rem]"
         aria-hidden="true"
-      />
+      >
+        <div
+          className="absolute top-[-10%] left-[10%] h-96 w-96 rounded-full blur-3xl opacity-25"
+          style={{ background: "radial-gradient(circle, #d713f9 0%, transparent 65%)" }}
+        />
+        {/* Marca de agua: el 90 de la garantía */}
+        <span className="nl-outline-num absolute -right-6 top-8 text-[11rem] md:text-[17rem] font-black leading-none">
+          90
+        </span>
+      </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
         {/* Garantía */}
-        <div className="mx-auto max-w-3xl rounded-3xl border border-white/15 bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center">
-          <div
-            className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl text-white"
-            style={{ background: "var(--gradient-brand)" }}
-          >
-            <ShieldCheck className="h-8 w-8" aria-hidden="true" />
+        <Reveal variant="scale">
+          <div className="nl-beam mx-auto max-w-3xl rounded-3xl border border-white/15 bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center">
+            <div className="nl-tile-gradient mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl text-white">
+              <ShieldCheck className="h-8 w-8" aria-hidden="true" />
+            </div>
+            <p className="text-xs font-bold tracking-[0.3em] uppercase text-prisma-cyan mb-4">
+              Nuestra garantía
+            </p>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-white leading-[1.15] text-balance">
+              Avances medibles en 90 días,
+              <br />
+              <span className="nl-text-gradient">o seguimos sin costo.</span>
+            </h2>
+            <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed">
+              En el diagnóstico definimos juntos las métricas que importan para tu negocio. Si en
+              90 días de trabajo no ves avances medibles en esas métricas, seguimos trabajando sin
+              costo hasta lograrlo. Medimos todo y te mostramos todo — así se gana la confianza.
+            </p>
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-[1.15]">
-            Avances medibles en 90 días,
-            <br />
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-brand)" }}
-            >
-              o seguimos trabajando sin costo.
-            </span>
-          </h2>
-          <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed">
-            En el diagnóstico definimos juntos las métricas que importan para tu negocio. Si en 90
-            días de trabajo no ves avances medibles en esas métricas, seguimos trabajando sin costo
-            hasta lograrlo. Medimos todo y te mostramos todo — así se gana la confianza.
-          </p>
-        </div>
+        </Reveal>
 
         {/* Qué recibes en el diagnóstico */}
-        <h2 className="mt-20 text-center text-3xl md:text-4xl font-extrabold text-white leading-[1.15]">
-          Qué recibes en tu diagnóstico gratuito
-        </h2>
-        <p className="mt-4 text-center text-base md:text-lg text-white/75 max-w-2xl mx-auto">
-          Es gratis, pero no es una charla de venta: es trabajo real sobre tu negocio.
-        </p>
+        <Reveal variant="blur" className="mt-20 text-center">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-white leading-[1.15] text-balance">
+            Tu diagnóstico gratuito incluye:
+          </h2>
+          <p className="mt-4 text-base md:text-lg text-white/75 max-w-2xl mx-auto">
+            Es gratis, pero no es una charla de venta: es trabajo real sobre tu negocio.
+          </p>
+        </Reveal>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {entregables.map(({ icon: Icon, title, body }) => (
-            <article
+          {entregables.map(({ icon: Icon, title, body }, i) => (
+            <Reveal
               key={title}
-              className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-8"
+              as="article"
+              variant="up"
+              delay={i * 140}
+              className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-8 transition-transform duration-300 hover:-translate-y-1"
             >
-              <div
-                className="inline-flex h-12 w-12 items-center justify-center rounded-xl text-white mb-5"
-                style={{ background: "var(--gradient-brand)" }}
-              >
-                <Icon className="h-6 w-6" aria-hidden="true" />
+              <div className="flex items-center justify-between mb-5">
+                <div className="nl-tile-gradient inline-flex h-12 w-12 items-center justify-center rounded-xl text-white">
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <span className="text-3xl font-black nl-text-gradient" aria-hidden="true">
+                  0{i + 1}
+                </span>
               </div>
               <h3 className="text-xl font-bold text-white leading-snug">{title}</h3>
               <p className="mt-3 text-white/75 leading-relaxed">{body}</p>
-            </article>
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <Reveal delay={200} className="mt-12 text-center">
           <a
             href={MEET_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackCta("agenda_diagnostico", "garantia")}
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ background: "var(--gradient-agenda)" }}
           >
             Agenda tu Diagnóstico Gratis
@@ -107,7 +129,7 @@ export default function GarantiaNueva() {
               aria-hidden="true"
             />
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

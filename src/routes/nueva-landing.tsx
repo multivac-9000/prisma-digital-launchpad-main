@@ -8,6 +8,7 @@ import GarantiaNueva from "@/components/nueva/GarantiaNueva";
 import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
+import { ScrollProgress } from "@/components/nueva/scrolly";
 
 const CANONICAL_URL = "https://www.prismadigital.io/nueva-landing";
 
@@ -83,6 +84,11 @@ export const Route = createFileRoute("/nueva-landing")({
 function NuevaLanding() {
   return (
     <main className="min-h-screen bg-background">
+      {/* Sin JS los revelados quedan visibles (los bots leen el DOM igual) */}
+      <noscript>
+        <style>{`.nl-reveal,.nl-word{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>
+      </noscript>
+      <ScrollProgress />
       <Navbar />
       <HeroNueva />
       <ResultadosNueva />
