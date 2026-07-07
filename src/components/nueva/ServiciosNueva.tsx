@@ -97,8 +97,14 @@ export default function ServiciosNueva({ excludeEyebrow, title }: ServiciosNueva
           </Reveal>
         )}
 
-        {/* Móvil: carrusel con scroll-snap · Escritorio: grilla */}
-        <div className={`nl-noscrollbar mt-14 flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4 md:grid ${filteredServices.length === 2 ? 'md:grid-cols-2 md:max-w-4xl mx-auto' : 'md:grid-cols-3'} md:gap-8 md:overflow-visible md:mx-0 md:px-0 md:pb-0`}>
+        {/* Móvil: carrusel con scroll-snap · Escritorio: grilla (centrada si son 2) */}
+        <div
+          className={`nl-noscrollbar mt-14 flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4 md:grid ${
+            filteredServices.length === 2
+              ? "md:grid-cols-2 md:max-w-4xl md:mx-auto"
+              : "md:grid-cols-3 md:mx-0"
+          } md:gap-8 md:overflow-visible md:px-0 md:pb-0`}
+        >
           {filteredServices.map(({ icon: Icon, eyebrow, title, body, result, cta, ctaId, path }, i) => (
             <Reveal
               key={eyebrow}

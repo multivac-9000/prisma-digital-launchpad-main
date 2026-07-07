@@ -116,6 +116,18 @@ const testimonios = [
     author: "Jefa de Marketing",
     company: "Retail de servicios, Región del Biobío",
   },
+  {
+    quote:
+      "Somos una automotora con años en la zona. Creíamos que lo digital era para las grandes, hasta que empezamos a recibir solicitudes de test drive desde la web con seguimiento real.",
+    author: "Gerente General",
+    company: "Automotora, Región del Biobío",
+  },
+  {
+    quote:
+      "Nuestros clientes de siempre ahora también compran online sin perder el trato cercano. El equipo dejó de copiar pedidos a mano y eso se nota directo en las ventas.",
+    author: "Dueña",
+    company: "Retail con sucursales, Concepción",
+  },
 ];
 
 export default function ResultadosNueva() {
@@ -176,16 +188,16 @@ export default function ResultadosNueva() {
           ))}
         </div>
 
-        {/* Testimonios de negocios con trayectoria.
-            Móvil: carrusel con scroll-snap (no alargan la página) · Escritorio: grilla 2x2 */}
-        <div className="nl-noscrollbar mt-12 flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4 md:grid md:gap-6 md:grid-cols-2 md:overflow-visible md:mx-auto md:px-0 md:pb-0 max-w-4xl">
+        {/* Testimonios: carrusel horizontal en todos los tamaños (scroll-snap).
+            En escritorio se ven ~3 tarjetas y el resto se desliza; no alargan la página. */}
+        <div className="nl-noscrollbar mt-12 flex gap-5 md:gap-6 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4">
           {testimonios.map(({ quote, author, company }, i) => (
             <Reveal
               key={company}
               as="figure"
-              variant={i % 2 === 0 ? "left" : "right"}
-              delay={(i % 2) * 120}
-              className="relative rounded-2xl border border-border bg-white p-6 md:p-8 shadow-sm snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto md:shrink"
+              variant="up"
+              delay={(i % 3) * 100}
+              className="relative flex flex-col rounded-2xl border border-border bg-white p-6 md:p-8 shadow-sm snap-center shrink-0 w-[85%] sm:w-[60%] md:w-[calc((100%-3rem)/3)]"
             >
               <span
                 className="absolute -top-4 left-7 text-6xl font-black leading-none nl-metric-gradient select-none"
@@ -193,7 +205,7 @@ export default function ResultadosNueva() {
               >
                 “
               </span>
-              <blockquote className="text-[15px] md:text-lg text-ink/90 leading-relaxed pt-3">
+              <blockquote className="text-[15px] md:text-base text-ink/90 leading-relaxed pt-3">
                 {quote}
               </blockquote>
               <figcaption className="mt-4 md:mt-5 text-sm">
@@ -203,7 +215,7 @@ export default function ResultadosNueva() {
             </Reveal>
           ))}
         </div>
-        <p className="mt-2 text-center text-xs text-muted-foreground md:hidden" aria-hidden="true">
+        <p className="mt-2 text-center text-xs text-muted-foreground" aria-hidden="true">
           Desliza para ver más testimonios →
         </p>
       </div>

@@ -6,8 +6,18 @@ import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
-import { Database, GitMerge, RefreshCw, Layers, CheckCircle2, ArrowRight } from "lucide-react";
-import { trackCta } from "@/components/nueva/track";
+import {
+  Database,
+  GitMerge,
+  RefreshCw,
+  Layers,
+  CheckCircle2,
+  Rocket,
+  CalendarClock,
+  QrCode,
+  Bot,
+  type LucideIcon,
+} from "lucide-react";
 
 const CANONICAL_URL = "https://www.prismadigital.io/digitalizacion-de-negocios";
 
@@ -93,6 +103,56 @@ const features = [
     title: "Ecosistemas sin parches",
     desc: "No tiramos a la basura lo que ya usas. Auditamos tu software actual y creamos las conexiones exactas para que escales de forma estable."
   }
+];
+
+// Proyectos con portada de marca (sin screenshot): amplían el portafolio digital.
+type WebProject = {
+  icon: LucideIcon;
+  category: string;
+  accent: "cyan" | "magenta";
+  title: string;
+  desc: string;
+  tags: string[];
+  cover: string;
+};
+
+const webProjects: WebProject[] = [
+  {
+    icon: Rocket,
+    category: "LANDING PAGES",
+    accent: "cyan",
+    title: "Landing Pages de Alta Conversión",
+    desc: "Micrositios de campaña rápidos y medidos al detalle, con test A/B y eventos marcados para que cada peso de pauta se note en las ventas.",
+    tags: ["Astro", "GA4", "Meta CAPI", "A/B Test"],
+    cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
+  },
+  {
+    icon: CalendarClock,
+    category: "RESERVAS & AGENDA",
+    accent: "magenta",
+    title: "Sistemas de Reserva y Agendamiento",
+    desc: "Reservas online para restaurantes, automotoras y servicios: pagos, recordatorios automáticos por WhatsApp y sincronización con tu calendario.",
+    tags: ["Calendarios", "Pagos", "WhatsApp", "Recordatorios"],
+    cover: "linear-gradient(135deg, #1a0736 0%, #4a0a6b 55%, #d713f9 230%)",
+  },
+  {
+    icon: QrCode,
+    category: "CATÁLOGOS DIGITALES",
+    accent: "cyan",
+    title: "Catálogos y Menús Digitales (QR)",
+    desc: "Menús y catálogos con código QR autoadministrables: actualizas precios y stock en segundos, sin reimprimir nada y midiendo qué mira tu cliente.",
+    tags: ["QR", "Menú Digital", "CMS", "Autoservicio"],
+    cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
+  },
+  {
+    icon: Bot,
+    category: "WHATSAPP & CHATBOTS",
+    accent: "magenta",
+    title: "Integración de WhatsApp y Chatbots",
+    desc: "Conectamos WhatsApp Business a tu CRM con respuestas automáticas y derivación inteligente, para no perder ni una consulta y responder en segundos.",
+    tags: ["WhatsApp API", "Chatbots", "CRM", "Automatización"],
+    cover: "linear-gradient(135deg, #2a0730 0%, #4a0a6b 55%, #fd3833 240%)",
+  },
 ];
 
 function DigitalizacionPage() {
@@ -288,6 +348,66 @@ function DigitalizacionPage() {
                 </div>
               </div>
             </Reveal>
+
+            {/* Proyectos 3–6: portada de marca con icono (sin screenshot) */}
+            {webProjects.map(({ icon: Icon, category, accent, title, desc, tags, cover }, i) => (
+              <Reveal
+                key={title}
+                as="article"
+                variant="scale"
+                delay={i * 120}
+                className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2"
+              >
+                <div
+                  className="relative h-56 md:h-64 overflow-hidden flex items-center justify-center"
+                  style={{ background: cover }}
+                >
+                  {/* Chrome de ventana: da lectura de "producto digital" */}
+                  <div className="absolute top-4 left-4 flex gap-1.5" aria-hidden="true">
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+                  </div>
+                  <div
+                    className="absolute inset-0 opacity-40"
+                    style={{
+                      backgroundImage:
+                        "radial-gradient(circle at 72% 28%, rgba(255,255,255,0.2), transparent 55%)",
+                    }}
+                    aria-hidden="true"
+                  />
+                  <Icon
+                    className="relative h-16 w-16 md:h-20 md:w-20 text-white/90 transition-transform duration-500 group-hover:scale-110"
+                    aria-hidden="true"
+                  />
+                  <div className="absolute bottom-5 left-5 right-5">
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-full backdrop-blur-sm px-3 py-1 text-xs font-bold border ${
+                        accent === "cyan"
+                          ? "bg-prisma-cyan/20 border-prisma-cyan/30 text-prisma-cyan"
+                          : "bg-prisma-magenta/20 border-prisma-magenta/30 text-prisma-magenta"
+                      }`}
+                    >
+                      {category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-7">
+                  <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+                  <p className="text-white/70 leading-relaxed text-sm mb-5">{desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
 
           <Reveal variant="up" delay={280} className="mt-12 text-center">

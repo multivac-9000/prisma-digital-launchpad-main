@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import Navbar from "@/components/Navbar";
 import HeroNueva from "@/components/nueva/HeroNueva";
@@ -5,8 +6,8 @@ import ServiciosNueva from "@/components/nueva/ServiciosNueva";
 import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
-import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
-import { TrendingUp, LineChart, Shield, Code, CheckCircle, BarChart3 } from "lucide-react";
+import { ScrollProgress, Reveal, CountUp } from "@/components/nueva/scrolly";
+import { TrendingUp, LineChart, Code, BarChart3 } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
 
 const CANONICAL_URL = "https://www.prismadigital.io/optimizacion-de-negocios";
@@ -221,7 +222,9 @@ function OptimizacionPage() {
             ].map((kpi, i) => (
               <Reveal key={kpi.label} variant="scale" delay={i * 100} className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 text-center">
                 <p className="text-xs font-bold tracking-widest uppercase text-white/50 mb-2">{kpi.label}</p>
-                <p className="text-3xl md:text-4xl font-black text-white nl-tabular">{kpi.value}</p>
+                <p className="text-3xl md:text-4xl font-black text-white nl-tabular">
+                  <CountUp value={kpi.value} />
+                </p>
                 <p className={`mt-1 text-sm font-bold ${kpi.down ? "text-green-400" : "text-green-400"}`}>
                   {kpi.down ? "↓" : "↑"} {kpi.trend}
                 </p>
@@ -251,14 +254,12 @@ function OptimizacionPage() {
                 {[20, 40, 60, 80, 100].map(y => (
                   <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
                 ))}
-                {/* Area */}
-                <polygon points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20 400,120 0,120" fill="url(#cpafill)" />
-                {/* Line */}
-                <polyline points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20" fill="none" stroke="#32d6ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                {/* Dot at end */}
-                <circle cx="400" cy="20" r="5" fill="#32d6ff">
-                  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" />
-                </circle>
+                {/* Area (aparece cuando la tarjeta se revela) */}
+                <polygon className="nl-spark-fill" points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20 400,120 0,120" fill="url(#cpafill)" />
+                {/* Line (se dibuja sola al revelarse) */}
+                <polyline className="nl-spark-path" points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20" fill="none" stroke="#32d6ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
+                {/* Dot at end (pulso suave) */}
+                <circle className="nl-pulse-dot" cx="400" cy="20" r="5" fill="#32d6ff" />
                 {/* Labels */}
                 <text x="5" y="112" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="sans-serif">Ene</text>
                 <text x="190" y="112" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="sans-serif">Jun</text>
@@ -281,14 +282,17 @@ function OptimizacionPage() {
                   { channel: "Meta Ads", roas: 3.8, width: "76%", color: "#d713f9" },
                   { channel: "Email", roas: 6.1, width: "100%", color: "#fecd2b" },
                   { channel: "Orgánico", roas: 5.4, width: "92%", color: "#32d6ff" },
-                ].map((ch) => (
+                ].map((ch, i) => (
                   <div key={ch.channel}>
                     <div className="flex justify-between text-sm mb-1.5">
                       <span className="text-white/80 font-medium">{ch.channel}</span>
                       <span className="text-white font-bold nl-tabular">{ch.roas}x</span>
                     </div>
                     <div className="h-3 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full rounded-full transition-all duration-1000" style={{ width: ch.width, background: ch.color }} />
+                      <div
+                        className="nl-bar-grow nl-bar-shine h-full rounded-full"
+                        style={{ width: ch.width, background: ch.color, "--nl-bd": `${i * 120}ms` } as CSSProperties}
+                      />
                     </div>
                   </div>
                 ))}
@@ -311,11 +315,14 @@ function OptimizacionPage() {
                   { step: "Agregar al Carro", count: "1.890", pct: 15, color: "#d713f9" },
                   { step: "Checkout Iniciado", count: "980", pct: 8, color: "#d713f9" },
                   { step: "Compra Completada", count: "347", pct: 2.8, color: "#fecd2b" },
-                ].map((s) => (
+                ].map((s, i) => (
                   <div key={s.step} className="flex items-center gap-4">
                     <div className="w-28 md:w-36 text-sm text-white/70 shrink-0 truncate">{s.step}</div>
                     <div className="flex-1 h-6 rounded bg-white/5 overflow-hidden relative">
-                      <div className="h-full rounded transition-all duration-700" style={{ width: `${s.pct}%`, background: s.color, opacity: 0.7 }} />
+                      <div
+                        className="nl-bar-grow h-full rounded"
+                        style={{ width: `${s.pct}%`, background: s.color, opacity: 0.7, "--nl-bd": `${i * 90}ms` } as CSSProperties}
+                      />
                       <span className="absolute right-2 top-0.5 text-xs font-bold text-white/90 nl-tabular">{s.count}</span>
                     </div>
                   </div>
