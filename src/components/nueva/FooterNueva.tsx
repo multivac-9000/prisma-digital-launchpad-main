@@ -59,8 +59,8 @@ export default function FooterNueva() {
               loading="lazy"
             />
             <p className="text-sm leading-relaxed text-white/75 max-w-xs">
-              Impulsamos decisiones digitales basadas en datos y con propósito humano para
-              empresas consolidadas.
+              Impulsamos decisiones digitales basadas en datos y con propósito humano para empresas
+              consolidadas.
             </p>
             <div className="flex justify-center gap-3">
               {socials.map(({ icon: Icon, label, href }) => (

@@ -46,9 +46,9 @@ export default function Services() {
         <div className="mt-6 max-w-3xl mx-auto text-center text-base md:text-lg text-muted-foreground leading-relaxed space-y-2">
           <p>No porque sean mejores que tú. Sino porque aparecen primero.</p>
           <p>
-            Desde crear tu tienda online hasta llenar tu embudo de clientes listos para
-            comprar, <span className="text-ink font-semibold">Prisma Digital lo hace posible</span> —
-            con datos, no con suposiciones.
+            Desde crear tu tienda online hasta llenar tu embudo de clientes listos para comprar,{" "}
+            <span className="text-ink font-semibold">Prisma Digital lo hace posible</span> — con
+            datos, no con suposiciones.
           </p>
         </div>
 

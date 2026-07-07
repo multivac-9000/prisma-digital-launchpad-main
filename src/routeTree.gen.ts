@@ -9,13 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as NuevaLandingRouteImport } from './routes/nueva-landing'
+import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
+import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
+import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
 import { Route as IndexRouteImport } from './routes/index'
 
-const NuevaLandingRoute = NuevaLandingRouteImport.update({
-  id: '/nueva-landing',
-  path: '/nueva-landing',
+const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
+  id: '/promocion-de-negocios',
+  path: '/promocion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OptimizacionDeNegociosRoute = OptimizacionDeNegociosRouteImport.update({
+  id: '/optimizacion-de-negocios',
+  path: '/optimizacion-de-negocios',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
@@ -23,6 +30,12 @@ const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
   path: '/gracias-infinitas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DigitalizacionDeNegociosRoute =
+  DigitalizacionDeNegociosRouteImport.update({
+    id: '/digitalizacion-de-negocios',
+    path: '/digitalizacion-de-negocios',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,41 +44,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
-  '/nueva-landing': typeof NuevaLandingRoute
+  '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/promocion-de-negocios': typeof PromocionDeNegociosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
-  '/nueva-landing': typeof NuevaLandingRoute
+  '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/promocion-de-negocios': typeof PromocionDeNegociosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
-  '/nueva-landing': typeof NuevaLandingRoute
+  '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/promocion-de-negocios': typeof PromocionDeNegociosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gracias-infinitas' | '/nueva-landing'
+  fullPaths:
+    | '/'
+    | '/digitalizacion-de-negocios'
+    | '/gracias-infinitas'
+    | '/optimizacion-de-negocios'
+    | '/promocion-de-negocios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gracias-infinitas' | '/nueva-landing'
-  id: '__root__' | '/' | '/gracias-infinitas' | '/nueva-landing'
+  to:
+    | '/'
+    | '/digitalizacion-de-negocios'
+    | '/gracias-infinitas'
+    | '/optimizacion-de-negocios'
+    | '/promocion-de-negocios'
+  id:
+    | '__root__'
+    | '/'
+    | '/digitalizacion-de-negocios'
+    | '/gracias-infinitas'
+    | '/optimizacion-de-negocios'
+    | '/promocion-de-negocios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
-  NuevaLandingRoute: typeof NuevaLandingRoute
+  OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
+  PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/nueva-landing': {
-      id: '/nueva-landing'
-      path: '/nueva-landing'
-      fullPath: '/nueva-landing'
-      preLoaderRoute: typeof NuevaLandingRouteImport
+    '/promocion-de-negocios': {
+      id: '/promocion-de-negocios'
+      path: '/promocion-de-negocios'
+      fullPath: '/promocion-de-negocios'
+      preLoaderRoute: typeof PromocionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/optimizacion-de-negocios': {
+      id: '/optimizacion-de-negocios'
+      path: '/optimizacion-de-negocios'
+      fullPath: '/optimizacion-de-negocios'
+      preLoaderRoute: typeof OptimizacionDeNegociosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gracias-infinitas': {
@@ -73,6 +117,13 @@ declare module '@tanstack/react-router' {
       path: '/gracias-infinitas'
       fullPath: '/gracias-infinitas'
       preLoaderRoute: typeof GraciasInfinitasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/digitalizacion-de-negocios': {
+      id: '/digitalizacion-de-negocios'
+      path: '/digitalizacion-de-negocios'
+      fullPath: '/digitalizacion-de-negocios'
+      preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,8 +138,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
-  NuevaLandingRoute: NuevaLandingRoute,
+  OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
+  PromocionDeNegociosRoute: PromocionDeNegociosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -40,7 +40,7 @@ const tickerItems = [
 ];
 
 /* Cinta de resultados estilo mercado: el dato duro en movimiento constante. */
-function DataTicker() {
+function DataTicker({ items = tickerItems }: { items?: string[] }) {
   return (
     <div
       className="nl-ticker nl-marquee-pause relative mt-14 border-y border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden"
@@ -49,7 +49,7 @@ function DataTicker() {
       <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#000139] to-transparent z-10" />
       <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#000139] to-transparent z-10" />
       <div className="flex w-max animate-marquee items-center py-3">
-        {[...tickerItems, ...tickerItems].map((item, i) => (
+        {[...items, ...items].map((item, i) => (
           <span
             key={`${item}-${i}`}
             className="nl-tabular flex items-center gap-2 mx-7 text-sm font-semibold text-white/75 whitespace-nowrap"
@@ -95,7 +95,21 @@ function KineticLine({
 
 /* HERO para empresas consolidadas: misma red neuronal de datos (motivo de
    constelaciones de la marca) sobre una malla oscura asimétrica con grano. */
-export default function HeroNueva() {
+export default function HeroNueva({
+  h1Line1 = H1_LINE_1,
+  h1Line2 = H1_LINE_2,
+  description = "Integramos y optimizamos tu ecosistema digital para que dupliques tus ventas online — midiendo cada peso invertido, sin que necesites un equipo técnico propio.",
+  customTickerItems,
+  ctaText = "Agenda tu Diagnóstico Gratis",
+  ctaId = "agenda_diagnostico",
+}: {
+  h1Line1?: string;
+  h1Line2?: string;
+  description?: string;
+  customTickerItems?: string[];
+  ctaText?: string;
+  ctaId?: string;
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -278,13 +292,17 @@ export default function HeroNueva() {
         </span>
 
         <h1 className="mt-6 text-4xl md:text-6xl lg:text-[56px] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
-          <KineticLine text={H1_LINE_1} offset={1} />
-          <KineticLine text={H1_LINE_2} gradient offset={6} />
+          <KineticLine text={h1Line1} offset={1} />
+          <KineticLine text={h1Line2} gradient offset={6} />
         </h1>
 
-        <Reveal as="p" variant="blur" delay={380} className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-          Integramos y optimizamos tu ecosistema digital para que dupliques tus ventas online —
-          midiendo cada peso invertido, sin que necesites un equipo técnico propio.
+        <Reveal
+          as="p"
+          variant="blur"
+          delay={380}
+          className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+        >
+          {description}
         </Reveal>
 
         <Reveal variant="up" delay={520} className="mt-8 flex flex-col items-center gap-3">
@@ -292,11 +310,11 @@ export default function HeroNueva() {
             href={MEET_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackCta("agenda_diagnostico", "hero")}
+            onClick={() => trackCta(ctaId, "hero")}
             className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ background: "var(--gradient-agenda)" }}
           >
-            Agenda tu Diagnóstico Gratis
+            {ctaText}
             <ArrowRight
               className="h-5 w-5 transition-transform group-hover:translate-x-1"
               aria-hidden="true"
@@ -341,7 +359,7 @@ export default function HeroNueva() {
       {/* Cinta de datos en movimiento: fuera del contenedor con parallax de
           salida, para que siga viva mientras el hero se despide */}
       <div className="relative">
-        <DataTicker />
+        <DataTicker items={customTickerItems} />
       </div>
     </section>
   );

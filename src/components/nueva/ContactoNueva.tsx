@@ -57,10 +57,15 @@ export default function ContactoNueva() {
         {/* Right: agenda directa en Brevo */}
         <Reveal variant="scale" delay={150}>
           <div className="nl-dark nl-beam relative overflow-hidden rounded-3xl p-8 md:p-10 text-center shadow-2xl">
-            <div className="nl-grain absolute inset-0 overflow-hidden rounded-3xl" aria-hidden="true">
+            <div
+              className="nl-grain absolute inset-0 overflow-hidden rounded-3xl"
+              aria-hidden="true"
+            >
               <div
                 className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-40"
-                style={{ background: "radial-gradient(circle, #d713f9 0%, #32d6ff 70%, transparent 100%)" }}
+                style={{
+                  background: "radial-gradient(circle, #d713f9 0%, #32d6ff 70%, transparent 100%)",
+                }}
               />
             </div>
             <div className="relative">
@@ -74,8 +79,8 @@ export default function ContactoNueva() {
                 Agenda tu diagnóstico gratuito
               </h3>
               <p className="mt-3 text-white/80 leading-relaxed max-w-sm mx-auto">
-                Elige el día y la hora que más te acomoden. Reservas en menos de un minuto,
-                directo en nuestra agenda.
+                Elige el día y la hora que más te acomoden. Reservas en menos de un minuto, directo
+                en nuestra agenda.
               </p>
 
               <a

@@ -74,8 +74,8 @@ export default function GarantiaNueva() {
               <span className="nl-text-gradient">o seguimos sin costo.</span>
             </h2>
             <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed">
-              En el diagnóstico definimos juntos las métricas que importan para tu negocio. Si en
-              90 días de trabajo no ves avances medibles en esas métricas, seguimos trabajando sin
+              En el diagnóstico definimos juntos las métricas que importan para tu negocio. Si en 90
+              días de trabajo no ves avances medibles en esas métricas, seguimos trabajando sin
               costo hasta lograrlo. Medimos todo y te mostramos todo — así se gana la confianza.
             </p>
           </div>
