@@ -277,6 +277,117 @@ function PromocionPage() {
         </div>
       </section>
 
+      {/* Canales de Captación Integrados — Google Ads, Meta Ads, SEO y Blogs */}
+      <section className="nl-grid-paper relative z-[1] -mt-10 rounded-t-[2.5rem] bg-white py-20 md:py-28">
+        <div className="nl-gem" aria-hidden="true" />
+
+        <div className="mx-auto max-w-6xl px-6">
+          <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-secondary mb-4 block">Canales de Captación Integrados</span>
+            <h2 className="text-3xl md:text-[40px] font-extrabold text-ink leading-tight">
+              Cuatro frentes de captación <span className="nl-metric-gradient">trabajando por tus ventas.</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
+              No dependemos de un solo canal. Activamos y sincronizamos las plataformas más efectivas para tu industria con un enfoque medible.
+            </p>
+            <div className="nl-underline mx-auto mt-5" aria-hidden="true" />
+          </Reveal>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-2">
+            {/* Google Ads */}
+            <Reveal as="article" variant="scale" delay={0} className="nl-beam-hover group rounded-2xl border border-border bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#4285F4]/10 text-[#4285F4] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                  <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor" aria-hidden="true">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.15em] text-[#4285F4]">GOOGLE ADS</p>
+                  <h3 className="text-xl font-bold text-ink">Campañas Automatizadas de Alto Rendimiento</h3>
+                </div>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-5">
+                Implementamos campañas de búsqueda inteligente, Performance Max y Shopping conectadas directamente a tu feed de productos y tu sistema de medición, para que los algoritmos de Google optimicen con datos reales de ventas.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["Search Ads", "Performance Max", "Shopping", "Remarketing"].map(t => (
+                  <span key={t} className="rounded-full bg-[#4285F4]/10 px-3 py-1 text-xs font-semibold text-[#4285F4]">{t}</span>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Meta Ads */}
+            <Reveal as="article" variant="scale" delay={140} className="nl-beam-hover group rounded-2xl border border-border bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#0668E1]/10 text-[#0668E1] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                  <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor" aria-hidden="true">
+                    <path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 011-1h3v-4h-3a5 5 0 00-5 5v2.01h-2l-.396 3.98h2.396v8.01z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.15em] text-[#0668E1]">META ADS</p>
+                  <h3 className="text-xl font-bold text-ink">Campañas de Conversión en Facebook e Instagram</h3>
+                </div>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-5">
+                Diseñamos campañas orientadas a conversiones reales (no likes) con segmentación avanzada, creatividades A/B testing y Conversions API activada para que Meta reciba cada señal de compra.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["Facebook Ads", "Instagram Ads", "Advantage+", "Conversions API"].map(t => (
+                  <span key={t} className="rounded-full bg-[#0668E1]/10 px-3 py-1 text-xs font-semibold text-[#0668E1]">{t}</span>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* SEO */}
+            <Reveal as="article" variant="scale" delay={280} className="nl-beam-hover group rounded-2xl border border-border bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="nl-tile-gradient flex h-14 w-14 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                  <Eye className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.15em] text-secondary">SEO & POSICIONAMIENTO</p>
+                  <h3 className="text-xl font-bold text-ink">Optimización para Motores de Búsqueda</h3>
+                </div>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-5">
+                Optimizamos tu estructura web, la velocidad de carga, los datos estructurados (Schema.org) y la arquitectura de URLs para que Google indexe y posicione tus páginas de servicio y productos clave.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["SEO Técnico", "Core Web Vitals", "Schema.org", "Search Console"].map(t => (
+                  <span key={t} className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary">{t}</span>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Blogs */}
+            <Reveal as="article" variant="scale" delay={420} className="nl-beam-hover group rounded-2xl border border-border bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-4 mb-5">
+                <div className="nl-tile-gradient flex h-14 w-14 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                  <ShieldCheck className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.15em] text-secondary">CONTENIDO & INBOUND</p>
+                  <h3 className="text-xl font-bold text-ink">Creación de Blogs y Contenido Estratégico</h3>
+                </div>
+              </div>
+              <p className="text-muted-foreground leading-relaxed mb-5">
+                Producimos artículos de alto valor orientados a las búsquedas de tus clientes ideales. Cada publicación trabaja como un activo permanente que atrae tráfico orgánico calificado y nutre tu embudo de ventas.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["Blog SEO", "Inbound Marketing", "Lead Magnets", "Email Nurturing"].map(t => (
+                  <span key={t} className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-semibold text-secondary">{t}</span>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Final */}
       <ContactoNueva />
 

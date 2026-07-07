@@ -4,11 +4,11 @@ import { Menu, X } from "lucide-react";
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Newsletter", href: "#newsletter" },
-  { label: "Contáctanos", href: "#contacto" },
+  { label: "Home", href: "/" },
+  { label: "Nosotros", href: "/#nosotros" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Newsletter", href: "/#newsletter" },
+  { label: "Contáctanos", href: "/#contacto" },
 ];
 
 export default function Navbar() {
@@ -31,7 +31,7 @@ export default function Navbar() {
             : "bg-white/5 backdrop-blur-sm ring-1 ring-white/10"
         }`}
       >
-        <a href="#home" className="flex items-center gap-2 shrink-0">
+        <a href="/" className="flex items-center gap-2 shrink-0">
           <img
             src={scrolled ? "/prisma-digital-black-logo.png" : "/logo.png"}
             alt="Prisma Digital"

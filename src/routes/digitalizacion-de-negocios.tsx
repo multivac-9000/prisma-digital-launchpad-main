@@ -210,6 +210,94 @@ function DigitalizacionPage() {
         </div>
       </section>
 
+      {/* Portafolio de Sitios Web y Apps */}
+      <section className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] py-20 md:py-28 overflow-hidden">
+        <div className="nl-gem" aria-hidden="true" />
+        <div className="nl-grain absolute inset-0 overflow-hidden rounded-t-[2.5rem]" aria-hidden="true">
+          <div
+            className="absolute top-[-10%] right-[5%] h-[30rem] w-[30rem] rounded-full blur-3xl opacity-20"
+            style={{ background: "radial-gradient(circle, #32d6ff 0%, transparent 60%)" }}
+          />
+          <div
+            className="absolute bottom-[-10%] left-[-5%] h-96 w-96 rounded-full blur-3xl opacity-15"
+            style={{ background: "radial-gradient(circle, #d713f9 0%, transparent 60%)" }}
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
+          <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">Portafolio Digital</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+              Sitios web y apps <span className="nl-text-gradient">construidos por Prisma Digital</span>
+            </h2>
+            <p className="mt-5 text-white/75 text-base md:text-lg max-w-2xl mx-auto">
+              Cada proyecto nace integrado al ecosistema digital de nuestros clientes: con medición de eventos, ecommerce conectado y flujos automatizados desde el día 1.
+            </p>
+            <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
+          </Reveal>
+
+          <div className="mt-16 grid gap-10 md:grid-cols-2">
+            {/* Proyecto 1: Ecommerce */}
+            <Reveal as="article" variant="scale" delay={0} className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <div className="relative h-64 md:h-72 overflow-hidden">
+                <img
+                  src="/audiovisual/portfolio-ecommerce.png"
+                  alt="Plataforma de ecommerce desarrollada por Prisma Digital"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-cyan/20 backdrop-blur-sm border border-prisma-cyan/30 px-3 py-1 text-xs font-bold text-prisma-cyan">
+                    E-COMMERCE B2B/B2C
+                  </span>
+                </div>
+              </div>
+              <div className="p-7">
+                <h3 className="text-xl font-bold text-white mb-2">Plataformas de Ecommerce Integradas</h3>
+                <p className="text-white/70 leading-relaxed text-sm mb-5">Tiendas online con inventario sincronizado al POS/ERP, pasarela de pago local, despacho automatizado y medición de cada evento de compra.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["Shopify", "WooCommerce", "VTEX", "Transbank"].map(t => (
+                    <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Proyecto 2: App / Dashboard */}
+            <Reveal as="article" variant="scale" delay={140} className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <div className="relative h-64 md:h-72 overflow-hidden">
+                <img
+                  src="/audiovisual/portfolio-app.png"
+                  alt="Aplicación web y dashboard de gestión desarrollado por Prisma Digital"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-magenta/20 backdrop-blur-sm border border-prisma-magenta/30 px-3 py-1 text-xs font-bold text-prisma-magenta">
+                    APPS WEB & MOBILE
+                  </span>
+                </div>
+              </div>
+              <div className="p-7">
+                <h3 className="text-xl font-bold text-white mb-2">Apps Web y Dashboards Corporativos</h3>
+                <p className="text-white/70 leading-relaxed text-sm mb-5">Aplicaciones a medida para gestión interna, control de KPIs y paneles de clientes. Accesibles desde cualquier dispositivo con datos en tiempo real.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["React", "Node.js", "PostgreSQL", "Firebase"].map(t => (
+                    <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal variant="up" delay={280} className="mt-12 text-center">
+            <p className="text-white/50 text-sm">
+              ¿Tienes un proyecto en mente? Agenda tu diagnóstico y te mostramos cómo lo integraríamos a tu operación.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CTA Final */}
       <ContactoNueva />
 

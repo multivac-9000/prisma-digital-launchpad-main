@@ -191,6 +191,184 @@ function OptimizacionPage() {
         </div>
       </section>
 
+      {/* Centro de Control de Datos — Dashboards y Gráficos Interactivos */}
+      <section className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] py-20 md:py-28 overflow-hidden">
+        <div className="nl-gem" aria-hidden="true" />
+        <div className="nl-grain absolute inset-0 overflow-hidden rounded-t-[2.5rem]" aria-hidden="true">
+          <div className="absolute top-[20%] left-[10%] h-96 w-96 rounded-full blur-3xl opacity-15" style={{ background: "radial-gradient(circle, #32d6ff 0%, transparent 60%)" }} />
+          <div className="absolute bottom-[10%] right-[5%] h-80 w-80 rounded-full blur-3xl opacity-12" style={{ background: "radial-gradient(circle, #d713f9 0%, transparent 60%)" }} />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
+          <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">Centro de Control de Datos</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+              Así se ve un negocio <span className="nl-text-gradient">optimizado con datos reales</span>
+            </h2>
+            <p className="mt-5 text-white/70 text-base md:text-lg max-w-2xl mx-auto">
+              Los tableros que armamos conectan cada señal de tu ecosistema digital para que tomes decisiones con datos, no con suposiciones.
+            </p>
+            <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
+          </Reveal>
+
+          {/* KPI Cards Row */}
+          <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "CPA", value: "$4.820", trend: "-32%", color: "#32d6ff", down: true },
+              { label: "ROAS", value: "4.2x", trend: "+180%", color: "#d713f9", down: false },
+              { label: "Conversiones", value: "347", trend: "+89%", color: "#fecd2b", down: false },
+              { label: "CTR", value: "3.8%", trend: "+54%", color: "#32d6ff", down: false },
+            ].map((kpi, i) => (
+              <Reveal key={kpi.label} variant="scale" delay={i * 100} className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 text-center">
+                <p className="text-xs font-bold tracking-widest uppercase text-white/50 mb-2">{kpi.label}</p>
+                <p className="text-3xl md:text-4xl font-black text-white nl-tabular">{kpi.value}</p>
+                <p className={`mt-1 text-sm font-bold ${kpi.down ? "text-green-400" : "text-green-400"}`}>
+                  {kpi.down ? "↓" : "↑"} {kpi.trend}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Charts Grid */}
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {/* CPA Trend Chart */}
+            <Reveal variant="up" delay={100} className="nl-beam-hover rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-6 md:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs font-bold tracking-widest uppercase text-white/50">Costo por Adquisición</p>
+                  <p className="text-2xl font-bold text-white mt-1">Tendencia CPA <span className="text-green-400 text-sm">↓ a la baja</span></p>
+                </div>
+                <TrendingUp className="h-6 w-6 text-prisma-cyan" />
+              </div>
+              <svg viewBox="0 0 400 120" className="w-full h-auto" aria-label="Gráfico de tendencia del CPA a la baja">
+                <defs>
+                  <linearGradient id="cpafill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#32d6ff" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#32d6ff" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {/* Grid lines */}
+                {[20, 40, 60, 80, 100].map(y => (
+                  <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                ))}
+                {/* Area */}
+                <polygon points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20 400,120 0,120" fill="url(#cpafill)" />
+                {/* Line */}
+                <polyline points="0,95 40,90 80,82 120,78 160,65 200,60 240,50 280,42 320,35 360,28 400,20" fill="none" stroke="#32d6ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Dot at end */}
+                <circle cx="400" cy="20" r="5" fill="#32d6ff">
+                  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" />
+                </circle>
+                {/* Labels */}
+                <text x="5" y="112" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="sans-serif">Ene</text>
+                <text x="190" y="112" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="sans-serif">Jun</text>
+                <text x="375" y="112" fill="rgba(255,255,255,0.35)" fontSize="10" fontFamily="sans-serif">Dic</text>
+              </svg>
+            </Reveal>
+
+            {/* ROAS Bar Chart */}
+            <Reveal variant="up" delay={200} className="nl-beam-hover rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-6 md:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs font-bold tracking-widest uppercase text-white/50">Retorno de Inversión</p>
+                  <p className="text-2xl font-bold text-white mt-1">ROAS por Canal <span className="text-green-400 text-sm">↑ creciendo</span></p>
+                </div>
+                <BarChart3 className="h-6 w-6 text-prisma-magenta" />
+              </div>
+              <div className="space-y-4">
+                {[
+                  { channel: "Google Ads", roas: 4.2, width: "84%", color: "#32d6ff" },
+                  { channel: "Meta Ads", roas: 3.8, width: "76%", color: "#d713f9" },
+                  { channel: "Email", roas: 6.1, width: "100%", color: "#fecd2b" },
+                  { channel: "Orgánico", roas: 5.4, width: "92%", color: "#32d6ff" },
+                ].map((ch) => (
+                  <div key={ch.channel}>
+                    <div className="flex justify-between text-sm mb-1.5">
+                      <span className="text-white/80 font-medium">{ch.channel}</span>
+                      <span className="text-white font-bold nl-tabular">{ch.roas}x</span>
+                    </div>
+                    <div className="h-3 rounded-full bg-white/10 overflow-hidden">
+                      <div className="h-full rounded-full transition-all duration-1000" style={{ width: ch.width, background: ch.color }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Conversion Funnel */}
+            <Reveal variant="up" delay={300} className="nl-beam-hover rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-6 md:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs font-bold tracking-widest uppercase text-white/50">Embudo de Conversión</p>
+                  <p className="text-2xl font-bold text-white mt-1">Eventos Rastreados</p>
+                </div>
+                <LineChart className="h-6 w-6 text-prisma-cyan" />
+              </div>
+              <div className="space-y-3">
+                {[
+                  { step: "Visitas al Sitio", count: "12.480", pct: 100, color: "#32d6ff" },
+                  { step: "Producto Visto", count: "5.120", pct: 41, color: "#32d6ff" },
+                  { step: "Agregar al Carro", count: "1.890", pct: 15, color: "#d713f9" },
+                  { step: "Checkout Iniciado", count: "980", pct: 8, color: "#d713f9" },
+                  { step: "Compra Completada", count: "347", pct: 2.8, color: "#fecd2b" },
+                ].map((s) => (
+                  <div key={s.step} className="flex items-center gap-4">
+                    <div className="w-28 md:w-36 text-sm text-white/70 shrink-0 truncate">{s.step}</div>
+                    <div className="flex-1 h-6 rounded bg-white/5 overflow-hidden relative">
+                      <div className="h-full rounded transition-all duration-700" style={{ width: `${s.pct}%`, background: s.color, opacity: 0.7 }} />
+                      <span className="absolute right-2 top-0.5 text-xs font-bold text-white/90 nl-tabular">{s.count}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Real-time Attribution Table */}
+            <Reveal variant="up" delay={400} className="nl-beam-hover rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm p-6 md:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs font-bold tracking-widest uppercase text-white/50">Atribución en Tiempo Real</p>
+                  <p className="text-2xl font-bold text-white mt-1">Últimas Conversiones</p>
+                </div>
+                <span className="flex items-center gap-1.5 text-xs font-bold text-green-400">
+                  <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" /> LIVE
+                </span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-white/40 text-xs uppercase tracking-wider border-b border-white/10">
+                      <th className="pb-3 text-left font-bold">Fuente</th>
+                      <th className="pb-3 text-left font-bold">Evento</th>
+                      <th className="pb-3 text-right font-bold">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {[
+                      { src: "google / cpc", event: "purchase", value: "$48.900" },
+                      { src: "meta / paid", event: "purchase", value: "$32.500" },
+                      { src: "google / organic", event: "lead", value: "$12.000" },
+                      { src: "meta / paid", event: "add_to_cart", value: "$18.200" },
+                      { src: "direct", event: "purchase", value: "$65.000" },
+                    ].map((row, i) => (
+                      <tr key={i} className="text-white/80">
+                        <td className="py-2.5 font-medium">{row.src}</td>
+                        <td className="py-2.5">
+                          <span className={`inline-block rounded px-2 py-0.5 text-xs font-bold ${row.event === "purchase" ? "bg-green-500/20 text-green-400" : row.event === "lead" ? "bg-blue-500/20 text-blue-400" : "bg-yellow-500/20 text-yellow-400"}`}>
+                            {row.event}
+                          </span>
+                        </td>
+                        <td className="py-2.5 text-right font-bold nl-tabular">{row.value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Final */}
       <ContactoNueva />
 
