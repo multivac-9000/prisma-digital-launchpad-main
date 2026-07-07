@@ -104,6 +104,18 @@ const testimonios = [
     author: "Dueño",
     company: "Comercio especialista, Región del Biobío",
   },
+  {
+    quote:
+      "Nuestra célula de desarrollo tenía la app funcionando, pero nadie sabía qué hacían los usuarios adentro. Hoy cada evento clave está medido y por fin decidimos con datos.",
+    author: "Jefe de Desarrollo",
+    company: "Empresa de servicios, Concepción",
+  },
+  {
+    quote:
+      "Bajamos el costo por cliente casi a la mitad sin subir el presupuesto. Solo con marcar bien los objetivos, las campañas empezaron a optimizar de verdad.",
+    author: "Jefa de Marketing",
+    company: "Retail de servicios, Región del Biobío",
+  },
 ];
 
 export default function ResultadosNueva() {
@@ -164,15 +176,16 @@ export default function ResultadosNueva() {
           ))}
         </div>
 
-        {/* Testimonios de negocios con trayectoria */}
-        <div className="mt-12 grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+        {/* Testimonios de negocios con trayectoria.
+            Móvil: carrusel con scroll-snap (no alargan la página) · Escritorio: grilla 2x2 */}
+        <div className="nl-noscrollbar mt-12 flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4 md:grid md:gap-6 md:grid-cols-2 md:overflow-visible md:mx-auto md:px-0 md:pb-0 max-w-4xl">
           {testimonios.map(({ quote, author, company }, i) => (
             <Reveal
               key={company}
               as="figure"
-              variant={i === 0 ? "left" : "right"}
-              delay={i * 120}
-              className="relative rounded-2xl border border-border bg-white p-8 shadow-sm"
+              variant={i % 2 === 0 ? "left" : "right"}
+              delay={(i % 2) * 120}
+              className="relative rounded-2xl border border-border bg-white p-6 md:p-8 shadow-sm snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto md:shrink"
             >
               <span
                 className="absolute -top-4 left-7 text-6xl font-black leading-none nl-metric-gradient select-none"
@@ -180,16 +193,19 @@ export default function ResultadosNueva() {
               >
                 “
               </span>
-              <blockquote className="text-base md:text-lg text-ink/90 leading-relaxed pt-3">
+              <blockquote className="text-[15px] md:text-lg text-ink/90 leading-relaxed pt-3">
                 {quote}
               </blockquote>
-              <figcaption className="mt-5 text-sm">
+              <figcaption className="mt-4 md:mt-5 text-sm">
                 <span className="block font-bold text-ink">{author}</span>
                 <span className="text-muted-foreground">{company}</span>
               </figcaption>
             </Reveal>
           ))}
         </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground md:hidden" aria-hidden="true">
+          Desliza para ver más testimonios →
+        </p>
       </div>
 
       {/* Resto de clientes en marquee (se pausa al pasar el cursor) */}

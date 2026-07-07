@@ -59,25 +59,27 @@ export default function GarantiaNueva() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-6">
-        {/* Garantía */}
+        {/* Garantía: banda horizontal con el escudo a la izquierda */}
         <Reveal variant="scale">
-          <div className="nl-beam mx-auto max-w-3xl rounded-3xl border border-white/15 bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center">
-            <div className="nl-tile-gradient mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl text-white">
-              <ShieldCheck className="h-8 w-8" aria-hidden="true" />
+          <div className="nl-beam mx-auto max-w-5xl rounded-3xl border border-white/15 bg-white/5 backdrop-blur-sm p-7 md:px-12 md:py-10">
+            <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10 text-center md:text-left">
+              <div className="nl-tile-gradient mx-auto md:mx-0 flex h-16 w-16 md:h-24 md:w-24 shrink-0 items-center justify-center rounded-2xl text-white">
+                <ShieldCheck className="h-8 w-8 md:h-12 md:w-12" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs font-bold tracking-[0.3em] uppercase text-prisma-cyan mb-3">
+                  Nuestra garantía
+                </p>
+                <h2 className="text-2xl md:text-[34px] font-extrabold text-white leading-[1.15] text-balance">
+                  {"Avances medibles en 90 días, "}
+                  <span className="nl-text-gradient">o seguimos sin costo.</span>
+                </h2>
+                <p className="mt-4 max-w-3xl text-sm md:text-[15px] text-white/65 leading-relaxed">
+                  En el diagnóstico definimos juntos las métricas que importan para tu negocio; si
+                  en 90 días no ves avances medibles, seguimos trabajando sin costo hasta lograrlo.
+                </p>
+              </div>
             </div>
-            <p className="text-xs font-bold tracking-[0.3em] uppercase text-prisma-cyan mb-4">
-              Nuestra garantía
-            </p>
-            <h2 className="text-2xl md:text-4xl font-extrabold text-white leading-[1.15] text-balance">
-              Avances medibles en 90 días,
-              <br />
-              <span className="nl-text-gradient">o seguimos sin costo.</span>
-            </h2>
-            <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed">
-              En el diagnóstico definimos juntos las métricas que importan para tu negocio. Si en 90
-              días de trabajo no ves avances medibles en esas métricas, seguimos trabajando sin
-              costo hasta lograrlo. Medimos todo y te mostramos todo — así se gana la confianza.
-            </p>
           </div>
         </Reveal>
 
@@ -91,25 +93,28 @@ export default function GarantiaNueva() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        {/* Calugas horizontales: icono + título a la izquierda, detalle a la derecha */}
+        <div className="mt-12 flex flex-col gap-4 max-w-5xl mx-auto">
           {entregables.map(({ icon: Icon, title, body }, i) => (
             <Reveal
               key={title}
               as="article"
               variant="up"
-              delay={i * 140}
-              className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-8 transition-transform duration-300 hover:-translate-y-1"
+              delay={i * 120}
+              className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-6 md:px-8 md:py-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-10 transition-transform duration-300 hover:-translate-y-1"
             >
-              <div className="flex items-center justify-between mb-5">
-                <div className="nl-tile-gradient inline-flex h-12 w-12 items-center justify-center rounded-xl text-white">
+              <div className="flex items-center gap-4 md:w-80 shrink-0">
+                <div className="nl-tile-gradient inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white">
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <span className="text-3xl font-black nl-text-gradient" aria-hidden="true">
-                  0{i + 1}
-                </span>
+                <div>
+                  <span className="block text-xs font-black nl-text-gradient" aria-hidden="true">
+                    0{i + 1}
+                  </span>
+                  <h3 className="text-lg md:text-xl font-bold text-white leading-snug">{title}</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white leading-snug">{title}</h3>
-              <p className="mt-3 text-white/75 leading-relaxed">{body}</p>
+              <p className="text-sm md:text-[15px] text-white/75 leading-relaxed">{body}</p>
             </Reveal>
           ))}
         </div>
@@ -120,7 +125,7 @@ export default function GarantiaNueva() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackCta("agenda_diagnostico", "garantia")}
-            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-lg md:text-xl shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ background: "var(--gradient-agenda)" }}
           >
             Agenda tu Diagnóstico Gratis

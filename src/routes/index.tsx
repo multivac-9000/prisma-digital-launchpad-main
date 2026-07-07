@@ -83,7 +83,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="nl-page min-h-screen bg-background">
       {/* Sin JS los revelados quedan visibles (los bots leen el DOM igual) */}
       <noscript>
         <style>{`.nl-reveal,.nl-word,.nl-badge-anim{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>

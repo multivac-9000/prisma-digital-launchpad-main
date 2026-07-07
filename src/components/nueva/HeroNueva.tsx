@@ -17,15 +17,6 @@ type Node = {
   c: RGB;
 };
 
-// Logos reales bajo el CTA: prueba social inmediata sin esperar el scroll.
-const heroClients = [
-  { name: "Liberty Seguros", logo: "/clients/logo liberty seguros.svg" },
-  { name: "Fexmin", logo: "/clients/Logo-Fexmin.png" },
-  { name: "Küm", logo: "/clients/logo-kum-04.svg" },
-  { name: "Emporio Nacional", logo: "/clients/emporio-nacional.png" },
-  { name: "Mundo Deco Store", logo: "/clients/mundodecostore.png" },
-];
-
 const H1_LINE_1 = "Llevas años consolidando tu negocio.";
 const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
 
@@ -43,7 +34,7 @@ const tickerItems = [
 function DataTicker({ items = tickerItems }: { items?: string[] }) {
   return (
     <div
-      className="nl-ticker nl-marquee-pause relative mt-14 border-y border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden"
+      className="nl-ticker nl-marquee-pause relative mt-5 md:mt-6 border-y border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden"
       aria-label="Resultados recientes de clientes de Prisma Digital"
     >
       <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#000139] to-transparent z-10" />
@@ -285,13 +276,16 @@ export default function HeroNueva({
         aria-hidden="true"
       />
 
-      <div className="nl-hero-exit relative mx-auto max-w-5xl px-6 text-center">
-        <span className="nl-badge-anim inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm">
-          <Sparkles className="h-4 w-4 text-prisma-cyan shrink-0" aria-hidden="true" />
+      <div className="nl-hero-exit relative mx-auto max-w-7xl px-6 text-center">
+        <span className="nl-badge-anim inline-flex items-center gap-1.5 md:gap-2 rounded-full border border-white/15 bg-white/5 px-3 md:px-4 py-1.5 text-[10px] tracking-tight sm:tracking-normal sm:text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm whitespace-nowrap">
+          <Sparkles
+            className="hidden sm:inline-block h-4 w-4 text-prisma-cyan shrink-0"
+            aria-hidden="true"
+          />
           Decisiones digitales basadas en datos, con propósito humano
         </span>
 
-        <h1 className="mt-6 text-4xl md:text-6xl lg:text-[56px] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
+        <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.75rem,4.7vw,3.75rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
           <KineticLine text={h1Line1} offset={1} />
           <KineticLine text={h1Line2} gradient offset={6} />
         </h1>
@@ -300,7 +294,7 @@ export default function HeroNueva({
           as="p"
           variant="blur"
           delay={380}
-          className="mt-6 text-base md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+          className="mt-6 text-base md:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed"
         >
           {description}
         </Reveal>
@@ -311,7 +305,7 @@ export default function HeroNueva({
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackCta(ctaId, "hero")}
-            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-base md:text-lg shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-lg md:text-xl shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             style={{ background: "var(--gradient-agenda)" }}
           >
             {ctaText}
@@ -320,35 +314,13 @@ export default function HeroNueva({
               aria-hidden="true"
             />
           </a>
-          <p className="text-sm text-white/70 font-medium">
+          <p className="text-[11px] tracking-tight sm:tracking-normal sm:text-sm text-white/70 font-medium whitespace-nowrap">
             +300 negocios escalados · Resultados medibles en 90 días
           </p>
         </Reveal>
 
-        {/* Prueba social inmediata: clientes reconocibles bajo el CTA */}
-        <Reveal variant="up" delay={650} className="mt-10 md:mt-12">
-          <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/50 mb-4">
-            Empresas que ya confían en Prisma Digital
-          </p>
-          <ul className="flex flex-wrap justify-center items-center gap-3 md:gap-4 list-none">
-            {heroClients.map(({ name, logo }) => (
-              <li
-                key={name}
-                className="flex items-center justify-center rounded-lg bg-white/95 px-4 py-2 h-12 md:h-14 transition-transform duration-300 hover:scale-105"
-              >
-                <img
-                  src={logo}
-                  alt={`Logo ${name}, cliente de Prisma Digital`}
-                  className="max-h-8 md:max-h-10 max-w-24 md:max-w-28 object-contain"
-                  loading="eager"
-                />
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
         {/* Invitación al scroll: la historia sigue con los resultados */}
-        <Reveal variant="up" delay={820} className="mt-12 flex flex-col items-center gap-3">
+        <Reveal variant="up" delay={650} className="mt-10 flex flex-col items-center gap-3">
           <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/45">
             Los resultados hablan primero
           </span>

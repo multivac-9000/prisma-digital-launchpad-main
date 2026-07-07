@@ -46,9 +46,9 @@ function DolorCard({
   return (
     <article
       style={desktopStyle}
-      className="w-full rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md p-8 lg:p-10 shadow-[0_20px_60px_rgba(0,1,57,0.5)]"
+      className="w-full rounded-2xl border border-white/15 bg-white/[0.07] backdrop-blur-md p-6 md:p-8 lg:p-10 shadow-[0_20px_60px_rgba(0,1,57,0.5)]"
     >
-      <div className="flex items-center gap-4 mb-5">
+      <div className="flex items-center gap-4 mb-4 md:mb-5">
         <div className="nl-tile-gradient inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white">
           <Icon className="h-6 w-6" aria-hidden="true" />
         </div>
@@ -63,8 +63,10 @@ function DolorCard({
       >
         <div className="nl-rail-fill-x h-full" />
       </div>
-      <h3 className="text-xl lg:text-2xl font-bold text-white leading-snug">{title}</h3>
-      <p className="mt-3 text-white/80 leading-relaxed lg:text-lg">{body}</p>
+      <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-white leading-snug">{title}</h3>
+      <p className="mt-2 md:mt-3 text-sm md:text-base text-white/80 leading-relaxed lg:text-lg">
+        {body}
+      </p>
     </article>
   );
 }
@@ -107,7 +109,8 @@ export default function DolorNueva() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-[1.12] tracking-tight text-balance">
                 Tu competencia no es mejor.
                 <br />
-                <span className="nl-text-gradient">Solo decidió antes que tú.</span>
+                {/*   evita que "tú." quede huérfano en su propia línea */}
+                <span className="nl-text-gradient">{"Solo decidió antes que tú."}</span>
               </h2>
             </Reveal>
             <Reveal

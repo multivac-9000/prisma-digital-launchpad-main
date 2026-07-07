@@ -596,6 +596,22 @@
   animation-play-state: paused;
 }
 
+/* Móvil: tipografía más compacta en todo el rediseño (interlineado reducido) */
+@media (max-width: 767px) {
+  .nl-page p,
+  .nl-page li,
+  .nl-page blockquote {
+    line-height: 1.5;
+  }
+  .nl-page h1,
+  .nl-page h2 {
+    line-height: 1.12;
+  }
+  .nl-page h3 {
+    line-height: 1.3;
+  }
+}
+
 /* Movimiento reducido: todo visible, nada animado */
 @media (prefers-reduced-motion: reduce) {
   .nl-reveal,

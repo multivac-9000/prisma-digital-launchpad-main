@@ -105,24 +105,28 @@ export default function ServiciosNueva({ excludeEyebrow, title }: ServiciosNueva
               as="article"
               variant="up"
               delay={i * 140}
-              className="nl-beam-hover group relative flex flex-col rounded-2xl p-8 bg-white border border-border hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-xl snap-center shrink-0 w-[84%] sm:w-[70%] md:w-auto md:shrink"
+              className="nl-beam-hover group relative flex flex-col rounded-2xl p-6 md:p-8 bg-white border border-border hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-xl snap-center shrink-0 w-[84%] sm:w-[70%] md:w-auto md:shrink"
             >
-              <div className="nl-tile-gradient inline-flex h-14 w-14 items-center justify-center rounded-xl text-white mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
-                <Icon className="h-7 w-7" aria-hidden="true" />
+              <div className="nl-tile-gradient inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl text-white mb-4 md:mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+                <Icon className="h-6 w-6 md:h-7 md:w-7" aria-hidden="true" />
               </div>
-              <p className="text-[11px] font-bold tracking-[0.15em] text-secondary mb-2">
+              <p className="text-[11px] font-bold tracking-[0.15em] text-secondary mb-1.5 md:mb-2">
                 {eyebrow}
               </p>
-              <h3 className="text-xl font-bold text-ink leading-snug">{title}</h3>
-              <p className="mt-3 text-muted-foreground leading-relaxed">{body}</p>
-              <div className="mt-5">
+              <h3 className="text-lg md:text-xl font-bold text-ink leading-snug">{title}</h3>
+              <p className="mt-2 md:mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
+                {body}
+              </p>
+              <div className="mt-4 md:mt-5">
                 <div className="nl-underline !w-10 !h-[3px] mb-2" aria-hidden="true" />
-                <p className="text-ink font-semibold leading-relaxed">{result}</p>
+                <p className="text-sm md:text-base text-ink font-semibold leading-relaxed">
+                  {result}
+                </p>
               </div>
               <Link
                 to={path}
                 onClick={() => trackCta(ctaId, "servicios")}
-                className="mt-6 inline-flex items-center gap-2 text-secondary font-semibold hover:gap-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+                className="mt-4 md:mt-6 inline-flex items-center gap-2 text-sm md:text-base text-secondary font-semibold hover:gap-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
               >
                 {cta} <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>

@@ -9,15 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TerminosYCondicionesRouteImport } from './routes/terminos-y-condiciones'
 import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
+import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-privacidad'
 import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
+  id: '/terminos-y-condiciones',
+  path: '/terminos-y-condiciones',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
   id: '/promocion-de-negocios',
   path: '/promocion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadRoute = PoliticaDePrivacidadRouteImport.update({
+  id: '/politica-de-privacidad',
+  path: '/politica-de-privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OptimizacionDeNegociosRoute = OptimizacionDeNegociosRouteImport.update({
@@ -47,14 +59,18 @@ export interface FileRoutesByFullPath {
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
+  '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
+  '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,7 +78,9 @@ export interface FileRoutesById {
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
+  '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
+  '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,21 +89,27 @@ export interface FileRouteTypes {
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
+    | '/politica-de-privacidad'
     | '/promocion-de-negocios'
+    | '/terminos-y-condiciones'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
+    | '/politica-de-privacidad'
     | '/promocion-de-negocios'
+    | '/terminos-y-condiciones'
   id:
     | '__root__'
     | '/'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
+    | '/politica-de-privacidad'
     | '/promocion-de-negocios'
+    | '/terminos-y-condiciones'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,16 +117,32 @@ export interface RootRouteChildren {
   DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
+  PoliticaDePrivacidadRoute: typeof PoliticaDePrivacidadRoute
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
+  TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terminos-y-condiciones': {
+      id: '/terminos-y-condiciones'
+      path: '/terminos-y-condiciones'
+      fullPath: '/terminos-y-condiciones'
+      preLoaderRoute: typeof TerminosYCondicionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/promocion-de-negocios': {
       id: '/promocion-de-negocios'
       path: '/promocion-de-negocios'
       fullPath: '/promocion-de-negocios'
       preLoaderRoute: typeof PromocionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidad': {
+      id: '/politica-de-privacidad'
+      path: '/politica-de-privacidad'
+      fullPath: '/politica-de-privacidad'
+      preLoaderRoute: typeof PoliticaDePrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/optimizacion-de-negocios': {
@@ -141,7 +181,9 @@ const rootRouteChildren: RootRouteChildren = {
   DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
+  PoliticaDePrivacidadRoute: PoliticaDePrivacidadRoute,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
+  TerminosYCondicionesRoute: TerminosYCondicionesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
