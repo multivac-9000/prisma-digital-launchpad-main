@@ -17,6 +17,11 @@ dist-ssr
 .nitro
 *.local
 
+# Variables de entorno (claves Firebase, etc.) — nunca al repo
+.env
+.env.*
+!.env.example
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

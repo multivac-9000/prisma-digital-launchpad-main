@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosYCondicionesRouteImport } from './routes/terminos-y-condiciones'
 import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
+import { Route as PresentacionDiagnosticoRouteImport } from './routes/presentacion-diagnostico'
 import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-privacidad'
 import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
+import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
@@ -25,6 +27,11 @@ const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
 const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
   id: '/promocion-de-negocios',
   path: '/promocion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentacionDiagnosticoRoute = PresentacionDiagnosticoRouteImport.update({
+  id: '/presentacion-diagnostico',
+  path: '/presentacion-diagnostico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PoliticaDePrivacidadRoute = PoliticaDePrivacidadRouteImport.update({
@@ -48,6 +55,11 @@ const DigitalizacionDeNegociosRoute =
     path: '/digitalizacion-de-negocios',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AssessmentRoute = AssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -56,29 +68,35 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
+  '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
+  '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assessment': typeof AssessmentRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
+  '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
 }
@@ -86,38 +104,46 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assessment'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
+    | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assessment'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
+    | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
   id:
     | '__root__'
     | '/'
+    | '/assessment'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
+    | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssessmentRoute: typeof AssessmentRoute
   DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
   PoliticaDePrivacidadRoute: typeof PoliticaDePrivacidadRoute
+  PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
   TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
 }
@@ -136,6 +162,13 @@ declare module '@tanstack/react-router' {
       path: '/promocion-de-negocios'
       fullPath: '/promocion-de-negocios'
       preLoaderRoute: typeof PromocionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentacion-diagnostico': {
+      id: '/presentacion-diagnostico'
+      path: '/presentacion-diagnostico'
+      fullPath: '/presentacion-diagnostico'
+      preLoaderRoute: typeof PresentacionDiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/politica-de-privacidad': {
@@ -166,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessment': {
+      id: '/assessment'
+      path: '/assessment'
+      fullPath: '/assessment'
+      preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -178,10 +218,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssessmentRoute: AssessmentRoute,
   DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
   PoliticaDePrivacidadRoute: PoliticaDePrivacidadRoute,
+  PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
   TerminosYCondicionesRoute: TerminosYCondicionesRoute,
 }
