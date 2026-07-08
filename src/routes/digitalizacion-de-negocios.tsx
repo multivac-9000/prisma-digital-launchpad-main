@@ -159,7 +159,7 @@ function DigitalizacionPage() {
   const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="nl-theme-cyan min-h-screen bg-background text-foreground">
       <noscript>
         <style>{`.nl-reveal,.nl-word,.nl-badge-anim{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>
       </noscript>

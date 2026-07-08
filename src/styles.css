@@ -227,12 +227,47 @@
 }
 
 /* Fondo oscuro asimétrico (menos "gradiente IA por defecto" que el radial centrado) */
+/* Fondo oscuro de marca. Variabilizado para poder teñirlo por página de servicio
+   (ver .nl-theme-* más abajo) sin mover los matices: solo cambian tonos/sombras.
+   Sin tema aplicado, los fallbacks reproducen el navy original del home. */
 .nl-dark {
-  background-color: #000139;
+  background-color: var(--nl-dk-base, #000139);
   background-image:
-    radial-gradient(120% 90% at 88% -12%, #221465 0%, transparent 55%),
-    radial-gradient(90% 70% at -8% 105%, #14043f 0%, transparent 60%),
-    linear-gradient(#050144, #000139);
+    radial-gradient(120% 90% at 88% -12%, var(--nl-dk-halo1, #221465) 0%, transparent 55%),
+    radial-gradient(90% 70% at -8% 105%, var(--nl-dk-halo2, #14043f) 0%, transparent 60%),
+    linear-gradient(var(--nl-dk-top, #050144), var(--nl-dk-base, #000139));
+}
+
+/* ---- Temas por página de servicio (se aplican en el <main>) ----
+   Cada servicio adopta un color corporativo como atmósfera, manteniendo el
+   fondo muy oscuro para preservar el contraste de los CTA (amarillo agenda) y
+   del texto blanco. El home queda intacto (sin tema). */
+
+/* Digitalización → cian/teal (integración de sistemas) */
+.nl-theme-cyan {
+  --nl-dk-base: #00122e;
+  --nl-dk-top: #04223f;
+  --nl-dk-halo1: #0a4f74;
+  --nl-dk-halo2: #04182f;
+  --nl-grid-line: rgba(50, 214, 255, 0.07);
+}
+
+/* Promoción → magenta/púrpura (captación y creatividad) */
+.nl-theme-magenta {
+  --nl-dk-base: #15003a;
+  --nl-dk-top: #1f0945;
+  --nl-dk-halo1: #430f6b;
+  --nl-dk-halo2: #1a0740;
+  --nl-grid-line: rgba(215, 19, 249, 0.06);
+}
+
+/* Optimización → rojo/vino (datos, medición, rendimiento) */
+.nl-theme-red {
+  --nl-dk-base: #1b0622;
+  --nl-dk-top: #2a0a26;
+  --nl-dk-halo1: #7c1233;
+  --nl-dk-halo2: #1e0720;
+  --nl-grid-line: rgba(253, 56, 51, 0.06);
 }
 
 /* Grano fotográfico: mata el look plástico de los gradientes generados por IA */
@@ -525,8 +560,8 @@
 /* Papel milimetrado sutil: el ADN estadístico de la marca en secciones claras */
 .nl-grid-paper {
   background-image:
-    linear-gradient(rgba(0, 1, 57, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 1, 57, 0.05) 1px, transparent 1px);
+    linear-gradient(var(--nl-grid-line, rgba(0, 1, 57, 0.05)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nl-grid-line, rgba(0, 1, 57, 0.05)) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 

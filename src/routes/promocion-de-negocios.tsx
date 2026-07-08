@@ -119,7 +119,7 @@ const galleryItems = [
 
 function PromocionPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="nl-theme-magenta min-h-screen bg-background text-foreground">
       <noscript>
         <style>{`.nl-reveal,.nl-word,.nl-badge-anim{opacity:1 !important;transform:none !important;filter:none !important;}`}</style>
       </noscript>
