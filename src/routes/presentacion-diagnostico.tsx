@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   Telescope,
@@ -59,12 +58,21 @@ const DECK_CSS = `
 .pd-slide .pd-stagger{opacity:0;transform:translateY(26px);transition:opacity .5s cubic-bezier(.22,.65,.3,.9) var(--pd-d,0ms),transform .5s cubic-bezier(.22,.65,.3,.9) var(--pd-d,0ms);}
 .pd-slide.pd-active .pd-stagger{opacity:1;transform:none;}
 .pd-slide .pd-draw{stroke-dasharray:1;stroke-dashoffset:1;}
-.pd-slide.pd-active .pd-draw{animation:nl-draw 1.3s .35s cubic-bezier(.4,0,.2,1) forwards;}
+.pd-slide.pd-active .pd-draw{animation:nl-draw 1.4s .3s cubic-bezier(.4,0,.2,1) forwards;}
+/* Punta de flecha: aparece cuando el trazo termina de dibujarse */
+.pd-slide .pd-arrow{opacity:0;}
+.pd-slide.pd-active .pd-arrow{animation:pd-fade .45s 1.25s ease-out forwards;}
+@keyframes pd-fade{to{opacity:1;}}
+/* Punto de datos que recorre la curva (glow pulsante) */
+.pd-flowdot{animation:pd-flowdot 1.8s ease-in-out infinite;}
+@keyframes pd-flowdot{0%,100%{opacity:.55;}50%{opacity:1;}}
 @media (prefers-reduced-motion: reduce){
   .pd-slide,.pd-slide.pd-prev{transform:none;transition:opacity .2s linear,visibility 0s linear .2s;}
   .pd-slide.pd-active{transition:opacity .2s linear,visibility 0s;}
   .pd-slide .pd-stagger{opacity:1 !important;transform:none !important;transition:none !important;}
   .pd-slide .pd-draw{animation:none !important;stroke-dashoffset:0;}
+  .pd-slide .pd-arrow{opacity:1 !important;animation:none !important;}
+  .pd-flowdot{animation:none !important;}
 }
 `;
 
@@ -398,14 +406,115 @@ const etapasMaduracion = [
   },
 ];
 
-// Posición del centro de cada etapa sobre la banda de la curva (en % de la banda).
-// Escalonan de abajo-izquierda a arriba-derecha, siguiendo la subida de la curva.
-const nodePos = [
-  { x: 13, y: 64 },
-  { x: 38, y: 47 },
-  { x: 63, y: 31 },
-  { x: 87, y: 18 },
-];
+/* Curva de maduración: una sola línea continua, ascendente, dibujada en píxeles
+   reales (se mide el contenedor con ResizeObserver → sin distorsión). Vive en su
+   propia franja arriba, NO cruza los textos. Trae flecha final orientada a la
+   tangente y un punto de datos que la recorre en bucle (movimiento de marca). */
+function MaturityCurve() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [{ w, h }, setDims] = useState({ w: 1100, h: 150 });
+  const [flow, setFlow] = useState(false);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const update = () => setDims({ w: el.clientWidth || 1100, h: el.clientHeight || 150 });
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    if (!reducedMotion()) setFlow(true);
+    return () => ro.disconnect();
+  }, []);
+
+  const pad = 20;
+  const x0 = pad;
+  const y0 = h - pad;
+  const x1 = w - pad;
+  const y1 = pad;
+  const dx = x1 - x0;
+  const dy = y0 - y1;
+  // Bézier cúbica: sale casi horizontal desde abajo-izq y llega subiendo a la
+  // esquina superior-derecha (tangente final claramente hacia arriba).
+  const cx1 = x0 + dx * 0.42;
+  const cy1 = y0 - dy * 0.04;
+  const cx2 = x1 - dx * 0.14;
+  const cy2 = y1 + dy * 0.58;
+  const d = `M ${x0} ${y0} C ${cx1} ${cy1} ${cx2} ${cy2} ${x1} ${y1}`;
+  const ang = (Math.atan2(y1 - cy2, x1 - cx2) * 180) / Math.PI; // tangente final
+
+  return (
+    <div ref={wrapRef} className="relative h-full w-full">
+      <svg
+        width={w}
+        height={h}
+        viewBox={`0 0 ${w} ${h}`}
+        className="absolute inset-0 overflow-visible"
+        fill="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="pd-curve-grad" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stopColor="#32d6ff" />
+            <stop offset="55%" stopColor="#d713f9" />
+            <stop offset="100%" stopColor="#fd3833" />
+          </linearGradient>
+          <filter id="pd-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="3.4" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Halo suave para dar cuerpo y visibilidad */}
+        <path
+          id="pd-curve-path"
+          className="pd-draw"
+          d={d}
+          stroke="url(#pd-curve-grad)"
+          strokeWidth={16}
+          strokeOpacity={0.16}
+          strokeLinecap="round"
+          pathLength={1}
+        />
+        {/* Trazo principal, grueso y nítido */}
+        <path
+          className="pd-draw"
+          d={d}
+          stroke="url(#pd-curve-grad)"
+          strokeWidth={5}
+          strokeLinecap="round"
+          pathLength={1}
+          style={{ filter: "drop-shadow(0 0 6px rgba(215,19,249,0.45))" }}
+        />
+
+        {/* Flecha final orientada a la tangente (aparece al terminar el trazo) */}
+        <g className="pd-arrow" transform={`translate(${x1} ${y1}) rotate(${ang})`}>
+          <path
+            d="M 3 0 L -19 -11 L -11 0 L -19 11 Z"
+            fill="#fd3833"
+            style={{ filter: "drop-shadow(0 0 5px rgba(253,56,51,0.75))" }}
+          />
+        </g>
+
+        {/* Punto de datos que recorre la curva en bucle */}
+        {flow && (
+          <circle r={5} fill="#ffffff" className="pd-flowdot" filter="url(#pd-glow)">
+            <animateMotion dur="3.6s" begin="1.3s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#pd-curve-path" />
+            </animateMotion>
+          </circle>
+        )}
+      </svg>
+
+      {/* Etiqueta de crecimiento continuo, junto a la flecha */}
+      <span className="pd-arrow absolute right-1 top-0 text-[11px] font-bold uppercase tracking-[0.2em] text-white/55">
+        y sigue creciendo
+      </span>
+    </div>
+  );
+}
 
 function SlideMaduracion() {
   return (
@@ -429,7 +538,7 @@ function SlideMaduracion() {
 
       {/* Tramos superiores: qué familia de técnicas cubre cada mitad */}
       <div
-        className="pd-stagger hidden lg:grid grid-cols-2 gap-6 mt-8 mb-1"
+        className="pd-stagger hidden lg:grid grid-cols-2 gap-6 mt-8 mb-2"
         style={{ "--pd-d": "220ms" } as React.CSSProperties}
         aria-hidden="true"
       >
@@ -445,103 +554,41 @@ function SlideMaduracion() {
         </div>
       </div>
 
-      {/* BANDA DE LA CURVA (solo escritorio): la curva pasa POR ARRIBA de las
-          etapas escalonadas y termina en una flecha que sigue creciendo. */}
-      <div className="relative hidden lg:block h-64">
-        <svg
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          className="absolute inset-0 h-full w-full overflow-visible z-20 pointer-events-none"
-          fill="none"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="pd-curve" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stopColor="#32d6ff" />
-              <stop offset="55%" stopColor="#d713f9" />
-              <stop offset="100%" stopColor="#fd3833" />
-            </linearGradient>
-          </defs>
-          {/* Halo (grosor constante gracias a non-scaling-stroke) */}
-          <path
-            className="pd-draw"
-            d="M 2 80 C 14 70, 18 56, 32 47 C 46 38, 52 30, 65 23 C 78 16, 84 12, 97 5"
-            stroke="url(#pd-curve)"
-            strokeWidth="20"
-            strokeOpacity="0.16"
-            strokeLinecap="round"
-            vectorEffect="non-scaling-stroke"
-            pathLength={1}
-          />
-          {/* Trazo principal, grueso y protagonista */}
-          <path
-            className="pd-draw"
-            d="M 2 80 C 14 70, 18 56, 32 47 C 46 38, 52 30, 65 23 C 78 16, 84 12, 97 5"
-            stroke="url(#pd-curve)"
-            strokeWidth="7"
-            strokeLinecap="round"
-            vectorEffect="non-scaling-stroke"
-            pathLength={1}
-          />
-        </svg>
-
-        {/* Punta de flecha: sigue creciendo hasta el infinito */}
-        <div
-          className="pd-stagger absolute z-30"
-          style={{ left: "97%", top: "5%", transform: "translate(-40%, -55%)", "--pd-d": "1150ms" } as React.CSSProperties}
-        >
-          <div className="flex items-center gap-1.5">
-            <ArrowUpRight className="h-11 w-11 text-prisma-red drop-shadow-[0_0_10px_rgba(253,56,51,0.6)]" strokeWidth={2.6} aria-hidden="true" />
-          </div>
-          <span className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.2em] text-white/55">
-            y sigue creciendo
-          </span>
-        </div>
-
-        {/* Nodos (glyph + objetivo + etapa) escalonados sobre la curva */}
-        {etapasMaduracion.map(({ goal, title, color, glyph }, i) => (
-          <div
-            key={title}
-            className="pd-stagger absolute w-52 -translate-x-1/2 -translate-y-1/2 text-center"
-            style={{ left: `${nodePos[i].x}%`, top: `${nodePos[i].y}%`, "--pd-d": `${340 + i * 160}ms` } as React.CSSProperties}
-          >
-            <Glyph color={color} className={`${glyph} h-auto mx-auto mb-1.5`} />
-            <p className="text-xs italic font-semibold" style={{ color }}>
-              {goal}
-            </p>
-            <h3 className="mt-0.5 text-lg xl:text-xl font-extrabold leading-tight text-balance">
-              {title}
-            </h3>
-          </div>
-        ))}
+      {/* FRANJA DE LA CURVA (solo escritorio): línea continua arriba, sin cruzar
+          los textos. Los textos van escalonados debajo. */}
+      <div
+        className="pd-stagger hidden lg:block h-32 xl:h-36"
+        style={{ "--pd-d": "260ms" } as React.CSSProperties}
+      >
+        <MaturityCurve />
       </div>
 
-      {/* DETALLE POR ETAPA: método + hitos. En móvil incluye el encabezado
-          (glyph + objetivo + etapa) porque ahí no se muestra la banda. */}
-      <div className="mt-8 lg:mt-4 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {etapasMaduracion.map(({ goal, title, metodo, color, glyph, items }, i) => (
+      {/* ETAPAS escalonadas (como el diseño original), debajo de la curva */}
+      <div className="mt-6 lg:mt-3 grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-start">
+        {etapasMaduracion.map(({ goal, title, metodo, color, lift, glyph, items }, i) => (
           <article
             key={title}
-            className="pd-stagger rounded-xl border border-white/10 bg-white/[0.04] p-4 text-left"
-            style={{ "--pd-d": `${300 + i * 130}ms` } as React.CSSProperties}
+            className={`pd-stagger ${lift ?? ""}`}
+            style={{ "--pd-d": `${340 + i * 140}ms` } as React.CSSProperties}
           >
-            {/* Encabezado visible solo en móvil/tablet */}
-            <div className="lg:hidden flex flex-col items-center text-center mb-3">
+            <div className="flex flex-col items-center text-center">
               <Glyph color={color} className={`${glyph} h-auto mb-1.5`} />
-              <p className="text-xs italic font-semibold" style={{ color }}>
+              <p className="text-xs md:text-sm italic font-semibold" style={{ color }}>
                 {goal}
               </p>
-              <h3 className="mt-0.5 text-lg font-extrabold leading-tight">{title}</h3>
+              <h3 className="mt-0.5 text-lg xl:text-xl font-extrabold leading-tight text-balance">
+                {title}
+              </h3>
+              <div
+                className="mt-2.5 h-1.5 w-full rounded-full"
+                style={{ background: `linear-gradient(90deg, ${color}, ${color}55)` }}
+                aria-hidden="true"
+              />
+              <p className="mt-2 text-[11px] font-bold tracking-[0.18em] uppercase text-white/55">
+                {metodo}
+              </p>
             </div>
-            <div
-              className="h-1.5 w-full rounded-full mb-2"
-              style={{ background: `linear-gradient(90deg, ${color}, ${color}55)` }}
-              aria-hidden="true"
-            />
-            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/55 mb-2.5">
-              {metodo}
-            </p>
-            <ul className="space-y-1.5">
+            <ul className="mt-3 space-y-1.5 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-left">
               {items.map((item) => (
                 <li key={item} className="flex gap-2 text-sm text-white/80 leading-snug">
                   <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: color }} />
