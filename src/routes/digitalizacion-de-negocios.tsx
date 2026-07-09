@@ -7,7 +7,7 @@ import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
 import { DigitalizacionVisual } from "@/components/nueva/heroVisuals";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Globe,
   Database,
@@ -489,26 +489,28 @@ function LaptopMockup({
   );
 }
 
-function DigitalizacionPage() {
-  const MEET_URL = "https://meet.brevo.com/prisma-digital";
+/* PortfolioCarousel: componente cliente puro para evitar hydration mismatch (React #418).
+   Todo el estado interactivo vive aquí; el servidor lo renderiza sin estado de scroll. */
+function PortfolioCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
+  // SSR-safe: ambos parten en false para que el HTML del servidor sea idéntico al cliente.
   const [canLeft, setCanLeft] = useState(false);
-  const [canRight, setCanRight] = useState(true);
+  const [canRight, setCanRight] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  const updateArrows = () => {
+  const updateArrows = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
     setCanLeft(el.scrollLeft > 4);
     setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-
-    // Calculate roughly which card is in view
     const cardWidth = el.querySelector(".portfolio-card")?.getBoundingClientRect().width || 1;
     const currentIdx = Math.round(el.scrollLeft / (cardWidth + 32));
     setActiveIdx(currentIdx);
-  };
+  }, []);
 
   useEffect(() => {
+    setMounted(true);
     updateArrows();
     const el = trackRef.current;
     if (!el) return;
@@ -518,7 +520,7 @@ function DigitalizacionPage() {
       el.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
-  }, []);
+  }, [updateArrows]);
 
   const scrollByCard = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -527,6 +529,120 @@ function DigitalizacionPage() {
     const amount = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.8;
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
+
+  return (
+    <div className="relative mt-16 px-4 md:px-8">
+      <div
+        ref={trackRef}
+        className="nl-noscrollbar flex gap-8 overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4"
+        style={{ scrollBehavior: "smooth" }}
+      >
+        {realProjects.map((project, i) => (
+          <Reveal
+            key={project.name}
+            as="article"
+            variant="scale"
+            delay={(i % 3) * 80}
+            className="portfolio-card shrink-0 w-[90%] sm:w-[70%] md:w-[48%] lg:w-[31.5%] snap-center rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
+          >
+            <div>
+              {/* Screen Mockup Area */}
+              <div className="p-5 bg-white/[0.01] border-b border-white/5">
+                <LaptopMockup {...project} />
+              </div>
+
+              {/* Metadata Content */}
+              <div className="p-7 pb-4">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-3 py-1 text-[10px] font-bold text-white/90 mb-3 tracking-wider uppercase">
+                  {project.category}
+                </span>
+                <h3 className="text-xl font-bold text-white mb-2 transition-colors">
+                  {project.name}
+                </h3>
+                <p className="text-white/70 leading-relaxed text-sm mb-4 line-clamp-3">
+                  {project.desc}
+                </p>
+              </div>
+            </div>
+
+            <div className="p-7 pt-0">
+              <div className="flex flex-wrap gap-1.5 mb-5">
+                {project.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-white/5 border border-white/5 px-2.5 py-0.5 text-xs text-white/60 font-medium"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 text-white font-bold text-sm w-full py-3 transition-all select-none hover:shadow-lg focus:ring-2 focus:ring-prisma-cyan/50 outline-none"
+              >
+                <span>Visitar Sitio Web</span>
+                <ExternalLink className="w-4 h-4 text-white/80" />
+              </a>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Desktop Navigation Arrows — solo visibles post-mount para evitar SSR diff */}
+      {mounted && (
+        <>
+          <button
+            type="button"
+            onClick={() => scrollByCard(-1)}
+            disabled={!canLeft}
+            aria-label="Anteriores proyectos"
+            className="hidden md:flex absolute left-0 top-[35%] -translate-y-1/2 -translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
+          >
+            <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            disabled={!canRight}
+            aria-label="Más proyectos"
+            className="hidden md:flex absolute right-0 top-[35%] -translate-y-1/2 translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
+          >
+            <ChevronRight className="h-6 w-6" aria-hidden="true" />
+          </button>
+        </>
+      )}
+
+      {/* Dots Indicator */}
+      <div className="flex justify-center gap-1.5 mt-6">
+        {realProjects.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => {
+              const el = trackRef.current;
+              if (!el) return;
+              const card = el.querySelector(".portfolio-card");
+              const cardWidth = card?.getBoundingClientRect().width || 1;
+              el.scrollTo({ left: idx * (cardWidth + 32), behavior: "smooth" });
+            }}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              activeIdx === idx ? "w-8 bg-prisma-cyan" : "w-1.5 bg-white/20"
+            }`}
+            aria-label={`Ir al proyecto ${idx + 1}`}
+          />
+        ))}
+      </div>
+
+      <p className="mt-8 text-center text-xs text-white/50 md:hidden" aria-hidden="true">
+        Desliza para ver más proyectos →
+      </p>
+    </div>
+  );
+}
+
+function DigitalizacionPage() {
 
   return (
     <main className="nl-theme-cyan min-h-screen bg-background text-foreground">
@@ -670,111 +786,8 @@ function DigitalizacionPage() {
             <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
           </Reveal>
 
-          {/* Carrusel de Proyectos */}
-          <div className="relative mt-16 px-4 md:px-8">
-            <div
-              ref={trackRef}
-              className="nl-noscrollbar flex gap-8 overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {realProjects.map((project, i) => (
-                <Reveal
-                  key={project.name}
-                  as="article"
-                  variant="scale"
-                  delay={(i % 3) * 80}
-                  className="portfolio-card shrink-0 w-[90%] sm:w-[70%] md:w-[48%] lg:w-[31.5%] snap-center rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Screen Mockup Area */}
-                    <div className="p-5 bg-white/[0.01] border-b border-white/5">
-                      <LaptopMockup {...project} />
-                    </div>
-
-                    {/* Metadata Content */}
-                    <div className="p-7 pb-4">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-3 py-1 text-[10px] font-bold text-white/90 mb-3 tracking-wider uppercase">
-                        {project.category}
-                      </span>
-                      <h3 className="text-xl font-bold text-white mb-2 transition-colors">
-                        {project.name}
-                      </h3>
-                      <p className="text-white/70 leading-relaxed text-sm mb-4 line-clamp-3">
-                        {project.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-7 pt-0">
-                    <div className="flex flex-wrap gap-1.5 mb-5">
-                      {project.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full bg-white/5 border border-white/5 px-2.5 py-0.5 text-xs text-white/60 font-medium"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 text-white font-bold text-sm w-full py-3 transition-all select-none hover:shadow-lg focus:ring-2 focus:ring-prisma-cyan/50 outline-none"
-                    >
-                      <span>Visitar Sitio Web</span>
-                      <ExternalLink className="w-4 h-4 text-white/80" />
-                    </a>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-
-            {/* Desktop Navigation Arrows */}
-            <button
-              type="button"
-              onClick={() => scrollByCard(-1)}
-              disabled={!canLeft}
-              aria-label="Anteriores proyectos"
-              className="hidden md:flex absolute left-0 top-[35%] -translate-y-1/2 -translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
-            >
-              <ChevronLeft className="h-6 w-6" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollByCard(1)}
-              disabled={!canRight}
-              aria-label="Más proyectos"
-              className="hidden md:flex absolute right-0 top-[35%] -translate-y-1/2 translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
-            >
-              <ChevronRight className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-1.5 mt-6">
-            {realProjects.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  const el = trackRef.current;
-                  if (!el) return;
-                  const card = el.querySelector(".portfolio-card");
-                  const cardWidth = card?.getBoundingClientRect().width || 1;
-                  el.scrollTo({ left: idx * (cardWidth + 32), behavior: "smooth" });
-                }}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  activeIdx === idx ? "w-8 bg-prisma-cyan" : "w-1.5 bg-white/20"
-                }`}
-                aria-label={`Ir al proyecto ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          <p className="mt-8 text-center text-xs text-white/50 md:hidden" aria-hidden="true">
-            Desliza para ver más proyectos →
-          </p>
+          {/* Carrusel de Proyectos — delegado a componente cliente puro */}
+          <PortfolioCarousel />
 
           <Reveal variant="up" delay={200} className="mt-16 text-center">
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
