@@ -7,6 +7,7 @@ import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
 import { DigitalizacionVisual } from "@/components/nueva/heroVisuals";
+import { useState, useRef, useEffect } from "react";
 import {
   Globe,
   Database,
@@ -16,6 +17,15 @@ import {
   CalendarClock,
   QrCode,
   Bot,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Laptop,
+  Music,
+  Activity,
+  Heart,
+  TrendingUp,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 
@@ -108,58 +118,415 @@ const features = [
   }
 ];
 
-// Proyectos con portada de marca (sin screenshot): amplían el portafolio digital.
-type WebProject = {
-  icon: LucideIcon;
+interface RealProject {
+  name: string;
   category: string;
-  accent: "cyan" | "magenta";
-  title: string;
+  headline: string;
   desc: string;
+  url: string;
   tags: string[];
-  cover: string;
-};
+  logoType: "image" | "text";
+  logoAsset?: string;
+  bgColor: string;
+  textColor: string;
+  accentColor: string;
+  mockupType: "ecommerce" | "community" | "corporate" | "music" | "beauty" | "medical" | "ai" | "marketing";
+}
 
-const webProjects: WebProject[] = [
+const realProjects: RealProject[] = [
   {
-    icon: Globe,
-    category: "SITIOS WEB PROFESIONALES",
-    accent: "cyan",
-    title: "Sitios Web Corporativos e Institucionales",
-    desc: "Páginas a la medida de tu marca: rápidas, fáciles de usar y pensadas para vender. Preparadas para aparecer en Google y con tu marketing y medición conectados desde el primer día.",
-    tags: ["Diseño a medida", "Optimizado para Google", "Carga rápida", "Medición conectada"],
-    cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
+    name: "Prisma Digital",
+    category: "AGENCIA & CRECIMIENTO",
+    url: "https://www.prismadigital.io",
+    headline: "Tu negocio existe. Tus clientes, todavía no lo saben.",
+    desc: "Nuestra propia plataforma: un ecosistema digital de alta conversión integrado con analítica avanzada, embudos de venta y agendamiento automático.",
+    tags: ["React / Vite", "Analytics", "Brevo CRM", "Performance"],
+    logoType: "image",
+    logoAsset: "/Logo Prisma Digital blanco.webp",
+    bgColor: "from-[#000139] to-[#04143a]",
+    textColor: "text-white",
+    accentColor: "#32d6ff",
+    mockupType: "corporate"
   },
   {
-    icon: CalendarClock,
-    category: "RESERVAS Y AGENDA",
-    accent: "magenta",
-    title: "Sistemas de Reserva y Agendamiento",
-    desc: "Reservas online para restaurantes, automotoras y servicios: cobros, recordatorios automáticos por WhatsApp y agenda siempre sincronizada.",
-    tags: ["Reservas online", "Pagos", "Avisos por WhatsApp", "Agenda al día"],
-    cover: "linear-gradient(135deg, #1a0736 0%, #4a0a6b 55%, #d713f9 230%)",
+    name: "Ecstatic Dance Chile",
+    category: "COMUNIDAD & BIENESTAR",
+    url: "https://www.ecstaticdancechile.cl",
+    headline: "Convierte tu pasión por la música en sanación profesional.",
+    desc: "Plataforma de baile consciente con pasarela de pago para tickets, inscripciones online automatizadas y panel de miembros.",
+    tags: ["Event Ticketing", "Automated Email", "Framer Motion", "Vite"],
+    logoType: "image",
+    logoAsset: "/clients/ecstatic-dance-chile.png",
+    bgColor: "from-[#140526] to-[#2d0b4e]",
+    textColor: "text-white",
+    accentColor: "#d713f9",
+    mockupType: "community"
   },
   {
-    icon: QrCode,
-    category: "CATÁLOGOS Y MENÚS",
-    accent: "cyan",
-    title: "Catálogos y Menús Digitales (QR)",
-    desc: "Menús y catálogos con código QR que tú mismo actualizas: cambias precios en segundos, sin reimprimir nada, y ves qué es lo que más mira tu cliente.",
-    tags: ["Menú por QR", "Lo actualizas tú", "Precios al instante", "Autoservicio"],
-    cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
+    name: "Sadhana Core",
+    category: "BIENESTAR CORPORATIVO",
+    url: "https://www.sadhanacore.cl",
+    headline: "Transforma el bienestar y la productividad de tu equipo.",
+    desc: "Sitio corporativo B2B para la venta de programas de bienestar laboral y pausas activas, con diagnóstico digital interactivo.",
+    tags: ["B2B Landing", "Diagnostics tool", "Tailored UI", "SEO Sence"],
+    logoType: "image",
+    logoAsset: "/clients/sadhana-core.png",
+    bgColor: "from-[#fafaff] to-[#f3f0ff]",
+    textColor: "text-slate-800",
+    accentColor: "#4f46e5",
+    mockupType: "corporate"
   },
   {
-    icon: Bot,
-    category: "WHATSAPP Y CHATBOTS",
-    accent: "magenta",
-    title: "Atención Automática por WhatsApp",
-    desc: "Conectamos WhatsApp a tu base de clientes con respuestas automáticas que atienden al instante y derivan al vendedor correcto, para no perder ni una consulta.",
-    tags: ["WhatsApp Business", "Respuestas automáticas", "Ordena tus clientes", "Responde al toque"],
-    cover: "linear-gradient(135deg, #2a0730 0%, #4a0a6b 55%, #fd3833 240%)",
+    name: "Rassayana",
+    category: "ARTISTA & DJ",
+    url: "https://www.rassayana.com",
+    headline: "Música de alta frecuencia para el movimiento libre.",
+    desc: "Portafolio artístico de DJ y productor con reproductor de música integrado, galería de eventos y reservas para sesiones.",
+    tags: ["Audio Player", "Event Booking", "Visual Gallery", "Tailwind CSS"],
+    logoType: "text",
+    bgColor: "from-[#080808] to-[#121212]",
+    textColor: "text-white",
+    accentColor: "#fecd2b",
+    mockupType: "music"
   },
+  {
+    name: "Mundo Deco Store",
+    category: "DECORACIÓN & HOGAR",
+    url: "https://www.mundodecostore.cl",
+    headline: "Ambientamos tus espacios con iluminación y calor.",
+    desc: "Tienda online de decoración y climatización integrada con inventario de tienda física, pasarela de pago local y logística automatizada.",
+    tags: ["Shopify Store", "Inventory Sync", "Local Payments", "Facebook Pixel"],
+    logoType: "image",
+    logoAsset: "/clients/mundodecostore.png",
+    bgColor: "from-[#faf6f0] to-[#f4ebe1]",
+    textColor: "text-stone-800",
+    accentColor: "#d97706",
+    mockupType: "ecommerce"
+  },
+  {
+    name: "Lolalash",
+    category: "ESTÉTICA & RESERVAS",
+    url: "https://www.lolalash.cl",
+    headline: "Luce, repara y densifica tu mirada.",
+    desc: "Sitio de salón de belleza líder en estética de mirada, integrado con agenda en tiempo real, venta de productos propios y sucursales.",
+    tags: ["Booking System", "E-commerce", "Multi-Branch", "Instagram Feed"],
+    logoType: "text",
+    bgColor: "from-[#fffbfb] to-[#fff3f3]",
+    textColor: "text-pink-950",
+    accentColor: "#ec4899",
+    mockupType: "beauty"
+  },
+  {
+    name: "Ecstatic LAB",
+    category: "EVENTOS CONSCIENTES",
+    url: "https://www.rassayana.com",
+    headline: "Laboratorio extático: suelta el estrés y recupera tu energía.",
+    desc: "Página de venta y conversión para las experiencias de liberación y baile de Rassayana, con pasarela de venta de tickets integrada.",
+    tags: ["Conversion Focus", "Ticket Sales", "Mobile Optimized", "Fast Checkout"],
+    logoType: "text",
+    bgColor: "from-[#0d021c] to-[#1a0536]",
+    textColor: "text-white",
+    accentColor: "#fd3833",
+    mockupType: "community"
+  },
+  {
+    name: "Quality Clicks",
+    category: "PERFORMANCE MARKETING",
+    url: "https://www.qualityclicks.cl",
+    headline: "Campañas PPC que impulsan un crecimiento real.",
+    desc: "Sitio web de agencia de performance marketing enfocado en la conversión, generación de leads calificados y reportería automatizada.",
+    tags: ["Lead Generation", "Google Partner", "Auditing Tools", "Analytics Panel"],
+    logoType: "text",
+    bgColor: "from-[#091535] to-[#040b21]",
+    textColor: "text-white",
+    accentColor: "#32d6ff",
+    mockupType: "marketing"
+  },
+  {
+    name: "Emporio Nacional",
+    category: "TIENDA GOURMET B2C/B2B",
+    url: "https://www.emporionacional.cl",
+    headline: "Regalos con historia y productos gourmet para toda ocasión.",
+    desc: "Histórico e-commerce gourmet chileno con catálogo de cientos de productos, sistema de canastas personalizadas y despacho corporativo.",
+    tags: ["WooCommerce", "Corporate Gifting", "Custom Builder", "Shipping API"],
+    logoType: "image",
+    logoAsset: "/clients/emporio-nacional.png",
+    bgColor: "from-[#fbf9f5] to-[#f4eee1]",
+    textColor: "text-amber-950",
+    accentColor: "#b91c1c",
+    mockupType: "ecommerce"
+  },
+  {
+    name: "Adalia",
+    category: "INTELIGENCIA ARTIFICIAL",
+    url: "https://www.adalia.app",
+    headline: "Adopta IA con dirección y estrategia, no por moda.",
+    desc: "Plataforma interactiva para diagnosticar la madurez digital y de IA en empresas, generando reportes de madurez y roadmaps personalizados.",
+    tags: ["AI Assessment", "Interactive UI", "Data Visualization", "PDF Report Gen"],
+    logoType: "text",
+    bgColor: "from-[#fafafa] to-[#f4f4f5]",
+    textColor: "text-zinc-950",
+    accentColor: "#18181b",
+    mockupType: "ai"
+  },
+  {
+    name: "Dr. Marco Schulz",
+    category: "MEDICINA BARIÁTRICA",
+    url: "https://www.drmarcoschulz.cl",
+    headline: "Cirujano Bariátrico: Tu oportunidad de volver a empezar.",
+    desc: "Sitio médico enfocado en generar confianza y agendar evaluaciones para cirugía bariátrica, con testimonios y calculadoras de IMC.",
+    tags: ["Medical SEO", "Trust Indicators", "BMI Calculator", "WhatsApp Chat"],
+    logoType: "image",
+    logoAsset: "/clients/logo Marco schulzs.png",
+    bgColor: "from-[#f0f9ff] to-[#e0f2fe]",
+    textColor: "text-sky-950",
+    accentColor: "#0284c7",
+    mockupType: "medical"
+  },
+  {
+    name: "El Director Clínica Dental",
+    category: "ESTÉTICA ODONTOLÓGICA",
+    url: "https://www.eldirectorclinicadental.com",
+    headline: "Implantes dentales y estética con tecnología digital.",
+    desc: "Página web de clínica odontológica de alta gama que destaca tratamientos digitales de vanguardia, diseño de sonrisa y reservas integradas.",
+    tags: ["High-End Design", "Smile Gallery", "Doctor Profile", "Online Booking"],
+    logoType: "text",
+    bgColor: "from-[#0a122c] to-[#040817]",
+    textColor: "text-white",
+    accentColor: "#eab308",
+    mockupType: "medical"
+  }
 ];
+
+interface LaptopMockupProps {
+  name: string;
+  url: string;
+  headline: string;
+  logoType: "image" | "text";
+  logoAsset?: string;
+  bgColor: string;
+  textColor: string;
+  accentColor: string;
+  mockupType: "ecommerce" | "community" | "corporate" | "music" | "beauty" | "medical" | "ai" | "marketing";
+}
+
+function LaptopMockup({
+  name,
+  url,
+  headline,
+  logoType,
+  logoAsset,
+  bgColor,
+  textColor,
+  accentColor,
+  mockupType,
+}: LaptopMockupProps) {
+  const shortUrl = url.replace("https://www.", "").replace("https://", "");
+  
+  return (
+    <div className="w-full select-none">
+      {/* Screen Frame */}
+      <div className="relative rounded-t-2xl bg-[#2e3033] p-1.5 shadow-2xl border border-white/5">
+        {/* Webcam */}
+        <div className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#151617]" />
+        
+        {/* Inner Screen Area */}
+        <div className={`relative aspect-[16/10] w-full rounded-md overflow-hidden bg-gradient-to-br ${bgColor} ${textColor} flex flex-col p-2.5 transition-transform duration-500`}>
+          {/* Browser Address Bar */}
+          <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md rounded px-1.5 py-0.5 mb-1.5 text-[7px] border border-white/10">
+            {/* Window control dots */}
+            <div className="flex gap-0.5 shrink-0">
+              <span className="w-1 h-1 rounded-full bg-red-500/80" />
+              <span className="w-1 h-1 rounded-full bg-yellow-500/80" />
+              <span className="w-1 h-1 rounded-full bg-green-500/80" />
+            </div>
+            {/* URL input field */}
+            <div className="flex-1 text-center font-mono opacity-80 truncate px-1">
+              {shortUrl}
+            </div>
+          </div>
+
+          {/* Navigation Bar inside site */}
+          <div className="flex items-center justify-between border-b border-white/10 pb-1 mb-1.5 select-none">
+            {logoType === "image" && logoAsset ? (
+              <img src={logoAsset} alt={name} className="h-3 object-contain max-w-[50px] brightness-100 filter" />
+            ) : (
+              <span className="text-[8px] font-black tracking-tight uppercase" style={{ color: accentColor }}>
+                {name.split(" ")[0]}
+              </span>
+            )}
+            <div className="flex gap-1">
+              <span className="w-2.5 h-0.5 bg-current opacity-30 rounded-full" />
+              <span className="w-2.5 h-0.5 bg-current opacity-30 rounded-full" />
+              <span className="w-2.5 h-0.5 bg-current opacity-30 rounded-full" />
+            </div>
+          </div>
+
+          {/* Screen Content Hero area */}
+          <div className="flex-1 flex gap-1.5 items-center select-none overflow-hidden">
+            {/* Headline and text */}
+            <div className="flex-1 text-left flex flex-col justify-center min-w-0">
+              <h4 className="text-[7.5px] font-extrabold leading-[1.25] text-balance mb-0.5 line-clamp-3">
+                {headline}
+              </h4>
+              <p className="text-[5.5px] opacity-75 leading-tight mb-1.5 line-clamp-2">
+                Digitalización del ecosistema de negocio para impulsar conversiones y optimizar operaciones.
+              </p>
+              <div>
+                <span className="inline-block text-[5.5px] font-bold px-1.5 py-0.5 rounded shadow-sm select-none" style={{ backgroundColor: accentColor, color: textColor.includes("white") ? "#000139" : "#ffffff" }}>
+                  Ver Sitio
+                </span>
+              </div>
+            </div>
+
+            {/* Visual elements on the right of the screen */}
+            <div className="w-[38%] h-full shrink-0 flex items-center justify-center relative">
+              {mockupType === "ecommerce" && (
+                <div className="w-full bg-white/5 rounded border border-white/10 p-0.5 flex flex-col gap-0.5 items-center">
+                  <div className="w-full aspect-square bg-white/10 rounded flex items-center justify-center">
+                    <QrCode className="w-4 h-4 opacity-40" />
+                  </div>
+                  <div className="w-full h-0.5 bg-white/20 rounded" />
+                  <div className="w-2/3 h-0.5 bg-white/10 rounded self-start" />
+                  <div className="w-1/2 h-1 rounded self-start" style={{ backgroundColor: accentColor }} />
+                </div>
+              )}
+
+              {mockupType === "corporate" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[4px] opacity-60">Metas ROI</span>
+                    <TrendingUp className="w-2 h-2" style={{ color: accentColor }} />
+                  </div>
+                  <div className="h-5 w-full flex items-end gap-0.5 px-0.5">
+                    <div className="w-full h-[30%] bg-white/20 rounded-t" />
+                    <div className="w-full h-[55%] bg-white/20 rounded-t" />
+                    <div className="w-full h-[80%] rounded-t animate-pulse" style={{ backgroundColor: accentColor }} />
+                  </div>
+                </div>
+              )}
+
+              {mockupType === "community" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10 items-center justify-center">
+                  <Sparkles className="w-4 h-4 animate-pulse" style={{ color: accentColor }} />
+                  <span className="text-[4.5px] font-semibold text-center leading-none mt-0.5">Conexión</span>
+                </div>
+              )}
+
+              {mockupType === "music" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10 items-center">
+                  <div className="w-5 h-5 rounded-full border border-dashed border-white/25 flex items-center justify-center animate-spin" style={{ animationDuration: "12s" }}>
+                    <Music className="w-2 h-2" style={{ color: accentColor }} />
+                  </div>
+                  <div className="w-full flex gap-0.5 justify-center items-center h-1.5 mt-0.5">
+                    <span className="w-0.5 h-1 bg-white/40 rounded-full animate-bounce" />
+                    <span className="w-0.5 h-1.5 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: "0.15s" }} />
+                    <span className="w-0.5 h-1.2 bg-white/55 rounded-full animate-bounce" style={{ animationDelay: "0.3s" }} />
+                  </div>
+                </div>
+              )}
+
+              {mockupType === "beauty" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10 items-center justify-center text-center">
+                  <Heart className="w-4 h-4 animate-pulse" style={{ color: accentColor }} />
+                  <span className="text-[4px] uppercase tracking-wider font-bold">Estética</span>
+                </div>
+              )}
+
+              {mockupType === "medical" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10">
+                  <span className="text-[4px] opacity-75 font-semibold">Agenda</span>
+                  <div className="grid grid-cols-3 gap-0.5 mt-0.5">
+                    {[1, 2, 3].map((i) => (
+                      <span
+                        key={i}
+                        className="aspect-square rounded-[1px] flex items-center justify-center text-[3.5px]"
+                        style={{
+                          backgroundColor: i === 2 ? accentColor : "rgba(255,255,255,0.1)",
+                          color: i === 2 ? "#fff" : "inherit",
+                        }}
+                      >
+                        {i + 12}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mockupType === "ai" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10 items-center justify-center text-center">
+                  <Bot className="w-4 h-4" style={{ color: accentColor }} />
+                  <div className="w-full h-0.5 bg-white/20 rounded mt-0.5" />
+                  <div className="w-3/4 h-0.5 bg-white/15 rounded mt-0.5" />
+                </div>
+              )}
+
+              {mockupType === "marketing" && (
+                <div className="w-full flex flex-col gap-0.5 p-0.5 bg-white/5 rounded border border-white/10">
+                  <div className="flex justify-between items-center border-b border-white/10 pb-0.5">
+                    <span className="text-[3px] opacity-60">Leads</span>
+                    <span className="text-[4px] font-black text-green-400">+120%</span>
+                  </div>
+                  <div className="flex items-center gap-0.5 mt-0.5">
+                    <Activity className="w-2.5 h-2.5 shrink-0" style={{ color: accentColor }} />
+                    <div className="flex-1 flex flex-col gap-0.5">
+                      <div className="w-full h-0.5 bg-white/20 rounded" />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Keyboard deck / base */}
+      <div className="relative h-1.5 bg-[#d2d4d9] rounded-b-xl shadow-lg border-t border-[#ebedf2] flex justify-center">
+        {/* Notch */}
+        <div className="w-8 h-0.5 bg-[#b0b2b8] rounded-b" />
+      </div>
+    </div>
+  );
+}
 
 function DigitalizacionPage() {
   const MEET_URL = "https://meet.brevo.com/prisma-digital";
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(true);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const updateArrows = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+
+    // Calculate roughly which card is in view
+    const cardWidth = el.querySelector(".portfolio-card")?.getBoundingClientRect().width || 1;
+    const currentIdx = Math.round(el.scrollLeft / (cardWidth + 32));
+    setActiveIdx(currentIdx);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    const el = trackRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
+    return () => {
+      el.removeEventListener("scroll", updateArrows);
+      window.removeEventListener("resize", updateArrows);
+    };
+  }, []);
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector(".portfolio-card");
+    const amount = card ? card.getBoundingClientRect().width + 32 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * amount, behavior: "smooth" });
+  };
 
   return (
     <main className="nl-theme-cyan min-h-screen bg-background text-foreground">
@@ -277,7 +644,7 @@ function DigitalizacionPage() {
         </div>
       </section>
 
-      {/* Portafolio de Sitios Web y Apps */}
+      {/* Portafolio de Sitios Web y Apps (Carrusel de 12 Proyectos Reales) */}
       <section className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] py-20 md:py-28 overflow-hidden">
         <div className="nl-gem" aria-hidden="true" />
         <div className="nl-grain absolute inset-0 overflow-hidden rounded-t-[2.5rem]" aria-hidden="true">
@@ -291,11 +658,11 @@ function DigitalizacionPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
             <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">Portafolio Digital</span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-              Sitios web y sistemas <span className="nl-text-gradient">hechos por Prisma Digital</span>
+              Sitios web y sistemas <span className="nl-text-gradient">reales e integrados</span>
             </h2>
             <p className="mt-5 text-white/75 text-base md:text-lg max-w-2xl mx-auto">
               No entregamos una página bonita y nos vamos. Cada sitio que construimos nace conectado a las ventas, al stock y a las herramientas de marketing de nuestros clientes — para que trabaje por el negocio desde el primer día.
@@ -303,123 +670,115 @@ function DigitalizacionPage() {
             <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
           </Reveal>
 
-          <div className="mt-16 grid gap-10 md:grid-cols-2">
-            {/* Proyecto 1: Ecommerce */}
-            <Reveal as="article" variant="scale" delay={0} className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <div className="relative h-64 md:h-72 overflow-hidden">
-                <img
-                  src="/audiovisual/portfolio-ecommerce.png"
-                  alt="Plataforma de ecommerce desarrollada por Prisma Digital"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-cyan/20 backdrop-blur-sm border border-prisma-cyan/30 px-3 py-1 text-xs font-bold text-prisma-cyan">
-                    TIENDAS ONLINE
-                  </span>
-                </div>
-              </div>
-              <div className="p-7">
-                <h3 className="text-xl font-bold text-white mb-2">Tiendas Online Conectadas</h3>
-                <p className="text-white/70 leading-relaxed text-sm mb-5">Tiendas online enlazadas a tu caja e inventario, con pago local, despacho automático y cada venta medida para que sepas qué te está funcionando.</p>
-                <div className="flex flex-wrap gap-2">
-                  {["Shopify", "WooCommerce", "VTEX", "Transbank"].map(t => (
-                    <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Proyecto 2: App / Dashboard */}
-            <Reveal as="article" variant="scale" delay={140} className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <div className="relative h-64 md:h-72 overflow-hidden">
-                <img
-                  src="/audiovisual/portfolio-app.png"
-                  alt="Aplicación web y dashboard de gestión desarrollado por Prisma Digital"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-magenta/20 backdrop-blur-sm border border-prisma-magenta/30 px-3 py-1 text-xs font-bold text-prisma-magenta">
-                    APPS Y PANELES A MEDIDA
-                  </span>
-                </div>
-              </div>
-              <div className="p-7">
-                <h3 className="text-xl font-bold text-white mb-2">Aplicaciones y Paneles a Medida</h3>
-                <p className="text-white/70 leading-relaxed text-sm mb-5">Aplicaciones y paneles hechos a la medida de tu operación: para gestionar tu equipo, ver tus números al día y darles acceso a tus clientes, desde cualquier dispositivo.</p>
-                <div className="flex flex-wrap gap-2">
-                  {["React", "Node.js", "PostgreSQL", "Firebase"].map(t => (
-                    <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Proyectos 3–6: portada de marca con icono (sin screenshot) */}
-            {webProjects.map(({ icon: Icon, category, accent, title, desc, tags, cover }, i) => (
-              <Reveal
-                key={title}
-                as="article"
-                variant="scale"
-                delay={i * 120}
-                className="nl-beam-hover group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-500 hover:-translate-y-2"
-              >
-                <div
-                  className="relative h-56 md:h-64 overflow-hidden flex items-center justify-center"
-                  style={{ background: cover }}
+          {/* Carrusel de Proyectos */}
+          <div className="relative mt-16 px-4 md:px-8">
+            <div
+              ref={trackRef}
+              className="nl-noscrollbar flex gap-8 overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {realProjects.map((project, i) => (
+                <Reveal
+                  key={project.name}
+                  as="article"
+                  variant="scale"
+                  delay={(i % 3) * 80}
+                  className="portfolio-card shrink-0 w-[90%] sm:w-[70%] md:w-[48%] lg:w-[31.5%] snap-center rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
                 >
-                  {/* Chrome de ventana: da lectura de "producto digital" */}
-                  <div className="absolute top-4 left-4 flex gap-1.5" aria-hidden="true">
-                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
-                  </div>
-                  <div
-                    className="absolute inset-0 opacity-40"
-                    style={{
-                      backgroundImage:
-                        "radial-gradient(circle at 72% 28%, rgba(255,255,255,0.2), transparent 55%)",
-                    }}
-                    aria-hidden="true"
-                  />
-                  <Icon
-                    className="relative h-16 w-16 md:h-20 md:w-20 text-white/90 transition-transform duration-500 group-hover:scale-110"
-                    aria-hidden="true"
-                  />
-                  <div className="absolute bottom-5 left-5 right-5">
-                    <span
-                      className={`inline-flex items-center gap-1.5 rounded-full backdrop-blur-sm px-3 py-1 text-xs font-bold border ${
-                        accent === "cyan"
-                          ? "bg-prisma-cyan/20 border-prisma-cyan/30 text-prisma-cyan"
-                          : "bg-prisma-magenta/20 border-prisma-magenta/30 text-prisma-magenta"
-                      }`}
-                    >
-                      {category}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-7">
-                  <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-                  <p className="text-white/70 leading-relaxed text-sm mb-5">{desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80"
-                      >
-                        {t}
+                  <div>
+                    {/* Screen Mockup Area */}
+                    <div className="p-5 bg-white/[0.01] border-b border-white/5">
+                      <LaptopMockup {...project} />
+                    </div>
+
+                    {/* Metadata Content */}
+                    <div className="p-7 pb-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-3 py-1 text-[10px] font-bold text-white/90 mb-3 tracking-wider uppercase">
+                        {project.category}
                       </span>
-                    ))}
+                      <h3 className="text-xl font-bold text-white mb-2 transition-colors">
+                        {project.name}
+                      </h3>
+                      <p className="text-white/70 leading-relaxed text-sm mb-4 line-clamp-3">
+                        {project.desc}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
+
+                  <div className="p-7 pt-0">
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {project.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full bg-white/5 border border-white/5 px-2.5 py-0.5 text-xs text-white/60 font-medium"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-white/20 text-white font-bold text-sm w-full py-3 transition-all select-none hover:shadow-lg focus:ring-2 focus:ring-prisma-cyan/50 outline-none"
+                    >
+                      <span>Visitar Sitio Web</span>
+                      <ExternalLink className="w-4 h-4 text-white/80" />
+                    </a>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Desktop Navigation Arrows */}
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              disabled={!canLeft}
+              aria-label="Anteriores proyectos"
+              className="hidden md:flex absolute left-0 top-[35%] -translate-y-1/2 -translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
+            >
+              <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              disabled={!canRight}
+              aria-label="Más proyectos"
+              className="hidden md:flex absolute right-0 top-[35%] -translate-y-1/2 translate-x-6 h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-[#000139]/80 backdrop-blur-md text-white shadow-lg transition-all hover:scale-105 hover:bg-[#000139] disabled:opacity-0 disabled:pointer-events-none hover:border-white/20"
+            >
+              <ChevronRight className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-1.5 mt-6">
+            {realProjects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  const el = trackRef.current;
+                  if (!el) return;
+                  const card = el.querySelector(".portfolio-card");
+                  const cardWidth = card?.getBoundingClientRect().width || 1;
+                  el.scrollTo({ left: idx * (cardWidth + 32), behavior: "smooth" });
+                }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeIdx === idx ? "w-8 bg-prisma-cyan" : "w-1.5 bg-white/20"
+                }`}
+                aria-label={`Ir al proyecto ${idx + 1}`}
+              />
             ))}
           </div>
 
-          <Reveal variant="up" delay={280} className="mt-12 text-center">
-            <p className="text-white/50 text-sm">
-              ¿Tienes un proyecto en mente? Agenda tu diagnóstico y te mostramos cómo lo integraríamos a tu operación.
+          <p className="mt-8 text-center text-xs text-white/50 md:hidden" aria-hidden="true">
+            Desliza para ver más proyectos →
+          </p>
+
+          <Reveal variant="up" delay={200} className="mt-16 text-center">
+            <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
+              ¿Listo para dar el salto? Todos estos proyectos fueron diseñados a medida, se cargan en menos de un segundo y están plenamente integrados a las operaciones reales de sus negocios.
             </p>
           </Reveal>
         </div>

@@ -220,62 +220,63 @@ export default function ResultadosNueva() {
           ))}
         </div>
 
-        {/* Testimonios: carrusel horizontal en todos los tamaños (scroll-snap).
-            En escritorio se ven ~3 tarjetas y el resto se desliza; no alargan la página.
-            Las flechas (solo desktop, con mouse) dan el mismo affordance que el
-            gesto de swipe en móvil. */}
-        <div className="relative">
-          <div
-            ref={trackRef}
-            className="nl-noscrollbar mt-12 flex gap-5 md:gap-6 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4"
-          >
-            {testimonios.map(({ quote, author, company }, i) => (
-              <Reveal
-                key={company}
-                as="figure"
-                variant="up"
-                delay={(i % 3) * 100}
-                className="relative flex flex-col rounded-2xl border border-border bg-white p-6 md:p-8 shadow-sm snap-center shrink-0 w-[85%] sm:w-[60%] md:w-[calc((100%-3rem)/3)]"
-              >
-                <span
-                  className="absolute -top-4 left-7 text-6xl font-black leading-none nl-metric-gradient select-none"
-                  aria-hidden="true"
+        {/* Testimonios: Ocultado en mobile y desktop a petición del usuario. */}
+        {false && (
+          <div className="relative">
+            <div
+              ref={trackRef}
+              className="nl-noscrollbar mt-12 flex gap-5 md:gap-6 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-4"
+            >
+              {testimonios.map(({ quote, author, company }, i) => (
+                <Reveal
+                  key={company}
+                  as="figure"
+                  variant="up"
+                  delay={(i % 3) * 100}
+                  className="relative flex flex-col rounded-2xl border border-border bg-white p-6 md:p-8 shadow-sm snap-center shrink-0 w-[85%] sm:w-[60%] md:w-[calc((100%-3rem)/3)]"
                 >
-                  “
-                </span>
-                <blockquote className="text-[15px] md:text-base text-ink/90 leading-relaxed pt-3">
-                  {quote}
-                </blockquote>
-                <figcaption className="mt-4 md:mt-5 text-sm">
-                  <span className="block font-bold text-ink">{author}</span>
-                  <span className="text-muted-foreground">{company}</span>
-                </figcaption>
-              </Reveal>
-            ))}
-          </div>
+                  <span
+                    className="absolute -top-4 left-7 text-6xl font-black leading-none nl-metric-gradient select-none"
+                    aria-hidden="true"
+                  >
+                    “
+                  </span>
+                  <blockquote className="text-[15px] md:text-base text-ink/90 leading-relaxed pt-3">
+                    {quote}
+                  </blockquote>
+                  <figcaption className="mt-4 md:mt-5 text-sm">
+                    <span className="block font-bold text-ink">{author}</span>
+                    <span className="text-muted-foreground">{company}</span>
+                  </figcaption>
+                </Reveal>
+              ))}
+            </div>
 
-          <button
-            type="button"
-            onClick={() => scrollByCard(-1)}
-            disabled={!canLeft}
-            aria-label="Ver testimonios anteriores"
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg disabled:opacity-0 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
-          >
-            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByCard(1)}
-            disabled={!canRight}
-            aria-label="Ver más testimonios"
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg disabled:opacity-0 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
-          >
-            <ChevronRight className="h-5 w-5" aria-hidden="true" />
-          </button>
-        </div>
-        <p className="mt-2 text-center text-xs text-muted-foreground md:hidden" aria-hidden="true">
-          Desliza para ver más testimonios →
-        </p>
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              disabled={!canLeft}
+              aria-label="Ver testimonios anteriores"
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg disabled:opacity-0 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              disabled={!canRight}
+              aria-label="Ver más testimonios"
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg disabled:opacity-0 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+        )}
+        {false && (
+          <p className="mt-2 text-center text-xs text-muted-foreground md:hidden" aria-hidden="true">
+            Desliza para ver más testimonios →
+          </p>
+        )}
       </div>
 
       {/* Resto de clientes en marquee (se pausa al pasar el cursor) */}
