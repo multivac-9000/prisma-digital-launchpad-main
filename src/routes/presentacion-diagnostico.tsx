@@ -433,12 +433,13 @@ function MaturityCurve() {
   const y1 = pad;
   const dx = x1 - x0;
   const dy = y0 - y1;
-  // Bézier cúbica: sale casi horizontal desde abajo-izq y llega subiendo a la
-  // esquina superior-derecha (tangente final claramente hacia arriba).
-  const cx1 = x0 + dx * 0.42;
-  const cy1 = y0 - dy * 0.04;
-  const cx2 = x1 - dx * 0.14;
-  const cy2 = y1 + dy * 0.58;
+  // Bézier cúbica: se mantiene bien abajo y casi plana por más de la mitad del
+  // recorrido, y recién sobre el final sube fuerte hacia la flecha — así el
+  // punto de partida se lee claramente mucho más abajo que la punta.
+  const cx1 = x0 + dx * 0.48;
+  const cy1 = y0 - dy * 0.03;
+  const cx2 = x1 - dx * 0.1;
+  const cy2 = y1 + dy * 0.32;
   const d = `M ${x0} ${y0} C ${cx1} ${cy1} ${cx2} ${cy2} ${x1} ${y1}`;
   const ang = (Math.atan2(y1 - cy2, x1 - cx2) * 180) / Math.PI; // tangente final
 
@@ -522,13 +523,13 @@ function SlideMaduracion() {
       <div className="text-center">
         <Kicker>Nuestro factor diferenciador</Kicker>
         <h2
-          className="pd-stagger mt-4 text-3xl md:text-5xl font-extrabold leading-[1.1] text-balance"
+          className="pd-stagger mt-3 text-3xl md:text-5xl font-extrabold leading-[1.1] text-balance"
           style={{ "--pd-d": "100ms" } as React.CSSProperties}
         >
           El Modelo de <span className="nl-text-gradient">Maduración de Datos</span>
         </h2>
         <p
-          className="pd-stagger mx-auto mt-4 max-w-2xl text-base md:text-lg text-white/70"
+          className="pd-stagger mx-auto mt-3 max-w-2xl text-base md:text-lg text-white/70"
           style={{ "--pd-d": "160ms" } as React.CSSProperties}
         >
           No hacemos todo de golpe: hacemos crecer tus datos por etapas, y cada una desbloquea la
@@ -538,7 +539,7 @@ function SlideMaduracion() {
 
       {/* Tramos superiores: qué familia de técnicas cubre cada mitad */}
       <div
-        className="pd-stagger hidden lg:grid grid-cols-2 gap-6 mt-8 mb-2"
+        className="pd-stagger hidden lg:grid grid-cols-2 gap-6 mt-5 mb-1"
         style={{ "--pd-d": "220ms" } as React.CSSProperties}
         aria-hidden="true"
       >
@@ -555,16 +556,17 @@ function SlideMaduracion() {
       </div>
 
       {/* FRANJA DE LA CURVA (solo escritorio): línea continua arriba, sin cruzar
-          los textos. Los textos van escalonados debajo. */}
+          los textos. Más alta que antes para que el arranque quede bien abajo,
+          bastante más bajo que la punta de la flecha final. */}
       <div
-        className="pd-stagger hidden lg:block h-32 xl:h-36"
+        className="pd-stagger hidden lg:block h-60 xl:h-72"
         style={{ "--pd-d": "260ms" } as React.CSSProperties}
       >
         <MaturityCurve />
       </div>
 
       {/* ETAPAS escalonadas (como el diseño original), debajo de la curva */}
-      <div className="mt-6 lg:mt-3 grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-start">
+      <div className="mt-1 grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-start">
         {etapasMaduracion.map(({ goal, title, metodo, color, lift, glyph, items }, i) => (
           <article
             key={title}
