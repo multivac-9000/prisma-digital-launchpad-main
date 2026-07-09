@@ -8,12 +8,11 @@ import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
 import { DigitalizacionVisual } from "@/components/nueva/heroVisuals";
 import {
+  Globe,
   Database,
   GitMerge,
   RefreshCw,
-  Layers,
   CheckCircle2,
-  Rocket,
   CalendarClock,
   QrCode,
   Bot,
@@ -29,8 +28,8 @@ const JSON_LD = JSON.stringify({
       "@type": "WebPage",
       "@id": `${CANONICAL_URL}/#webpage`,
       url: CANONICAL_URL,
-      name: "Digitalización de Negocios y Conexión de Sistemas — Prisma Digital",
-      description: "Integramos tu e-commerce, CRM y automatizaciones a la operación física y comercial que ya tienes. Sin partir de cero.",
+      name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
+      description: "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
       breadcrumb: {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -45,17 +44,20 @@ const JSON_LD = JSON.stringify({
 export const Route = createFileRoute("/digitalizacion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Digitalización de Negocios Consolidados — Prisma Digital" },
+      { title: "Sitios Web Profesionales y Digitalización — Prisma Digital" },
       {
         name: "description",
         content:
-          "Integramos tu e-commerce, CRM y automatizaciones a la operación física y comercial que ya tienes. Sin partir de cero ni perder lo que funciona.",
+          "Creamos tu sitio web profesional listo para vender, con el marketing y la medición ya conectados, e integrado a tu stock, ventas y clientes. Digitaliza tu negocio físico sin partir de cero.",
       },
-      { property: "og:title", content: "Digitalización de Negocios Consolidados — Prisma Digital" },
+      {
+        property: "og:title",
+        content: "Sitios Web Profesionales y Digitalización — Prisma Digital",
+      },
       {
         property: "og:description",
         content:
-          "Moderniza y conecta tu operación física con el mundo online. Sincronizamos stock, ventas y CRM de forma automatizada y medible.",
+          "Tu nueva página web hecha para vender, con todo tu marketing medido y conectado a tu stock, tus ventas y tus clientes. Sin partir de cero.",
       },
       { property: "og:url", content: CANONICAL_URL },
     ],
@@ -70,39 +72,39 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
 
 const pains = [
   {
-    title: "Sistemas desconectados que generan caos",
-    desc: "Tu ecommerce va por un lado, tu local físico por otro y tu facturación por otro. Tu equipo pasa horas copiando datos a mano."
+    title: "Una web que no está a la altura de tu negocio",
+    desc: "Tu local transmite años de prestigio, pero tu página web se ve antigua, carga lenta y no invita a comprar. Tus clientes lo notan."
   },
   {
-    title: "Fuga de clientes por falta de stock sincronizado",
-    desc: "Vendes online un producto que ya no te queda en la bodega física. Cancelas compras y dañas la reputación de tu marca."
+    title: "Vendes sin saber qué te está funcionando",
+    desc: "Tienes página y redes sociales, pero nadie te dice de dónde vienen las ventas ni cuánto te cuesta cada cliente nuevo."
   },
   {
-    title: "Cero seguimiento comercial a tus contactos",
-    desc: "Los prospectos que preguntan por la web quedan en correos sueltos, sin que entren a un embudo ordenado que concrete la venta."
+    title: "Todo por separado y hecho a mano",
+    desc: "Tu web, tu stock y tus clientes van cada uno por su lado. Tu equipo pierde horas copiando datos y, a veces, se pierden ventas."
   }
 ];
 
 const features = [
   {
+    icon: Globe,
+    title: "Un sitio web profesional, hecho para vender",
+    desc: "Diseñamos tu nueva página a la medida de tu negocio: rápida, clara y fácil de comprar. Con todas tus herramientas de marketing y medición ya conectadas (Google, redes sociales y tu base de clientes), para que sepas de dónde viene cada venta desde el primer día."
+  },
+  {
     icon: Database,
-    title: "Sincronización de Inventarios y POS/ERP",
-    desc: "Conectamos tu tienda online (Shopify, WooCommerce, VTEX) con tu sistema administrativo para que el stock físico y el online coincidan al segundo."
+    title: "Tu stock siempre al día, online y en tienda",
+    desc: "Conectamos tu página con tu sistema de caja e inventario para que nunca vendas algo que ya no tienes. Lo que se vende en el local se descuenta online al instante, y al revés."
   },
   {
     icon: GitMerge,
-    title: "Automatización de Procesos y Flujos",
-    desc: "Eliminamos las tareas manuales repetitivas. Cuando se genera una venta, la orden viaja a bodega, se genera la boleta y se actualiza el CRM automáticamente."
+    title: "Menos trabajo a mano, más ventas",
+    desc: "Cuando entra una venta, el pedido llega a bodega, se genera la boleta y queda registrada la información del cliente — todo solo. Tu equipo deja de copiar datos y se dedica a vender."
   },
   {
     icon: RefreshCw,
-    title: "Integración de CRM y Canales de Venta",
-    desc: "Centralizamos a tus clientes. Toda consulta en web, WhatsApp o sucursal se unifica en un perfil listo para campañas de fidelización o remarketing."
-  },
-  {
-    icon: Layers,
-    title: "Ecosistemas sin parches",
-    desc: "No tiramos a la basura lo que ya usas. Auditamos tu software actual y creamos las conexiones exactas para que escales de forma estable."
+    title: "Todos tus clientes en un solo lugar",
+    desc: "Cada consulta que llega por tu web, WhatsApp o el local queda ordenada en un mismo lugar. Así das un mejor seguimiento, fidelizas y vuelves a venderle a quien ya te compró."
   }
 ];
 
@@ -119,39 +121,39 @@ type WebProject = {
 
 const webProjects: WebProject[] = [
   {
-    icon: Rocket,
-    category: "LANDING PAGES",
+    icon: Globe,
+    category: "SITIOS WEB PROFESIONALES",
     accent: "cyan",
-    title: "Landing Pages de Alta Conversión",
-    desc: "Micrositios de campaña rápidos y medidos al detalle, con test A/B y eventos marcados para que cada peso de pauta se note en las ventas.",
-    tags: ["Astro", "GA4", "Meta CAPI", "A/B Test"],
+    title: "Sitios Web Corporativos e Institucionales",
+    desc: "Páginas a la medida de tu marca: rápidas, fáciles de usar y pensadas para vender. Preparadas para aparecer en Google y con tu marketing y medición conectados desde el primer día.",
+    tags: ["Diseño a medida", "Optimizado para Google", "Carga rápida", "Medición conectada"],
     cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
   },
   {
     icon: CalendarClock,
-    category: "RESERVAS & AGENDA",
+    category: "RESERVAS Y AGENDA",
     accent: "magenta",
     title: "Sistemas de Reserva y Agendamiento",
-    desc: "Reservas online para restaurantes, automotoras y servicios: pagos, recordatorios automáticos por WhatsApp y sincronización con tu calendario.",
-    tags: ["Calendarios", "Pagos", "WhatsApp", "Recordatorios"],
+    desc: "Reservas online para restaurantes, automotoras y servicios: cobros, recordatorios automáticos por WhatsApp y agenda siempre sincronizada.",
+    tags: ["Reservas online", "Pagos", "Avisos por WhatsApp", "Agenda al día"],
     cover: "linear-gradient(135deg, #1a0736 0%, #4a0a6b 55%, #d713f9 230%)",
   },
   {
     icon: QrCode,
-    category: "CATÁLOGOS DIGITALES",
+    category: "CATÁLOGOS Y MENÚS",
     accent: "cyan",
     title: "Catálogos y Menús Digitales (QR)",
-    desc: "Menús y catálogos con código QR autoadministrables: actualizas precios y stock en segundos, sin reimprimir nada y midiendo qué mira tu cliente.",
-    tags: ["QR", "Menú Digital", "CMS", "Autoservicio"],
+    desc: "Menús y catálogos con código QR que tú mismo actualizas: cambias precios en segundos, sin reimprimir nada, y ves qué es lo que más mira tu cliente.",
+    tags: ["Menú por QR", "Lo actualizas tú", "Precios al instante", "Autoservicio"],
     cover: "linear-gradient(135deg, #04143a 0%, #0a2a6b 55%, #32d6ff 220%)",
   },
   {
     icon: Bot,
-    category: "WHATSAPP & CHATBOTS",
+    category: "WHATSAPP Y CHATBOTS",
     accent: "magenta",
-    title: "Integración de WhatsApp y Chatbots",
-    desc: "Conectamos WhatsApp Business a tu CRM con respuestas automáticas y derivación inteligente, para no perder ni una consulta y responder en segundos.",
-    tags: ["WhatsApp API", "Chatbots", "CRM", "Automatización"],
+    title: "Atención Automática por WhatsApp",
+    desc: "Conectamos WhatsApp a tu base de clientes con respuestas automáticas que atienden al instante y derivan al vendedor correcto, para no perder ni una consulta.",
+    tags: ["WhatsApp Business", "Respuestas automáticas", "Ordena tus clientes", "Responde al toque"],
     cover: "linear-gradient(135deg, #2a0730 0%, #4a0a6b 55%, #fd3833 240%)",
   },
 ];
@@ -169,16 +171,16 @@ function DigitalizacionPage() {
 
       {/* Hero personalizado */}
       <HeroNueva
-        h1Line1="Moderniza y conecta tu negocio físico."
-        h1Line2="Sistemas y ventas online integrados."
-        description="Tu negocio físico ya es exitoso y tiene trayectoria. Es momento de que tu e-commerce, inventario, CRM y facturación funcionen integrados a tu operación actual, sin fricciones ni duplicar el trabajo manual."
-        ctaText="Conectar mi Operación Gratis"
+        h1Line1="Tu sitio web, hecho para vender."
+        h1Line2="Y conectado a todo tu negocio."
+        description="Diseñamos tu nueva página web pensada para vender, con tus herramientas de marketing y medición ya conectadas. Y la integramos a tu stock, tus ventas y tus clientes, para que lo online funcione tan ordenado como tu local de siempre."
+        ctaText="Quiero mi Diagnóstico Web Gratis"
         ctaId="hero_digitalizacion"
         customTickerItems={[
+          "Sitios web profesionales que sí venden",
+          "Marketing y medición conectados desde el primer día",
           "+143% ventas online — Emporio Nacional",
-          "Bodega y tienda online sincronizadas 24/7",
-          "Integración de ERP/POS sin caídas",
-          "Automatizaciones comerciales listas en 30 días"
+          "Tu stock online y en tienda, siempre al día"
         ]}
         visual={<DigitalizacionVisual />}
       />
@@ -199,9 +201,9 @@ function DigitalizacionPage() {
 
         <div className="relative z-10 mx-auto max-w-6xl px-6">
           <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">El costo de la desconexión</span>
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">Lo que hoy te está frenando</span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-              Los síntomas de una <span className="nl-text-gradient">operación digital desconectada</span>
+              Tu negocio va excelente. <span className="nl-text-gradient">Lo digital, quedó a medias.</span>
             </h2>
             <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
           </Reveal>
@@ -230,10 +232,13 @@ function DigitalizacionPage() {
 
         <div className="mx-auto max-w-6xl px-6">
           <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold tracking-[0.25em] uppercase text-secondary mb-4 block">Nuestra Solución</span>
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-secondary mb-4 block">Lo que hacemos por ti</span>
             <h2 className="text-3xl md:text-[40px] font-extrabold text-ink leading-tight">
-              Conectamos lo que ya funciona <span className="nl-metric-gradient">con el futuro del negocio.</span>
+              Tu página web y tu negocio, <span className="nl-metric-gradient">por fin trabajando juntos.</span>
             </h2>
+            <p className="mt-5 text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
+              Creamos tu sitio web y lo conectamos con lo que ya usas todos los días. No empezamos de cero ni te obligamos a cambiar todo: sumamos orden y ventas a lo que ya construiste.
+            </p>
             <div className="nl-underline mx-auto mt-5" aria-hidden="true" />
           </Reveal>
 
@@ -263,9 +268,9 @@ function DigitalizacionPage() {
           <Reveal variant="up" className="mt-16 text-center">
             <div className="inline-flex flex-col items-center gap-4 bg-muted/30 border border-border rounded-2xl p-8 max-w-2xl mx-auto">
               <CheckCircle2 className="h-10 w-10 text-prisma-magenta" />
-              <h4 className="text-xl font-bold text-ink">¿El resultado final?</h4>
+              <h4 className="text-xl font-bold text-ink">¿El resultado para ti?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                Una operación fluida donde el canal online vende y procesa pedidos con la misma rapidez y orden que tu mejor tienda física, reduciendo errores humanos a cero.
+                Una página web que vende y atiende pedidos con la misma rapidez y orden que tu mejor día en el local — sin errores manuales y sabiendo, por fin, qué es lo que de verdad te trae ventas.
               </p>
             </div>
           </Reveal>
@@ -290,10 +295,10 @@ function DigitalizacionPage() {
           <Reveal variant="blur" className="text-center max-w-3xl mx-auto">
             <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan mb-4 block">Portafolio Digital</span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-              Sitios web y apps <span className="nl-text-gradient">construidos por Prisma Digital</span>
+              Sitios web y sistemas <span className="nl-text-gradient">hechos por Prisma Digital</span>
             </h2>
             <p className="mt-5 text-white/75 text-base md:text-lg max-w-2xl mx-auto">
-              Cada proyecto nace integrado al ecosistema digital de nuestros clientes: con medición de eventos, ecommerce conectado y flujos automatizados desde el día 1.
+              No entregamos una página bonita y nos vamos. Cada sitio que construimos nace conectado a las ventas, al stock y a las herramientas de marketing de nuestros clientes — para que trabaje por el negocio desde el primer día.
             </p>
             <div className="nl-underline mx-auto mt-6" aria-hidden="true" />
           </Reveal>
@@ -310,13 +315,13 @@ function DigitalizacionPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-cyan/20 backdrop-blur-sm border border-prisma-cyan/30 px-3 py-1 text-xs font-bold text-prisma-cyan">
-                    E-COMMERCE B2B/B2C
+                    TIENDAS ONLINE
                   </span>
                 </div>
               </div>
               <div className="p-7">
-                <h3 className="text-xl font-bold text-white mb-2">Plataformas de Ecommerce Integradas</h3>
-                <p className="text-white/70 leading-relaxed text-sm mb-5">Tiendas online con inventario sincronizado al POS/ERP, pasarela de pago local, despacho automatizado y medición de cada evento de compra.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Tiendas Online Conectadas</h3>
+                <p className="text-white/70 leading-relaxed text-sm mb-5">Tiendas online enlazadas a tu caja e inventario, con pago local, despacho automático y cada venta medida para que sepas qué te está funcionando.</p>
                 <div className="flex flex-wrap gap-2">
                   {["Shopify", "WooCommerce", "VTEX", "Transbank"].map(t => (
                     <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>
@@ -336,13 +341,13 @@ function DigitalizacionPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-[#000139]/40 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-prisma-magenta/20 backdrop-blur-sm border border-prisma-magenta/30 px-3 py-1 text-xs font-bold text-prisma-magenta">
-                    APPS WEB & MOBILE
+                    APPS Y PANELES A MEDIDA
                   </span>
                 </div>
               </div>
               <div className="p-7">
-                <h3 className="text-xl font-bold text-white mb-2">Apps Web y Dashboards Corporativos</h3>
-                <p className="text-white/70 leading-relaxed text-sm mb-5">Aplicaciones a medida para gestión interna, control de KPIs y paneles de clientes. Accesibles desde cualquier dispositivo con datos en tiempo real.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Aplicaciones y Paneles a Medida</h3>
+                <p className="text-white/70 leading-relaxed text-sm mb-5">Aplicaciones y paneles hechos a la medida de tu operación: para gestionar tu equipo, ver tus números al día y darles acceso a tus clientes, desde cualquier dispositivo.</p>
                 <div className="flex flex-wrap gap-2">
                   {["React", "Node.js", "PostgreSQL", "Firebase"].map(t => (
                     <span key={t} className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">{t}</span>

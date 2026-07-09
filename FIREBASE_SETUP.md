@@ -97,6 +97,48 @@ VITE_FIREBASE_APP_ID=1:1234567890:web:abc123
    documento con `cliente`, `scores`, `pagespeed`, `contexto`, `proyeccion`, `totales`
    y `createdAt`.
 
+## Envío del reporte por correo (Brevo)
+
+El assessment genera un **PDF del diagnóstico** (botón "Descargar PDF", 100% en el
+navegador — funciona siempre) y puede **enviarlo al correo del cliente** (botón
+"Enviar al correo"). El envío usa la **API transaccional de Brevo**, la misma cuenta
+Brevo que ya usas para la agenda y el newsletter. Si no configuras esto, el PDF igual
+se descarga; solo el botón de correo mostrará un aviso.
+
+### Paso A — Obtener la API key transaccional
+
+1. Entra a https://app.brevo.com → menú de tu cuenta → **SMTP & API** → pestaña
+   **API Keys** → **Generate a new API key**. Cópiala (empieza con `xkeysib-…`).
+
+### Paso B — Verificar el remitente
+
+Brevo solo envía desde remitentes verificados. En **Senders, Domains & Dedicated IPs
+→ Senders**, verifica el correo o dominio que usarás como remitente. Recomendado: un
+correo de tu dominio (ej. `hola@prismadigital.io`). Si usas `prismadigital.io@gmail.com`,
+verifícalo ahí primero.
+
+### Paso C — Variables de entorno (SOLO servidor, sin `VITE_`)
+
+| Variable             | Valor                                                            |
+| -------------------- | ---------------------------------------------------------------- |
+| `BREVO_API_KEY`      | La API key del Paso A (secreta — nunca va al navegador)          |
+| `BREVO_SENDER_EMAIL` | El remitente verificado del Paso B                               |
+| `BREVO_SENDER_NAME`  | Nombre visible del remitente (ej. `Prisma Digital`)              |
+
+- **Local**: agrégalas a tu archivo `.env` (junto a las de Firebase).
+- **Vercel**: **Settings → Environment Variables**, las mismas 3 en Production,
+  Preview y Development, y **Redeploy**.
+
+> A diferencia de las `VITE_FIREBASE_*` (públicas), estas **no** llevan prefijo
+> `VITE_`: viven solo en el servidor (el envío ocurre en un *server function*), así la
+> API key nunca se expone en el navegador.
+
+### Paso D — Verificar
+
+En `/assessment`, escribe un correo de prueba tuyo, pulsa **Enviar al correo** → debe
+aparecer "Reporte enviado a …" y llegar el email con el PDF adjunto. Mientras no
+configures la key, el botón responde "El envío por correo no está configurado".
+
 ## Estructura del documento guardado
 
 | Campo        | Contenido                                                              |

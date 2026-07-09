@@ -12,10 +12,15 @@ import {
   Building2,
   ListChecks,
   Calculator,
+  FileDown,
+  Mail,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
 import AccessGate from "@/components/AccessGate";
 import { firebaseReady, saveAssessment } from "@/lib/firebase";
+import { generateAssessmentPdf, type ReportData } from "@/lib/assessmentPdf";
+import { sendReportEmail } from "@/lib/api/report.functions";
 
 /* ASSESSMENT DE DIAGNÓSTICO EN VIVO — la "Auditoría de 15 puntos".
    Se llena durante la reunión, después de la presentación (/presentacion-diagnostico).
@@ -190,7 +195,14 @@ const decisionesOpciones = [
 type ScoreState = { nota: number | null; obs: string };
 
 type AssessmentState = {
-  cliente: { empresa: string; contacto: string; rubro: string; sitio: string; anios: string };
+  cliente: {
+    empresa: string;
+    contacto: string;
+    rubro: string;
+    sitio: string;
+    anios: string;
+    email: string;
+  };
   scores: Record<string, ScoreState>;
   pagespeed: { movil: string; desktop: string };
   contexto: {
@@ -205,7 +217,7 @@ type AssessmentState = {
 };
 
 const estadoInicial = (): AssessmentState => ({
-  cliente: { empresa: "", contacto: "", rubro: "", sitio: "", anios: "" },
+  cliente: { empresa: "", contacto: "", rubro: "", sitio: "", anios: "", email: "" },
   scores: Object.fromEntries(todosLosItems.map((i) => [i.id, { nota: null, obs: "" }])),
   pagespeed: { movil: "", desktop: "" },
   contexto: {
@@ -326,9 +338,17 @@ type SaveStatus =
   | { kind: "ok"; id: string }
   | { kind: "error"; msg: string };
 
+type MailStatus =
+  | { kind: "idle" }
+  | { kind: "sending" }
+  | { kind: "ok" }
+  | { kind: "error"; msg: string };
+
 function AssessmentPage() {
   const [state, setState] = useState<AssessmentState>(estadoInicial);
   const [status, setStatus] = useState<SaveStatus>({ kind: "idle" });
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [mail, setMail] = useState<MailStatus>({ kind: "idle" });
   // Flag de ESTADO (no ref): el autoguardado solo se activa en el render
   // posterior a cargar el borrador. Con un ref, el doble-invoke de efectos en
   // dev (StrictMode) sobrescribía el borrador con el estado inicial vacío.
@@ -474,11 +494,101 @@ function AssessmentPage() {
     URL.revokeObjectURL(url);
   };
 
+  // Reúne el reporte con labels legibles para el PDF.
+  const collectReport = (): ReportData => ({
+    empresa: state.cliente.empresa.trim(),
+    contacto: state.cliente.contacto.trim(),
+    rubro: state.cliente.rubro.trim(),
+    sitio: state.cliente.sitio.trim(),
+    anios: state.cliente.anios.trim(),
+    email: state.cliente.email.trim(),
+    fecha: new Date().toLocaleDateString("es-CL", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    totalPct: totales.pct,
+    totalPuntos: totales.puntos,
+    totalMax: totales.maximo,
+    clasifLabel: clasif.label,
+    categorias: categorias.map((cat) => ({
+      nombre: cat.nombre,
+      color: cat.color,
+      puntos: totales.porCategoria.find((c) => c.id === cat.id)?.puntos ?? 0,
+      maximo: cat.items.length * 5,
+      items: cat.items.map((it) => ({
+        label: it.label,
+        nota: notaDe(it, state),
+        obs: state.scores[it.id]?.obs ?? "",
+      })),
+    })),
+    pagespeed: { movil: num(state.pagespeed.movil), desktop: num(state.pagespeed.desktop) },
+    contexto: {
+      objetivos: state.contexto.objetivos.trim(),
+      dolor: state.contexto.dolor.trim(),
+      inversion: num(state.contexto.inversion),
+      ventasPct: num(state.contexto.ventasPct),
+      decisiones: state.contexto.decisiones,
+      herramientas: state.contexto.herramientas,
+    },
+    proyeccion: proyeccion
+      ? {
+          visitas: num(state.proyeccion.visitas),
+          conversion: num(state.proyeccion.conversion),
+          ticket: num(state.proyeccion.ticket),
+          actual: proyeccion.actual,
+          meta90: proyeccion.meta90,
+          meta12: proyeccion.meta12,
+        }
+      : null,
+  });
+
+  const pdfFilename = () => {
+    const empresa = state.cliente.empresa.trim().replace(/\s+/g, "-").toLowerCase() || "cliente";
+    return `diagnostico-${empresa}-${new Date().toISOString().slice(0, 10)}.pdf`;
+  };
+
+  const onDescargarPdf = async () => {
+    if (pdfBusy) return;
+    setPdfBusy(true);
+    try {
+      const doc = await generateAssessmentPdf(collectReport());
+      doc.save(pdfFilename());
+    } catch (e) {
+      alert(`No se pudo generar el PDF. ${e instanceof Error ? e.message : ""}`);
+    }
+    setPdfBusy(false);
+  };
+
+  const onEnviarCorreo = async () => {
+    if (mail.kind === "sending") return;
+    const email = state.cliente.email.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setMail({ kind: "error", msg: "Ingresa un correo válido en Datos del cliente." });
+      return;
+    }
+    setMail({ kind: "sending" });
+    try {
+      const doc = await generateAssessmentPdf(collectReport());
+      const pdfBase64 = doc.output("datauristring").split(",")[1];
+      await sendReportEmail({
+        data: { email, empresa: state.cliente.empresa.trim() || "cliente", pdfBase64 },
+      });
+      setMail({ kind: "ok" });
+    } catch (e) {
+      setMail({
+        kind: "error",
+        msg: e instanceof Error ? e.message : "No se pudo enviar el correo.",
+      });
+    }
+  };
+
   const onNuevo = () => {
     if (!confirm("¿Limpiar todo el formulario para un nuevo diagnóstico?")) return;
     localStorage.removeItem(DRAFT_KEY);
     setState(estadoInicial());
     setStatus({ kind: "idle" });
+    setMail({ kind: "idle" });
     window.scrollTo({ top: 0 });
   };
 
@@ -551,6 +661,15 @@ function AssessmentPage() {
               value={state.cliente.anios}
               onChange={(e) =>
                 setState((s) => ({ ...s, cliente: { ...s.cliente, anios: e.target.value } }))
+              }
+            />
+            <input
+              className={`${inputCls} sm:col-span-2 lg:col-span-1`}
+              type="email"
+              placeholder="Correo del cliente (para enviar el reporte)"
+              value={state.cliente.email}
+              onChange={(e) =>
+                setState((s) => ({ ...s, cliente: { ...s.cliente, email: e.target.value } }))
               }
             />
           </div>
@@ -872,6 +991,69 @@ function AssessmentPage() {
             </div>
           </div>
         </SectionCard>
+
+        {/* Reporte de resultados: PDF descargable + envío al correo del cliente */}
+        <SectionCard
+          icon={FileDown}
+          title="Reporte de resultados"
+          subtitle="Genera el PDF del diagnóstico: descárgalo o envíaselo al cliente por correo."
+        >
+          <div className="flex flex-col gap-4">
+            <input
+              className={inputCls}
+              type="email"
+              placeholder="Correo del cliente (ej. gerencia@empresa.cl)"
+              value={state.cliente.email}
+              onChange={(e) =>
+                setState((s) => ({ ...s, cliente: { ...s.cliente, email: e.target.value } }))
+              }
+            />
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={onDescargarPdf}
+                disabled={pdfBusy}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-bold text-white hover:bg-white/15 transition disabled:opacity-50"
+              >
+                {pdfBusy ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <FileDown className="h-4 w-4" aria-hidden="true" />
+                )}
+                Descargar PDF
+              </button>
+              <button
+                type="button"
+                onClick={onEnviarCorreo}
+                disabled={mail.kind === "sending"}
+                className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-white transition-transform hover:scale-[1.03] disabled:opacity-50 disabled:pointer-events-none"
+                style={{ background: "var(--gradient-brand)" }}
+              >
+                {mail.kind === "sending" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                )}
+                {mail.kind === "sending" ? "Enviando…" : "Enviar al correo"}
+              </button>
+            </div>
+            {mail.kind === "ok" && (
+              <p className="inline-flex items-center gap-2 text-sm font-semibold text-green-400">
+                <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Reporte enviado a{" "}
+                {state.cliente.email.trim()}.
+              </p>
+            )}
+            {mail.kind === "error" && (
+              <p className="inline-flex items-start gap-2 text-sm font-semibold text-prisma-red">
+                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" /> {mail.msg}
+              </p>
+            )}
+            <p className="text-xs text-white/45">
+              El PDF incluye el puntaje, los 15 puntos con sus notas, PageSpeed, el contexto y la
+              proyección. Se genera desde este navegador con los datos actuales.
+            </p>
+          </div>
+        </SectionCard>
       </div>
 
       {/* Barra fija de acciones */}
@@ -911,10 +1093,23 @@ function AssessmentPage() {
             </button>
             <button
               type="button"
+              onClick={onDescargarPdf}
+              disabled={pdfBusy}
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-bold text-white/80 hover:bg-white/15 transition disabled:opacity-50"
+            >
+              {pdfBusy ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+              )}
+              PDF
+            </button>
+            <button
+              type="button"
               onClick={onExportar}
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-bold text-white/80 hover:bg-white/15 transition"
             >
-              <Download className="h-4 w-4" aria-hidden="true" /> Exportar JSON
+              <Download className="h-4 w-4" aria-hidden="true" /> JSON
             </button>
             <button
               type="button"

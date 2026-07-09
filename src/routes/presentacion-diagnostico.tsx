@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
+  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   Telescope,
@@ -178,6 +179,14 @@ function SlideIdentidad() {
       >
         Una brújula clara: <span className="nl-text-gradient">datos con propósito.</span>
       </h2>
+      <p
+        className="pd-stagger mx-auto mt-5 max-w-3xl text-lg md:text-xl text-white/75"
+        style={{ "--pd-d": "180ms" } as React.CSSProperties}
+      >
+        Somos Prisma Digital: acompañamos a empresas con años de trayectoria a crecer en el mundo
+        online — construyendo, conectando y midiendo su ecosistema digital para que cada decisión se
+        tome con datos.
+      </p>
       <div className="mt-12 grid gap-6 md:grid-cols-3 text-left">
         {identidad.map(({ icon: Icon, title, body }, i) => (
           <article
@@ -261,15 +270,15 @@ const flujo = [
   {
     icon: Workflow,
     label: "PROCESO",
-    title: "Técnicas Analytics",
-    body: "GTM, GA4, Conversions API, CRM y tags de eventos: medimos cada interacción que importa.",
+    title: "Medición e integración",
+    body: "Conectamos y configuramos tus herramientas de medición (Google Analytics, píxeles, tu CRM) para registrar cada interacción que importa.",
     color: "#d713f9",
   },
   {
     icon: Lightbulb,
-    label: "OUTPUT",
-    title: "Insights y audiencias",
-    body: "Segmentación precisa, optimización de presupuestos y decisiones que cierran brechas.",
+    label: "RESULTADO",
+    title: "Decisiones con datos",
+    body: "Sabes a quién le hablas, dónde invertir cada peso y qué mejorar para vender más — sin adivinar.",
     color: "#fd3833",
   },
 ];
@@ -389,6 +398,15 @@ const etapasMaduracion = [
   },
 ];
 
+// Posición del centro de cada etapa sobre la banda de la curva (en % de la banda).
+// Escalonan de abajo-izquierda a arriba-derecha, siguiendo la subida de la curva.
+const nodePos = [
+  { x: 13, y: 64 },
+  { x: 38, y: 47 },
+  { x: 63, y: 31 },
+  { x: 87, y: 18 },
+];
+
 function SlideMaduracion() {
   return (
     <div className="w-full max-w-7xl px-6 md:px-12">
@@ -400,35 +418,41 @@ function SlideMaduracion() {
         >
           El Modelo de <span className="nl-text-gradient">Maduración de Datos</span>
         </h2>
+        <p
+          className="pd-stagger mx-auto mt-4 max-w-2xl text-base md:text-lg text-white/70"
+          style={{ "--pd-d": "160ms" } as React.CSSProperties}
+        >
+          No hacemos todo de golpe: hacemos crecer tus datos por etapas, y cada una desbloquea la
+          siguiente.
+        </p>
       </div>
 
       {/* Tramos superiores: qué familia de técnicas cubre cada mitad */}
       <div
-        className="pd-stagger hidden lg:grid grid-cols-4 gap-6 mt-10 mb-2"
+        className="pd-stagger hidden lg:grid grid-cols-2 gap-6 mt-8 mb-1"
         style={{ "--pd-d": "220ms" } as React.CSSProperties}
         aria-hidden="true"
       >
-        <div className="col-span-2 relative border-t-2 border-prisma-cyan/50 pt-2 text-center">
+        <div className="border-t-2 border-prisma-cyan/50 pt-2 text-center">
           <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-cyan/90">
             Técnicas de análisis digitales
           </span>
         </div>
-        <div className="col-span-2 relative border-t-2 border-prisma-magenta/50 pt-2 text-center">
+        <div className="border-t-2 border-prisma-magenta/50 pt-2 text-center">
           <span className="text-xs font-bold tracking-[0.25em] uppercase text-prisma-magenta">
             Técnicas Data Science
           </span>
         </div>
       </div>
 
-      <div className="relative mt-4">
-        {/* Curva ascendente que se dibuja al entrar. Va en z-0 (el contenido en
-            z-10) y con opacidad contenida: gruesa y visible, pero siempre DETRÁS
-            de las letras para no interrumpir la lectura. */}
+      {/* BANDA DE LA CURVA (solo escritorio): la curva pasa POR ARRIBA de las
+          etapas escalonadas y termina en una flecha que sigue creciendo. */}
+      <div className="relative hidden lg:block h-64">
         <svg
-          viewBox="0 0 1000 320"
-          className="hidden lg:block absolute inset-x-0 top-0 z-0 h-full w-full pointer-events-none"
-          fill="none"
+          viewBox="0 0 100 100"
           preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full overflow-visible z-20 pointer-events-none"
+          fill="none"
           aria-hidden="true"
         >
           <defs>
@@ -438,63 +462,95 @@ function SlideMaduracion() {
               <stop offset="100%" stopColor="#fd3833" />
             </linearGradient>
           </defs>
-          {/* Halo difuso: da cuerpo a la curva sin tapar el contenido */}
+          {/* Halo (grosor constante gracias a non-scaling-stroke) */}
           <path
             className="pd-draw"
-            d="M 30 280 C 220 270, 260 205, 405 190 C 540 176, 580 120, 715 100 C 830 83, 880 40, 970 22"
+            d="M 2 80 C 14 70, 18 56, 32 47 C 46 38, 52 30, 65 23 C 78 16, 84 12, 97 5"
             stroke="url(#pd-curve)"
-            strokeWidth="22"
-            strokeOpacity="0.14"
+            strokeWidth="20"
+            strokeOpacity="0.16"
             strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
             pathLength={1}
           />
-          {/* Trazo principal: grueso y legible */}
+          {/* Trazo principal, grueso y protagonista */}
           <path
             className="pd-draw"
-            d="M 30 280 C 220 270, 260 205, 405 190 C 540 176, 580 120, 715 100 C 830 83, 880 40, 970 22"
+            d="M 2 80 C 14 70, 18 56, 32 47 C 46 38, 52 30, 65 23 C 78 16, 84 12, 97 5"
             stroke="url(#pd-curve)"
-            strokeWidth="8"
-            strokeOpacity="0.55"
+            strokeWidth="7"
             strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
             pathLength={1}
           />
         </svg>
 
-        <div className="relative z-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {etapasMaduracion.map(({ goal, title, metodo, color, lift, glyph, items }, i) => (
-            <article
-              key={title}
-              className={`pd-stagger ${lift}`}
-              style={{ "--pd-d": `${300 + i * 150}ms` } as React.CSSProperties}
-            >
-              <div className="flex flex-col items-center text-center">
-                <Glyph color={color} className={`${glyph} h-auto mb-2`} />
-                <p className="text-sm italic font-semibold" style={{ color }}>
-                  {goal}
-                </p>
-                <h3 className="mt-1 text-xl md:text-2xl font-extrabold leading-tight text-balance">
-                  {title}
-                </h3>
-                <div
-                  className="mt-3 h-1.5 w-full rounded-full"
-                  style={{ background: `linear-gradient(90deg, ${color}, ${color}55)` }}
-                  aria-hidden="true"
-                />
-                <p className="mt-3 text-xs font-bold tracking-[0.18em] uppercase text-white/60">
-                  {metodo}
-                </p>
-              </div>
-              <ul className="mt-4 space-y-1.5 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-left">
-                {items.map((item) => (
-                  <li key={item} className="flex gap-2 text-sm md:text-[15px] text-white/80 leading-snug">
-                    <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: color }} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+        {/* Punta de flecha: sigue creciendo hasta el infinito */}
+        <div
+          className="pd-stagger absolute z-30"
+          style={{ left: "97%", top: "5%", transform: "translate(-40%, -55%)", "--pd-d": "1150ms" } as React.CSSProperties}
+        >
+          <div className="flex items-center gap-1.5">
+            <ArrowUpRight className="h-11 w-11 text-prisma-red drop-shadow-[0_0_10px_rgba(253,56,51,0.6)]" strokeWidth={2.6} aria-hidden="true" />
+          </div>
+          <span className="absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.2em] text-white/55">
+            y sigue creciendo
+          </span>
         </div>
+
+        {/* Nodos (glyph + objetivo + etapa) escalonados sobre la curva */}
+        {etapasMaduracion.map(({ goal, title, color, glyph }, i) => (
+          <div
+            key={title}
+            className="pd-stagger absolute w-52 -translate-x-1/2 -translate-y-1/2 text-center"
+            style={{ left: `${nodePos[i].x}%`, top: `${nodePos[i].y}%`, "--pd-d": `${340 + i * 160}ms` } as React.CSSProperties}
+          >
+            <Glyph color={color} className={`${glyph} h-auto mx-auto mb-1.5`} />
+            <p className="text-xs italic font-semibold" style={{ color }}>
+              {goal}
+            </p>
+            <h3 className="mt-0.5 text-lg xl:text-xl font-extrabold leading-tight text-balance">
+              {title}
+            </h3>
+          </div>
+        ))}
+      </div>
+
+      {/* DETALLE POR ETAPA: método + hitos. En móvil incluye el encabezado
+          (glyph + objetivo + etapa) porque ahí no se muestra la banda. */}
+      <div className="mt-8 lg:mt-4 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {etapasMaduracion.map(({ goal, title, metodo, color, glyph, items }, i) => (
+          <article
+            key={title}
+            className="pd-stagger rounded-xl border border-white/10 bg-white/[0.04] p-4 text-left"
+            style={{ "--pd-d": `${300 + i * 130}ms` } as React.CSSProperties}
+          >
+            {/* Encabezado visible solo en móvil/tablet */}
+            <div className="lg:hidden flex flex-col items-center text-center mb-3">
+              <Glyph color={color} className={`${glyph} h-auto mb-1.5`} />
+              <p className="text-xs italic font-semibold" style={{ color }}>
+                {goal}
+              </p>
+              <h3 className="mt-0.5 text-lg font-extrabold leading-tight">{title}</h3>
+            </div>
+            <div
+              className="h-1.5 w-full rounded-full mb-2"
+              style={{ background: `linear-gradient(90deg, ${color}, ${color}55)` }}
+              aria-hidden="true"
+            />
+            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/55 mb-2.5">
+              {metodo}
+            </p>
+            <ul className="space-y-1.5">
+              {items.map((item) => (
+                <li key={item} className="flex gap-2 text-sm text-white/80 leading-snug">
+                  <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: color }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
     </div>
   );
@@ -819,6 +875,27 @@ const SLIDE_TITLES = [
   "Cierre",
 ];
 
+/* Fondo oscuro teñido por lámina: rompe la monotonía del azul manteniendo la
+   paleta de marca (navy, cian, magenta, rojo). Siempre muy oscuro para no
+   perder el contraste del texto blanco ni de los CTA. */
+const bg = (base: string, halo1: string, halo2: string, top: string) =>
+  `radial-gradient(120% 90% at 88% -12%, ${halo1} 0%, transparent 55%),` +
+  `radial-gradient(90% 70% at -8% 105%, ${halo2} 0%, transparent 60%),` +
+  `linear-gradient(${top}, ${base})`;
+
+const SLIDE_BG = [
+  bg("#000139", "#241a6b", "#14043f", "#050144"), // 0 Portada — navy púrpura
+  bg("#00122e", "#0a5f88", "#04182f", "#04223f"), // 1 Identidad — cian/teal
+  bg("#1b0622", "#7c1233", "#1e0720", "#2a0a26"), // 2 Problema — rojo/vino
+  bg("#15003a", "#4a0f74", "#1a0740", "#1f0945"), // 3 Solución — magenta/púrpura
+  bg("#001a45", "#1a5aa8", "#04204a", "#05285e"), // 4 Maduración — azul brillante
+  bg("#001f2e", "#0a6b7a", "#042a30", "#043240"), // 5 Primera etapa — cian profundo
+  bg("#0a0330", "#3f1f8a", "#160942", "#140a48"), // 6 Segunda etapa — violeta/índigo
+  bg("#001d3a", "#1487c4", "#04204a", "#04315e"), // 7 Resultados — cian vivo
+  bg("#16003a", "#5a1073", "#1a0740", "#22094a"), // 8 Diagnóstico — magenta
+  bg("#000139", "#3a1f7a", "#2a0a4a", "#0a0640"), // 9 Cierre — navy tri-luz
+];
+
 function PresentacionPage() {
   const [index, setIndex] = useState(0);
   const total = SLIDE_TITLES.length;
@@ -872,7 +949,7 @@ function PresentacionPage() {
 
   return (
     <main
-      className="nl-dark fixed inset-0 overflow-hidden text-white"
+      className="fixed inset-0 overflow-hidden bg-[#000139] text-white"
       onTouchStart={(e) => {
         touchX.current = e.touches[0].clientX;
       }}
@@ -888,10 +965,19 @@ function PresentacionPage() {
         <style>{`.pd-slide{position:static;opacity:1;visibility:visible;transform:none;margin:48px 0;}`}</style>
       </noscript>
 
-      {/* Fondo de marca: grano + aura cónica */}
-      <div className="nl-grain absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="nl-aura opacity-40" />
+      {/* Fondos por lámina: crossfade de color al cambiar de diapositiva */}
+      <div className="absolute inset-0" aria-hidden="true">
+        {SLIDE_BG.map((background, i) => (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-700 ease-out"
+            style={{ background, opacity: i === index ? 1 : 0 }}
+          />
+        ))}
       </div>
+
+      {/* Grano fotográfico sobre el fondo (mata el look plástico) */}
+      <div className="nl-grain absolute inset-0 overflow-hidden" aria-hidden="true" />
 
       {/* Barra de progreso superior */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-30" aria-hidden="true">

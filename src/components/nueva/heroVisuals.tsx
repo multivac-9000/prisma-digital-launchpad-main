@@ -28,10 +28,10 @@ const card = "relative rounded-2xl border border-white/12 bg-white/[0.07]";
    ============================================================ */
 
 const dNodes = [
-  { icon: Store, label: "Tienda física", x: 50, y: 5, c: "#32d6ff" },
-  { icon: ShoppingCart, label: "E-commerce", x: 92, y: 34, c: "#5ad1ff" },
-  { icon: Boxes, label: "Bodega · POS", x: 78, y: 90, c: "#32d6ff" },
-  { icon: Users, label: "CRM", x: 22, y: 90, c: "#7fdcff" },
+  { icon: Store, label: "Tu local", x: 50, y: 5, c: "#32d6ff" },
+  { icon: ShoppingCart, label: "Tienda online", x: 92, y: 34, c: "#5ad1ff" },
+  { icon: Boxes, label: "Bodega · Caja", x: 78, y: 90, c: "#32d6ff" },
+  { icon: Users, label: "Clientes", x: 22, y: 90, c: "#7fdcff" },
   { icon: MessageCircle, label: "WhatsApp", x: 8, y: 34, c: "#32d6ff" },
 ];
 
