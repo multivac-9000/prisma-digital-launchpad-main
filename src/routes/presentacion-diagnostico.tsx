@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -21,6 +21,7 @@ import {
   FlaskConical,
   BarChart3,
   Maximize2,
+  Flag,
   type LucideIcon,
 } from "lucide-react";
 import { reducedMotion } from "@/components/nueva/scrolly";
@@ -605,42 +606,286 @@ function SlideMaduracion() {
   );
 }
 
-const fasesPrimeraEtapa = [
+/* ============================================================
+   ROUTE MAP: componente compartido para las láminas de "hoja de ruta"
+   (6 fases y segunda etapa). Una línea de datos continua conecta nodos
+   numerados/iconográficos; cada nodo cuelga una tarjeta arriba o abajo
+   por un tallo, dando lectura de mapa de ruta / línea de metro.
+   Reutiliza los efectos vivos de marca (.nl-hv-flow, .nl-hv-ring) y el
+   mismo criterio de "se dibuja sola" (.pd-draw) que la curva de maduración.
+   ============================================================ */
+
+type RouteStop = {
+  n?: string;
+  icon?: LucideIcon;
+  title: string;
+  items?: string[];
+  body?: string; // alternativa a items: texto corto (nodo destino)
+  color: string;
+  big?: boolean;
+};
+
+function RouteBadge({ stop }: { stop: RouteStop }) {
+  const size = stop.big ? "h-14 w-14 xl:h-16 xl:w-16" : "h-10 w-10 xl:h-11 xl:w-11";
+  return (
+    <span className={`relative inline-flex ${size} shrink-0`}>
+      <span
+        className="absolute inset-0 rounded-full nl-hv-ring"
+        style={{ background: stop.color }}
+        aria-hidden="true"
+      />
+      <span
+        className={`relative inline-flex ${size} items-center justify-center rounded-full text-prisma-navy font-black shadow-lg ${stop.big ? "text-lg" : "text-sm xl:text-base"}`}
+        style={{ background: stop.color }}
+      >
+        {stop.icon ? (
+          <stop.icon className={stop.big ? "h-7 w-7" : "h-5 w-5"} aria-hidden="true" />
+        ) : (
+          stop.n
+        )}
+      </span>
+    </span>
+  );
+}
+
+function RouteMap({
+  stops,
+  alternate = false,
+  linePercent = 50,
+  cardWidthClass = "w-44",
+  height = 480,
+}: {
+  stops: RouteStop[];
+  alternate?: boolean;
+  linePercent?: number;
+  cardWidthClass?: string;
+  height?: number;
+}) {
+  const count = stops.length;
+  const pad = count > 3 ? 8 : 10;
+  const step = count > 1 ? (100 - pad * 2) / (count - 1) : 0;
+  const belowSpace = 100 - linePercent;
+
+  return (
+    <div className="relative hidden lg:block" style={{ height }}>
+      {/* Línea de ruta: halo + trazo que se dibuja + flujo de datos animado */}
+      <div
+        className="absolute inset-x-0 h-3 overflow-visible"
+        style={{ top: `${linePercent}%`, transform: "translateY(-50%)" }}
+      >
+        <svg
+          viewBox="0 0 100 6"
+          preserveAspectRatio="none"
+          className="h-full w-full overflow-visible"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="pd-route-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#32d6ff" />
+              <stop offset="50%" stopColor="#d713f9" />
+              <stop offset="100%" stopColor="#fd3833" />
+            </linearGradient>
+          </defs>
+          <path
+            className="pd-draw"
+            d={`M ${pad} 3 L ${100 - pad} 3`}
+            stroke="url(#pd-route-grad)"
+            strokeWidth={14}
+            strokeOpacity={0.16}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            pathLength={1}
+          />
+          <path
+            className="pd-draw"
+            d={`M ${pad} 3 L ${100 - pad} 3`}
+            stroke="url(#pd-route-grad)"
+            strokeWidth={5}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            pathLength={1}
+            style={{ filter: "drop-shadow(0 0 5px rgba(215,19,249,0.4))" }}
+          />
+          <path
+            d={`M ${pad} 3 L ${100 - pad} 3`}
+            className="nl-hv-flow"
+            stroke="#ffffff"
+            strokeOpacity={0.6}
+            strokeWidth={2.4}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      </div>
+
+      {stops.map((stop, i) => {
+        const x = pad + step * i;
+        const isAbove = alternate && i % 2 === 1;
+        const delay = 280 + i * 150;
+        return (
+          <Fragment key={stop.title}>
+            {/* Nodo, centrado sobre la línea */}
+            <div
+              className="pd-stagger absolute z-10"
+              style={
+                {
+                  left: `${x}%`,
+                  top: `${linePercent}%`,
+                  transform: "translate(-50%, -50%)",
+                  "--pd-d": `${delay}ms`,
+                } as React.CSSProperties
+              }
+            >
+              <RouteBadge stop={stop} />
+            </div>
+
+            {/* Tallo conector */}
+            <div
+              className="pd-stagger absolute w-px"
+              style={
+                {
+                  left: `${x}%`,
+                  ...(isAbove
+                    ? { bottom: `calc(${belowSpace}% + 24px)` }
+                    : { top: `calc(${linePercent}% + 24px)` }),
+                  height: 22,
+                  background: `linear-gradient(${isAbove ? "0deg" : "180deg"}, ${stop.color}99, transparent)`,
+                  "--pd-d": `${delay + 40}ms`,
+                } as React.CSSProperties
+              }
+              aria-hidden="true"
+            />
+
+            {/* Tarjeta colgando del tallo */}
+            <div
+              className={`pd-stagger absolute -translate-x-1/2 text-left ${cardWidthClass}`}
+              style={
+                {
+                  left: `${x}%`,
+                  ...(isAbove
+                    ? { bottom: `calc(${belowSpace}% + 46px)` }
+                    : { top: `calc(${linePercent}% + 46px)` }),
+                  "--pd-d": `${delay + 90}ms`,
+                } as React.CSSProperties
+              }
+            >
+              <article
+                className="rounded-xl border p-3.5 xl:p-4"
+                style={{
+                  borderColor: stop.big ? `${stop.color}55` : "rgba(255,255,255,0.12)",
+                  background: stop.big ? `${stop.color}14` : "rgba(255,255,255,0.05)",
+                }}
+              >
+                <h3 className={`font-bold leading-snug ${stop.big ? "text-base xl:text-lg" : "text-sm xl:text-base"}`}>
+                  {stop.title}
+                </h3>
+                {stop.body && (
+                  <p className="mt-1.5 text-xs xl:text-sm italic text-white/75 leading-snug">{stop.body}</p>
+                )}
+                {stop.items && (
+                  <ul className="mt-2 space-y-1">
+                    {stop.items.map((item) => (
+                      <li
+                        key={item}
+                        className="flex gap-1.5 text-[11px] xl:text-xs text-white/75 leading-snug"
+                      >
+                        <span
+                          className="mt-1 h-1 w-1 shrink-0 rounded-full"
+                          style={{ background: stop.color }}
+                        />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            </div>
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+/* Fallback móvil/tablet: tarjetas apiladas con numeración (misma info, sin el mapa). */
+function RouteMapMobile({ stops }: { stops: RouteStop[] }) {
+  return (
+    <div className="mt-8 lg:hidden grid gap-5 sm:grid-cols-2">
+      {stops.map((stop, i) => (
+        <article
+          key={stop.title}
+          className="pd-stagger rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-6"
+          style={{ "--pd-d": `${180 + i * 100}ms` } as React.CSSProperties}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <RouteBadge stop={stop} />
+            <h3 className="text-lg font-bold leading-tight">{stop.title}</h3>
+          </div>
+          {stop.body && <p className="text-[15px] italic text-white/80 leading-snug">{stop.body}</p>}
+          {stop.items && (
+            <ul className="space-y-1.5">
+              {stop.items.map((item) => (
+                <li key={item} className="flex gap-2 text-[15px] text-white/80 leading-snug">
+                  <span
+                    className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ background: stop.color }}
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  );
+}
+
+// Espectro de marca (cian → magenta → rojo) para las 6 fases: cada una avanza
+// un paso en el color, reforzando visualmente el avance de la ruta.
+const fasesPrimeraEtapa: RouteStop[] = [
   {
     n: "01",
     title: "Empatía Preliminar",
+    color: "#32d6ff",
     items: ["Misión, visión y objetivos del negocio", "Situación actual de la analítica", "Confidencialidad y accesos"],
   },
   {
     n: "02",
     title: "Implementación Primordial",
+    color: "#4fb8ef",
     items: ["GTM como centralizador de etiquetas", "GA4, Google Ads y Search Console", "CRM y Píxel de Meta"],
   },
   {
     n: "03",
     title: "Integraciones Operativas",
+    color: "#8a6ef5",
     items: ["Tags de eventos, variables y triggers", "Botones clave y CTAs medidos", "Hotjar + conversiones vinculadas"],
   },
   {
     n: "04",
     title: "Configuración Estratégica",
+    color: "#b158f2",
     items: ["Propiedades y vistas por unidad", "KPIs comerciales y de fidelización", "Dimensiones y segmentos propios"],
   },
   {
     n: "05",
     title: "Dashboarding e Insights",
+    color: "#d713f9",
     items: ["Panel de control con KPIs útiles", "Canales con mayor ROI", "Audiencias y re-marketing"],
   },
   {
     n: "06",
     title: "Reporting y Mejora Continua",
+    color: "#fd3833",
     items: ["Acompañamiento mínimo 1 año", "Reportes semanales y mensuales", "Alertas en tiempo real"],
   },
 ];
 
 function SlideRutaPrimera() {
   return (
-    <div className="w-full max-w-6xl px-6 md:px-12">
+    <div className="w-full max-w-7xl px-6 md:px-12">
       <div className="text-center">
         <Kicker>Primera etapa de maduración</Kicker>
         <h2
@@ -650,33 +895,13 @@ function SlideRutaPrimera() {
           De la empatía <span className="nl-text-gradient">a los insights, en 6 fases.</span>
         </h2>
       </div>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {fasesPrimeraEtapa.map(({ n, title, items }, i) => (
-          <article
-            key={n}
-            className="pd-stagger rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-6"
-            style={{ "--pd-d": `${180 + i * 100}ms` } as React.CSSProperties}
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-3xl font-black nl-text-gradient">{n}</span>
-              <h3 className="text-lg md:text-xl font-bold leading-tight">{title}</h3>
-            </div>
-            <ul className="space-y-1.5">
-              {items.map((item) => (
-                <li key={item} className="flex gap-2 text-[15px] text-white/80 leading-snug">
-                  <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-prisma-cyan" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
+      <RouteMap stops={fasesPrimeraEtapa} alternate cardWidthClass="w-[178px]" height={470} />
+      <RouteMapMobile stops={fasesPrimeraEtapa} />
     </div>
   );
 }
 
-const segundaEtapa = [
+const segundaEtapa: RouteStop[] = [
   {
     icon: FlaskConical,
     title: "Data Science y Optimización",
@@ -699,6 +924,13 @@ const segundaEtapa = [
       "La visión transformada en planes de acción concretos",
     ],
   },
+  {
+    icon: Flag,
+    title: "El destino",
+    color: "#fd3833",
+    big: true,
+    body: "Un sistema de inteligencia de negocios funcionando en automático.",
+  },
 ];
 
 function SlideSegundaEtapa() {
@@ -713,37 +945,8 @@ function SlideSegundaEtapa() {
           De medir bien <span className="nl-text-gradient">a competir con inteligencia.</span>
         </h2>
       </div>
-      <div className="mt-12 grid gap-6 md:grid-cols-2 text-left">
-        {segundaEtapa.map(({ icon: Icon, title, color, items }, i) => (
-          <article
-            key={title}
-            className="pd-stagger rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-7 md:p-9"
-            style={{ "--pd-d": `${220 + i * 160}ms` } as React.CSSProperties}
-          >
-            <div
-              className="inline-flex h-14 w-14 items-center justify-center rounded-xl mb-5"
-              style={{ background: `${color}22`, color }}
-            >
-              <Icon className="h-7 w-7" aria-hidden="true" />
-            </div>
-            <h3 className="text-2xl font-bold">{title}</h3>
-            <ul className="mt-4 space-y-2.5">
-              {items.map((item) => (
-                <li key={item} className="flex gap-3 text-lg text-white/80 leading-snug">
-                  <span className="mt-[9px] h-2 w-2 shrink-0 rounded-full" style={{ background: color }} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
-      <p
-        className="pd-stagger mt-10 text-center text-lg md:text-xl text-white/70"
-        style={{ "--pd-d": "600ms" } as React.CSSProperties}
-      >
-        El destino: un sistema de inteligencia de negocios funcionando en automático.
-      </p>
+      <RouteMap stops={segundaEtapa} linePercent={22} cardWidthClass="w-[300px] xl:w-[340px]" height={400} />
+      <RouteMapMobile stops={segundaEtapa} />
     </div>
   );
 }
