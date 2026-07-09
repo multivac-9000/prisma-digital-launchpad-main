@@ -6,6 +6,7 @@ import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
+import { PromocionVisual } from "@/components/nueva/heroVisuals";
 import { Megaphone, Target, BarChart2, Video, Eye, ShieldCheck } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
 
@@ -139,6 +140,7 @@ function PromocionPage() {
           "Embudos de venta activos en 15 días",
           "Producción audiovisual premium incluida en plan de pauta"
         ]}
+        visual={<PromocionVisual />}
       />
 
       {/* Sección Dolores (Por qué fallan las agencias tradicionales) */}

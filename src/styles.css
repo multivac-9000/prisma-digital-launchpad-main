@@ -689,6 +689,100 @@
   animation-play-state: paused;
 }
 
+/* ---------- Infografías de los hero de servicios ----------
+   Vida idle de las piezas: flujo de datos por las líneas, flotación,
+   órbitas y pulsos. Solo transform/opacity/stroke-dashoffset (mismo criterio
+   que las sparklines). Todo se apaga con prefers-reduced-motion. */
+.nl-hv-flow {
+  stroke-dasharray: 3 8;
+  animation: nl-hv-flow 1.5s linear infinite;
+}
+@keyframes nl-hv-flow {
+  to {
+    stroke-dashoffset: -110;
+  }
+}
+.nl-hv-float {
+  animation: nl-hv-float 5s ease-in-out infinite;
+}
+.nl-hv-float-b {
+  animation: nl-hv-float 6.5s ease-in-out infinite;
+  animation-delay: -1.5s;
+}
+@keyframes nl-hv-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.nl-hv-spin {
+  transform-origin: center;
+  animation: nl-hv-spin 26s linear infinite;
+}
+.nl-hv-spin-rev {
+  transform-origin: center;
+  animation: nl-hv-spin 34s linear infinite reverse;
+}
+@keyframes nl-hv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.nl-hv-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nl-hv-ring 3s ease-out infinite;
+}
+@keyframes nl-hv-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.nl-hv-fall {
+  animation: nl-hv-fall 2.6s ease-in-out infinite;
+}
+@keyframes nl-hv-fall {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  15%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(44px);
+    opacity: 0;
+  }
+}
+.nl-hv-pulse {
+  animation: nl-hv-pulse 2.6s ease-in-out infinite;
+}
+@keyframes nl-hv-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scaleY(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+/* Contador de barras de evento: origen abajo para que “crezcan” */
+.nl-hv-bar {
+  transform-origin: bottom;
+}
+
 /* Móvil: tipografía más compacta en todo el rediseño (interlineado reducido) */
 @media (max-width: 767px) {
   .nl-page p,
@@ -746,5 +840,22 @@
   .nl-pulse-dot {
     animation: none !important;
     transform: none !important;
+  }
+  .nl-hv-flow,
+  .nl-hv-float,
+  .nl-hv-float-b,
+  .nl-hv-spin,
+  .nl-hv-spin-rev,
+  .nl-hv-ring,
+  .nl-hv-fall,
+  .nl-hv-pulse {
+    animation: none !important;
+    transform: none !important;
+  }
+  .nl-hv-flow {
+    stroke-dasharray: none;
+  }
+  .nl-hv-fall {
+    opacity: 1;
   }
 }

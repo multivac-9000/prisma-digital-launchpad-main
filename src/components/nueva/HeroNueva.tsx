@@ -1,4 +1,4 @@
-import { useEffect, useRef, Fragment, type CSSProperties } from "react";
+import { useEffect, useRef, Fragment, type CSSProperties, type ReactNode } from "react";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { trackCta } from "./track";
 import { Reveal } from "./scrolly";
@@ -93,6 +93,7 @@ export default function HeroNueva({
   customTickerItems,
   ctaText = "Agenda tu Diagnóstico Gratis",
   ctaId = "agenda_diagnostico",
+  visual,
 }: {
   h1Line1?: string;
   h1Line2?: string;
@@ -100,6 +101,9 @@ export default function HeroNueva({
   customTickerItems?: string[];
   ctaText?: string;
   ctaId?: string;
+  /** Infografía opcional a la derecha (páginas de servicio). Sin ella, el
+      hero mantiene el layout centrado del home. */
+  visual?: ReactNode;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -276,56 +280,77 @@ export default function HeroNueva({
         aria-hidden="true"
       />
 
-      <div className="nl-hero-exit relative mx-auto max-w-7xl px-6 text-center">
-        <span className="nl-badge-anim inline-flex items-center gap-1.5 md:gap-2 rounded-full border border-white/15 bg-white/5 px-3 md:px-4 py-1.5 text-[10px] tracking-tight sm:tracking-normal sm:text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm whitespace-nowrap">
-          <Sparkles
-            className="hidden sm:inline-block h-4 w-4 text-prisma-cyan shrink-0"
-            aria-hidden="true"
-          />
-          Decisiones digitales basadas en datos, con propósito humano
-        </span>
-
-        <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.75rem,4.7vw,3.75rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
-          <KineticLine text={h1Line1} offset={1} />
-          <KineticLine text={h1Line2} gradient offset={6} />
-        </h1>
-
-        <Reveal
-          as="p"
-          variant="blur"
-          delay={380}
-          className="mt-6 text-base md:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed"
-        >
-          {description}
-        </Reveal>
-
-        <Reveal variant="up" delay={520} className="mt-8 flex flex-col items-center gap-3">
-          <a
-            href={MEET_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackCta(ctaId, "hero")}
-            className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-lg md:text-xl shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            style={{ background: "var(--gradient-agenda)" }}
-          >
-            {ctaText}
-            <ArrowRight
-              className="h-5 w-5 transition-transform group-hover:translate-x-1"
+      <div
+        className={`relative mx-auto max-w-7xl px-6 ${
+          visual
+            ? "grid items-center gap-10 lg:gap-8 lg:grid-cols-[1.05fr_1fr] text-center lg:text-left"
+            : "text-center"
+        }`}
+      >
+        <div className="nl-hero-exit">
+          <span className="nl-badge-anim inline-flex items-center gap-1.5 md:gap-2 rounded-full border border-white/15 bg-white/5 px-3 md:px-4 py-1.5 text-[10px] tracking-tight sm:tracking-normal sm:text-xs md:text-sm font-medium text-white/90 backdrop-blur-sm whitespace-nowrap">
+            <Sparkles
+              className="hidden sm:inline-block h-4 w-4 text-prisma-cyan shrink-0"
               aria-hidden="true"
             />
-          </a>
-          <p className="text-[11px] tracking-tight sm:tracking-normal sm:text-sm text-white/70 font-medium whitespace-nowrap">
-            +300 negocios escalados · Resultados medibles en 90 días
-          </p>
-        </Reveal>
-
-        {/* Invitación al scroll: la historia sigue con los resultados */}
-        <Reveal variant="up" delay={650} className="mt-10 flex flex-col items-center gap-3">
-          <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/45">
-            Los resultados hablan primero
+            Decisiones digitales basadas en datos, con propósito humano
           </span>
-          <span className="nl-scrollhint" aria-hidden="true" />
-        </Reveal>
+
+          <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.6rem,4.3vw,3.6rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
+            <KineticLine text={h1Line1} offset={1} />
+            <KineticLine text={h1Line2} gradient offset={6} />
+          </h1>
+
+          <Reveal
+            as="p"
+            variant="blur"
+            delay={380}
+            className={`mt-6 text-base md:text-lg text-white/80 max-w-3xl leading-relaxed ${
+              visual ? "mx-auto lg:mx-0" : "mx-auto"
+            }`}
+          >
+            {description}
+          </Reveal>
+
+          <Reveal
+            variant="up"
+            delay={520}
+            className={`mt-8 flex flex-col gap-3 ${
+              visual ? "items-center lg:items-start" : "items-center"
+            }`}
+          >
+            <a
+              href={MEET_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCta(ctaId, "hero")}
+              className="nl-shine group inline-flex items-center gap-2 px-8 py-4 rounded-full text-prisma-navy font-bold text-lg md:text-xl shadow-2xl transition-transform hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              style={{ background: "var(--gradient-agenda)" }}
+            >
+              {ctaText}
+              <ArrowRight
+                className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </a>
+            <p className="text-[11px] tracking-tight sm:tracking-normal sm:text-sm text-white/70 font-medium whitespace-nowrap">
+              +300 negocios escalados · Resultados medibles en 90 días
+            </p>
+          </Reveal>
+
+          {/* Invitación al scroll: solo en el home (sin infografía) */}
+          {!visual && (
+            <Reveal variant="up" delay={650} className="mt-10 flex flex-col items-center gap-3">
+              <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-white/45">
+                Los resultados hablan primero
+              </span>
+              <span className="nl-scrollhint" aria-hidden="true" />
+            </Reveal>
+          )}
+        </div>
+
+        {/* Infografía del servicio (derecha en desktop, abajo en móvil) */}
+        {visual && <div className="w-full">{visual}</div>}
       </div>
 
       {/* Cinta de datos en movimiento: fuera del contenedor con parallax de

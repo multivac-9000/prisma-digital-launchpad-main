@@ -6,6 +6,7 @@ import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
+import { DigitalizacionVisual } from "@/components/nueva/heroVisuals";
 import {
   Database,
   GitMerge,
@@ -179,6 +180,7 @@ function DigitalizacionPage() {
           "Integración de ERP/POS sin caídas",
           "Automatizaciones comerciales listas en 30 días"
         ]}
+        visual={<DigitalizacionVisual />}
       />
 
       {/* Sección Dolores (Por qué duele no estar conectado) */}

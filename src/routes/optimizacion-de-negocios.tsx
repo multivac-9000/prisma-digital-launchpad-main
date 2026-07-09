@@ -7,6 +7,7 @@ import ContactoNueva from "@/components/nueva/ContactoNueva";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal, CountUp } from "@/components/nueva/scrolly";
+import { OptimizacionVisual } from "@/components/nueva/heroVisuals";
 import { TrendingUp, LineChart, Code, BarChart3 } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
 
@@ -113,6 +114,7 @@ function OptimizacionPage() {
           "Reducción directa de costes publicitarios (CPA)",
           "Control de métricas clave (LTV, CAC, ROAS)"
         ]}
+        visual={<OptimizacionVisual />}
       />
 
       {/* Sección Dolores (Por qué es peligroso medir mal) */}
