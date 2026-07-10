@@ -29,7 +29,7 @@ import {
 } from "@/content/blog";
 
 const CANONICAL_URL = `${SITE}/blog`;
-const OG_IMAGE = `${SITE}/blog/index.png`;
+const OG_IMAGE = `${SITE}/blog/portada-blog.png`;
 
 const ACCENT_VAR: Record<string, string> = {
   cyan: "var(--prisma-cyan)",

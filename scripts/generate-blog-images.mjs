@@ -95,8 +95,11 @@ function buildSvg({ eyebrow, lines, footer, accent, seed }) {
 </svg>`;
 }
 
+// OJO: el archivo de portada del índice del blog NO puede llamarse "index.png".
+// Vercel (Build Output API) sirve /blog/index.png como "índice" al visitar /blog
+// y eso pisa la ruta SSR de la página. Debe tener otro nombre.
 const POSTS = [
-  { slug: "index", accent: "magenta", seed: 5, eyebrow: "BLOG DE PRISMA DIGITAL", lines: ["Marketing, datos", "y medición"], footer: "Guías prácticas para crecer con datos" },
+  { slug: "portada-blog", accent: "magenta", seed: 5, eyebrow: "BLOG DE PRISMA DIGITAL", lines: ["Marketing, datos", "y medición"], footer: "Guías prácticas para crecer con datos" },
   { slug: "herramientas-digitales-imprescindibles", accent: "cyan", seed: 11, eyebrow: "HERRAMIENTAS DIGITALES", lines: ["12 herramientas", "digitales clave"], footer: "La caja de herramientas de un negocio consolidado" },
   { slug: "buenas-practicas-higiene-de-datos", accent: "magenta", seed: 19, eyebrow: "BUENAS PRÁCTICAS", lines: ["Higiene de datos", "para decidir mejor"], footer: "Datos limpios, decisiones confiables" },
   { slug: "tips-marketing-bajar-cpa", accent: "red", seed: 27, eyebrow: "TIPS DE MARKETING", lines: ["Baja tu CPA", "sin perder ventas"], footer: "7 tácticas medibles para tu pauta" },
