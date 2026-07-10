@@ -238,6 +238,16 @@ export default function HeroNueva({
       mouse.x = -9999;
       mouse.y = -9999;
     };
+    // Auto-reparación: si el navegador suspende la pestaña (gestor de memoria /
+    // ahorro de energía), rAF se congela y a veces no vuelve a repintar solo al
+    // volver. Al recuperar visibilidad, cancelamos cualquier frame pendiente y
+    // reiniciamos el bucle — garantiza un único loop vivo, sin duplicarlo.
+    const onVisible = () => {
+      if (document.visibilityState === "visible" && !reduce) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(step);
+      }
+    };
 
     resize();
     init();
@@ -246,6 +256,7 @@ export default function HeroNueva({
     } else {
       section.addEventListener("mousemove", onMove);
       section.addEventListener("mouseleave", onLeave);
+      document.addEventListener("visibilitychange", onVisible);
       step();
     }
 
@@ -260,6 +271,7 @@ export default function HeroNueva({
       window.removeEventListener("resize", onResize);
       section.removeEventListener("mousemove", onMove);
       section.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, []);
 
