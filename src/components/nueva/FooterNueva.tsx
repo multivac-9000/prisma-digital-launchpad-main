@@ -23,6 +23,7 @@ const socials = [
 const navLinks = [
   { label: "Resultados", href: "/#resultados" },
   { label: "Servicios", href: "/#servicios" },
+  { label: "Blog", href: "/blog" },
   { label: "Garantía", href: "/#garantia" },
   { label: "Contacto", href: "/#contacto" },
 ];

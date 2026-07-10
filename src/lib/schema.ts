@@ -191,6 +191,89 @@ export function service(opts: {
   };
 }
 
+/** Migaja de pan de N niveles (p. ej. Inicio › Blog › Post). */
+export function breadcrumbTrail(url: string, trail: { name: string; item: string }[]): Node {
+  return {
+    "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumb`,
+    itemListElement: trail.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: t.name,
+      item: t.item,
+    })),
+  };
+}
+
+/** BlogPosting/Article completo para GEO y rich results de artículo. */
+export function blogPosting(opts: {
+  url: string;
+  headline: string;
+  description: string;
+  image: string;
+  datePublished: string;
+  dateModified: string;
+  section: string;
+  keywords: string[];
+  wordCount?: number;
+}): Node {
+  return {
+    "@type": "BlogPosting",
+    "@id": `${opts.url}#article`,
+    isPartOf: { "@id": `${SITE}/blog#blog` },
+    mainEntityOfPage: { "@id": `${opts.url}#webpage` },
+    headline: opts.headline,
+    description: opts.description,
+    image: [opts.image],
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified,
+    author: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    articleSection: opts.section,
+    keywords: opts.keywords.join(", "),
+    inLanguage: "es-CL",
+    url: opts.url,
+    ...(opts.wordCount ? { wordCount: opts.wordCount } : {}),
+  };
+}
+
+/** FAQPage a partir de las preguntas del post (ideal para respuestas de IA). */
+export function faqPage(url: string, faqs: { q: string; a: string }[]): Node {
+  return {
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+/** Nodo Blog (índice) con la lista de posts publicados. */
+export function blogListing(
+  posts: { url: string; title: string; datePublished: string; image: string }[],
+): Node {
+  return {
+    "@type": "Blog",
+    "@id": `${SITE}/blog#blog`,
+    url: `${SITE}/blog`,
+    name: "Blog de Prisma Digital",
+    description:
+      "Guías prácticas de marketing digital, medición, análisis, martech y SEO para empresas consolidadas.",
+    publisher: { "@id": ORG_ID },
+    inLanguage: "es-CL",
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      "@id": `${p.url}#article`,
+      headline: p.title,
+      url: p.url,
+      datePublished: p.datePublished,
+      image: [p.image],
+    })),
+  };
+}
+
 /** Serializa el grafo: entidades base de marca + nodos propios de la página. */
 export function buildGraph(...pageNodes: Node[]): string {
   return JSON.stringify({

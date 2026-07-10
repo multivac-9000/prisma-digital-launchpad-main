@@ -18,6 +18,8 @@ import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
   id: '/terminos-y-condiciones',
@@ -65,6 +67,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -76,6 +88,8 @@ export interface FileRoutesByFullPath {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -87,6 +101,8 @@ export interface FileRoutesByTo {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -99,6 +115,8 @@ export interface FileRoutesById {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -112,6 +130,8 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -123,6 +143,8 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/'
@@ -134,6 +156,8 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,6 +170,8 @@ export interface RootRouteChildren {
   PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
   TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -213,6 +239,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -226,6 +266,8 @@ const rootRouteChildren: RootRouteChildren = {
   PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
   TerminosYCondicionesRoute: TerminosYCondicionesRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
