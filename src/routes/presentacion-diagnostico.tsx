@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { reducedMotion } from "@/components/nueva/scrolly";
+import { rafSafe } from "@/components/motionRescue";
 import AccessGate from "@/components/AccessGate";
 
 /* PRESENTACIÓN DE DIAGNÓSTICO (uso interno en reuniones).
@@ -95,9 +96,9 @@ function BigMetric({ value, active }: { value: string; active: boolean }) {
       const t = Math.min(1, (now - t0) / 1300);
       const eased = 1 - Math.pow(1 - t, 3);
       setText(`${prefix}${(target * eased).toFixed(decimals)}${suffix}`);
-      if (t < 1) requestAnimationFrame(tick);
+      if (t < 1) rafSafe(tick);
     };
-    requestAnimationFrame(tick);
+    rafSafe(tick);
   }, [active, value]);
 
   return <span className="nl-tabular">{text}</span>;

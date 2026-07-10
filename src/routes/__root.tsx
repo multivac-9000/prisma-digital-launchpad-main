@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { initMotionRescue } from "../components/motionRescue";
 
 function NotFoundComponent() {
   return (
@@ -170,6 +171,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Vigilante anti-congelamiento: mantiene vivas las animaciones aunque el
+  // navegador deje de entregar frames (bug de Chromium multi-monitor).
+  useEffect(() => {
+    initMotionRescue();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { rafSafe } from "@/components/motionRescue";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 
@@ -39,7 +40,8 @@ export default function Hero() {
     let w = 0;
     let h = 0;
     let dpr = 1;
-    let raf = 0;
+    let cancelFrame: () => void = () => {};
+    let lastT = 0;
     const LINK = 150;
     const CURSOR_R = 210;
     const mouse = { x: -9999, y: -9999, active: false };
@@ -118,7 +120,12 @@ export default function Hero() {
         ctx.fill();
       }
     };
-    const step = () => {
+    const step = (now: number) => {
+      // Normaliza por tiempo real: misma velocidad visual a 60fps (rAF sano)
+      // o a ~24fps (fallback de rafSafe si el navegador congela los frames).
+      const k = lastT ? Math.min(3, Math.max(0.25, (now - lastT) / 16.7)) : 1;
+      lastT = now;
+      const decay = Math.pow(0.85, k);
       for (const n of nodes) {
         // Atracción hacia el cursor (fuerza puntual que luego se disipa)
         if (mouse.active) {
@@ -131,10 +138,10 @@ export default function Hero() {
             n.fy += (dy / d) * f;
           }
         }
-        n.fx *= 0.85;
-        n.fy *= 0.85;
-        n.x += n.vx + n.fx;
-        n.y += n.vy + n.fy;
+        n.fx *= decay;
+        n.fy *= decay;
+        n.x += (n.vx + n.fx) * k;
+        n.y += (n.vy + n.fy) * k;
         if (n.y < -14) {
           n.y = h + 14;
           n.x = Math.random() * w;
@@ -143,7 +150,7 @@ export default function Hero() {
         else if (n.x > w + 14) n.x = -14;
       }
       draw();
-      raf = requestAnimationFrame(step);
+      cancelFrame = rafSafe(step);
     };
 
     const onMove = (e: MouseEvent) => {
@@ -157,17 +164,6 @@ export default function Hero() {
       mouse.x = -9999;
       mouse.y = -9999;
     };
-    // Auto-reparación: si el navegador suspende la pestaña (gestor de memoria /
-    // ahorro de energía), rAF se congela y a veces no vuelve a repintar solo al
-    // volver. Al recuperar visibilidad, cancelamos cualquier frame pendiente y
-    // reiniciamos el bucle — garantiza un único loop vivo, sin duplicarlo.
-    const onVisible = () => {
-      if (document.visibilityState === "visible" && !reduce) {
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(step);
-      }
-    };
-
     resize();
     init();
     if (reduce) {
@@ -175,8 +171,7 @@ export default function Hero() {
     } else {
       section.addEventListener("mousemove", onMove);
       section.addEventListener("mouseleave", onLeave);
-      document.addEventListener("visibilitychange", onVisible);
-      step();
+      cancelFrame = rafSafe(step);
     }
 
     const onResize = () => {
@@ -186,11 +181,10 @@ export default function Hero() {
     };
     window.addEventListener("resize", onResize);
     return () => {
-      cancelAnimationFrame(raf);
+      cancelFrame();
       window.removeEventListener("resize", onResize);
       section.removeEventListener("mousemove", onMove);
       section.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("visibilitychange", onVisible);
     };
   }, []);
 
@@ -200,13 +194,13 @@ export default function Hero() {
     if (!section) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let raf = 0;
+    let cancelFrame: () => void = () => {};
     const onMove = (e: MouseEvent) => {
       const rect = section.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
+      cancelFrame();
+      cancelFrame = rafSafe(() => {
         const btn = btnRef.current;
         if (btn) {
           const br = btn.getBoundingClientRect();
@@ -234,7 +228,7 @@ export default function Hero() {
     return () => {
       section.removeEventListener("mousemove", onMove);
       section.removeEventListener("mouseleave", onLeave);
-      cancelAnimationFrame(raf);
+      cancelFrame();
     };
   }, []);
 
