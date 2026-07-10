@@ -108,15 +108,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Llevamos tu empresa al mundo digital y la convertimos en una máquina de prospección predecible. Con datos, no con suposiciones.",
       },
+      // Imagen destacada por defecto (fallback). Cada página indexada la
+      // sobrescribe con la suya en public/og/ (ver generate-og-images.mjs).
+      { property: "og:image", content: "https://www.prismadigital.io/og/og-home.png" },
+      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-home.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       {
-        property: "og:image",
+        property: "og:image:alt",
         content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2776ee0e-5066-4962-b173-e28e1590af60/id-preview-6415bc06--a2eb998e-52bf-454e-a4dc-5da768c3d061.lovable.app-1780349463548.png",
+          "Prisma Digital, agencia de crecimiento digital que duplica las ventas online de negocios consolidados con datos y medición.",
       },
+      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-home.png" },
       {
-        name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2776ee0e-5066-4962-b173-e28e1590af60/id-preview-6415bc06--a2eb998e-52bf-454e-a4dc-5da768c3d061.lovable.app-1780349463548.png",
+        name: "twitter:image:alt",
+        content: "Prisma Digital — duplica tus ventas online con datos, no con suposiciones.",
       },
     ],
     links: [

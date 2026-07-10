@@ -58,7 +58,7 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
       {
         name: "description",
         content:
-          "Creamos tu sitio web profesional listo para vender, con el marketing y la medición ya conectados, e integrado a tu stock, ventas y clientes. Digitaliza tu negocio físico sin partir de cero.",
+          "Creamos tu sitio web profesional listo para vender, conectado a tu stock, ventas y clientes y con la medición integrada. Digitaliza tu negocio físico.",
       },
       {
         property: "og:title",
@@ -70,6 +70,31 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
           "Tu nueva página web hecha para vender, con todo tu marketing medido y conectado a tu stock, tus ventas y tus clientes. Sin partir de cero.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content:
+          "Digitalización de negocios en Prisma Digital: sitios web profesionales integrados a stock, ventas y clientes.",
+      },
+      {
+        name: "twitter:title",
+        content: "Sitios Web Profesionales y Digitalización — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Tu web hecha para vender, con el marketing medido y conectado a tu stock, ventas y clientes.",
+      },
+      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Digitalización de negocios: sitio web profesional que vende, conectado a stock, ventas y clientes.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },

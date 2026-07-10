@@ -40,7 +40,7 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
       {
         name: "description",
         content:
-          "Configuramos GA4, Conversions API y Looker Studio para reducir tu CPA con datos reales. Sin suposiciones.",
+          "Medición de eventos web y apps con GA4, Conversions API y Server-Side GTM, más dashboards en Looker Studio para reducir tu CPA. Con datos, no suposiciones.",
       },
       { property: "og:title", content: "Optimización de Negocios y Medición de Eventos — Prisma Digital" },
       {
@@ -49,6 +49,31 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
           "Se acabó gastar dinero a ciegas. Medimos y modelamos eventos comerciales sin pérdidas para bajar tu CPA y optimizar tu pauta.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content:
+          "Optimización de negocios en Prisma Digital: GA4, Conversions API y Looker Studio para reducir el CPA.",
+      },
+      {
+        name: "twitter:title",
+        content: "Optimización de Negocios y Medición de Eventos — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Medimos y modelamos eventos sin pérdidas con GA4 y Conversions API para bajar tu CPA. Sin suposiciones.",
+      },
+      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Optimización y medición de eventos: GA4, Conversions API, Server-Side GTM y dashboards en Looker Studio.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },

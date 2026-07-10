@@ -48,6 +48,31 @@ export const Route = createFileRoute("/promocion-de-negocios")({
           "Atrae un flujo constante de clientes nuevos con pautas publicitarias basadas en datos y un contenido audiovisual que impacta y vende.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://www.prismadigital.io/og/og-promocion.png" },
+      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-promocion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content:
+          "Promoción de negocios en Prisma Digital: captación de clientes con Meta Ads, Google Ads y producción audiovisual.",
+      },
+      {
+        name: "twitter:title",
+        content: "Promoción de Negocios y Captación de Clientes — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Un flujo constante de clientes nuevos con pauta basada en datos y contenido audiovisual que vende.",
+      },
+      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-promocion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Promoción y captación de clientes: Meta Ads, Google Ads, embudos de venta y producción audiovisual.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },
