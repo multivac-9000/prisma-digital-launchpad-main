@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { buildGraph, webPage } from "@/lib/schema";
 import Navbar from "@/components/Navbar";
 import HeroNueva from "@/components/nueva/HeroNueva";
 import ResultadosNueva from "@/components/nueva/ResultadosNueva";
@@ -12,40 +13,17 @@ import { ScrollProgress } from "@/components/nueva/scrolly";
 
 const CANONICAL_URL = "https://www.prismadigital.io/";
 
-// Datos estructurados para rich snippets (Organization + LocalBusiness).
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      name: "Prisma Digital",
-      url: "https://www.prismadigital.io/",
-      logo: "https://www.prismadigital.io/Logo Prisma Digital blanco.webp",
-      email: "prismadigital.io@gmail.com",
-      telephone: "+56957151303",
-      sameAs: [
-        "https://www.instagram.com/prismadigital.io/",
-        "https://www.facebook.com/share/1Fu2MFXigF/",
-        "https://www.linkedin.com/in/prisma-digital-6b6b86202/",
-      ],
-    },
-    {
-      "@type": "LocalBusiness",
-      name: "Prisma Digital",
-      image: "https://www.prismadigital.io/Logo Prisma Digital blanco.webp",
-      url: "https://www.prismadigital.io/",
-      telephone: "+56957151303",
-      email: "prismadigital.io@gmail.com",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Concepción",
-        addressCountry: "CL",
-      },
-      description:
-        "Agencia de crecimiento digital para empresas consolidadas: integramos y medimos ecosistemas digitales para duplicar ventas online.",
-    },
-  ],
-});
+// Datos estructurados: grafo de marca (Organization + WebSite +
+// ProfessionalService) + la WebPage del home. Ver src/lib/schema.ts.
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Prisma Digital — Duplica tus ventas online con datos",
+    description:
+      "Modernizamos y medimos el ecosistema digital de negocios con años de trayectoria para duplicar sus ventas online. Agenda tu diagnóstico gratis.",
+    image: "https://www.prismadigital.io/og/og-home.png",
+  }),
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({

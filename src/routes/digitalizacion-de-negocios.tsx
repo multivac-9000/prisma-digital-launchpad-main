@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 import Navbar from "@/components/Navbar";
 import HeroNueva from "@/components/nueva/HeroNueva";
 import ServiciosNueva from "@/components/nueva/ServiciosNueva";
@@ -31,25 +32,30 @@ import {
 
 const CANONICAL_URL = "https://www.prismadigital.io/digitalizacion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
-      description: "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Digitalización de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
+    description:
+      "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
+    image: "https://www.prismadigital.io/og/og-digitalizacion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Digitalización de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Digitalización de negocios",
+    name: "Digitalización de negocios y sitios web profesionales",
+    description:
+      "Sitio web profesional hecho para vender, integrado a stock, ventas y clientes, con la medición ya conectada.",
+    offers: [
+      "Diseño y desarrollo de sitios web profesionales",
+      "Integración de stock e inventario online y en tienda",
+      "Automatización de ventas y procesos",
+      "CRM: centralización de clientes",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/digitalizacion-de-negocios")({
   head: () => ({

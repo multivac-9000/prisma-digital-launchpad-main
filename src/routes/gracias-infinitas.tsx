@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import { CheckCircle2, ShieldCheck, PhoneCall, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/gracias-infinitas")({
@@ -18,6 +19,21 @@ export const Route = createFileRoute("/gracias-infinitas")({
 });
 
 function GraciasInfinitas() {
+  // Página de éxito: empuja el evento de conversión al dataLayer para que GTM
+  // dispare un evento personalizado `generate_lead`. Se ejecuta una sola vez
+  // por carga (el guard evita el doble disparo de React StrictMode en dev).
+  const pushed = useRef(false);
+  useEffect(() => {
+    if (pushed.current) return;
+    pushed.current = true;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "generate_lead",
+      lead_source: "agenda_brevo",
+      page_variant: "gracias-infinitas",
+    });
+  }, []);
+
   return (
     <main
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20 text-center"

@@ -9,28 +9,38 @@ import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
 import { PromocionVisual } from "@/components/nueva/heroVisuals";
 import { Megaphone, Target, BarChart2, Video, Eye, ShieldCheck } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 
 const CANONICAL_URL = "https://www.prismadigital.io/promocion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Promoción de Negocios y Captación Predictiva — Prisma Digital",
-      description: "Diseñamos un sistema predictivo de captación de clientes. Campañas inteligentes en Meta, Google y producción audiovisual premium.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Promoción de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Promoción de Negocios y Captación Predictiva — Prisma Digital",
+    description:
+      "Diseñamos un sistema predictivo de captación de clientes. Campañas inteligentes en Meta, Google y producción audiovisual premium.",
+    image: "https://www.prismadigital.io/og/og-promocion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Promoción de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Promoción y captación de clientes",
+    name: "Promoción de negocios y captación de clientes",
+    description:
+      "Sistema de captación de clientes predecible y medible con pauta basada en datos y producción audiovisual premium.",
+    offers: [
+      "Campañas de publicidad en Meta Ads",
+      "Campañas de publicidad en Google Ads",
+      "Segmentación avanzada de audiencias",
+      "Embudos de venta de alta conversión",
+      "Producción de spots comerciales",
+      "Fotografía de producto comercial",
+      "Reels y contenido vertical",
+      "Cinematografía aérea con drones",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/promocion-de-negocios")({
   head: () => ({

@@ -10,28 +10,33 @@ import { ScrollProgress, Reveal, CountUp } from "@/components/nueva/scrolly";
 import { OptimizacionVisual } from "@/components/nueva/heroVisuals";
 import { TrendingUp, LineChart, Code, BarChart3 } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 
 const CANONICAL_URL = "https://www.prismadigital.io/optimizacion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Optimización de Negocios y Medición Avanzada — Prisma Digital",
-      description: "Configuramos GA4, Conversions API y Looker Studio. Toma el control del retorno de tu inversión publicitaria.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Optimización de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Optimización de Negocios y Medición Avanzada — Prisma Digital",
+    description:
+      "Configuramos GA4, Conversions API y Looker Studio. Toma el control del retorno de tu inversión publicitaria.",
+    image: "https://www.prismadigital.io/og/og-optimizacion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Optimización de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Optimización y medición de eventos",
+    name: "Optimización de negocios y medición de eventos",
+    description:
+      "Medición de eventos web y apps con GA4, Conversions API y Server-Side GTM, más dashboards en Looker Studio para reducir el CPA.",
+    offers: [
+      "Conversions API (CAPI) y Server-Side GTM",
+      "Auditoría e implementación de eventos GA4",
+      "Dashboards a medida en Looker Studio",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/optimizacion-de-negocios")({
   head: () => ({
