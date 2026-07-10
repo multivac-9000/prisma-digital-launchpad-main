@@ -131,6 +131,7 @@ interface RealProject {
   textColor: string;
   accentColor: string;
   mockupType: "ecommerce" | "community" | "corporate" | "music" | "beauty" | "medical" | "ai" | "marketing";
+  portfolioImage: string;
 }
 
 const realProjects: RealProject[] = [
@@ -146,7 +147,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#000139] to-[#04143a]",
     textColor: "text-white",
     accentColor: "#32d6ff",
-    mockupType: "corporate"
+    mockupType: "corporate",
+    portfolioImage: "/portfolio/Prisma digital.webp"
   },
   {
     name: "Ecstatic Dance Chile",
@@ -160,12 +162,13 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#140526] to-[#2d0b4e]",
     textColor: "text-white",
     accentColor: "#d713f9",
-    mockupType: "community"
+    mockupType: "community",
+    portfolioImage: "/portfolio/Ecstatic Dance Chile.webp"
   },
   {
     name: "Sadhana Core",
     category: "BIENESTAR CORPORATIVO",
-    url: "https://www.sadhanacore.cl",
+    url: "https://servicios.sadhanacore.com/",
     headline: "Transforma el bienestar y la productividad de tu equipo.",
     desc: "Sitio corporativo B2B para la venta de programas de bienestar laboral y pausas activas, con diagnóstico digital interactivo.",
     tags: ["B2B Landing", "Diagnostics tool", "Tailored UI", "SEO Sence"],
@@ -174,7 +177,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#fafaff] to-[#f3f0ff]",
     textColor: "text-slate-800",
     accentColor: "#4f46e5",
-    mockupType: "corporate"
+    mockupType: "corporate",
+    portfolioImage: "/portfolio/Sadhana Core.webp"
   },
   {
     name: "Rassayana",
@@ -187,7 +191,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#080808] to-[#121212]",
     textColor: "text-white",
     accentColor: "#fecd2b",
-    mockupType: "music"
+    mockupType: "music",
+    portfolioImage: "/portfolio/Rassayana.webp"
   },
   {
     name: "Mundo Deco Store",
@@ -201,7 +206,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#faf6f0] to-[#f4ebe1]",
     textColor: "text-stone-800",
     accentColor: "#d97706",
-    mockupType: "ecommerce"
+    mockupType: "ecommerce",
+    portfolioImage: "/portfolio/Mundo Deco Store.webp"
   },
   {
     name: "Lolalash",
@@ -214,12 +220,13 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#fffbfb] to-[#fff3f3]",
     textColor: "text-pink-950",
     accentColor: "#ec4899",
-    mockupType: "beauty"
+    mockupType: "beauty",
+    portfolioImage: "/portfolio/Lola Lash.webp"
   },
   {
     name: "Ecstatic LAB",
     category: "EVENTOS CONSCIENTES",
-    url: "https://www.rassayana.com",
+    url: "https://ecstaticlab.rassayana.com/",
     headline: "Laboratorio extático: suelta el estrés y recupera tu energía.",
     desc: "Página de venta y conversión para las experiencias de liberación y baile de Rassayana, con pasarela de venta de tickets integrada.",
     tags: ["Conversion Focus", "Ticket Sales", "Mobile Optimized", "Fast Checkout"],
@@ -227,7 +234,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#0d021c] to-[#1a0536]",
     textColor: "text-white",
     accentColor: "#fd3833",
-    mockupType: "community"
+    mockupType: "community",
+    portfolioImage: "/portfolio/Ecstatic LAB.webp"
   },
   {
     name: "Quality Clicks",
@@ -240,7 +248,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#091535] to-[#040b21]",
     textColor: "text-white",
     accentColor: "#32d6ff",
-    mockupType: "marketing"
+    mockupType: "marketing",
+    portfolioImage: "/portfolio/Qualiti Clicks.webp"
   },
   {
     name: "Emporio Nacional",
@@ -254,7 +263,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#fbf9f5] to-[#f4eee1]",
     textColor: "text-amber-950",
     accentColor: "#b91c1c",
-    mockupType: "ecommerce"
+    mockupType: "ecommerce",
+    portfolioImage: "/portfolio/Emporio Nacional.webp"
   },
   {
     name: "Adalia",
@@ -267,7 +277,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#fafafa] to-[#f4f4f5]",
     textColor: "text-zinc-950",
     accentColor: "#18181b",
-    mockupType: "ai"
+    mockupType: "ai",
+    portfolioImage: "/portfolio/Adalia.webp"
   },
   {
     name: "Dr. Marco Schulz",
@@ -281,7 +292,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#f0f9ff] to-[#e0f2fe]",
     textColor: "text-sky-950",
     accentColor: "#0284c7",
-    mockupType: "medical"
+    mockupType: "medical",
+    portfolioImage: "/portfolio/Dr. MArco Schulz.webp"
   },
   {
     name: "El Director Clínica Dental",
@@ -294,7 +306,8 @@ const realProjects: RealProject[] = [
     bgColor: "from-[#0a122c] to-[#040817]",
     textColor: "text-white",
     accentColor: "#eab308",
-    mockupType: "medical"
+    mockupType: "medical",
+    portfolioImage: "/portfolio/Clinica El Director.webp"
   }
 ];
 
@@ -546,9 +559,14 @@ function PortfolioCarousel() {
             className="portfolio-card shrink-0 w-[90%] sm:w-[70%] md:w-[48%] lg:w-[31.5%] snap-center rounded-3xl overflow-hidden border border-white/10 bg-white/[0.03] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
           >
             <div>
-              {/* Screen Mockup Area */}
-              <div className="p-5 bg-white/[0.01] border-b border-white/5">
-                <LaptopMockup {...project} />
+              {/* Portfolio Screenshot */}
+              <div className="bg-white/[0.01] border-b border-white/5 overflow-hidden">
+                <img
+                  src={project.portfolioImage}
+                  alt={`Sitio web de ${project.name}`}
+                  className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
               </div>
 
               {/* Metadata Content */}
