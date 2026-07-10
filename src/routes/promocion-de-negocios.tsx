@@ -93,25 +93,25 @@ const pillars = [
 
 const galleryItems = [
   {
-    img: "/audiovisual/filming.png",
+    img: "/audiovisual/filming.webp",
     title: "Producción de Spots Comerciales",
     tech: "Equipos de Cine & Estabilización",
     desc: "Filmamos en tu locación o estudio con calidad de cine para transmitir la solidez y el profesionalismo de tu marca de forma inconfundible."
   },
   {
-    img: "/audiovisual/photography.png",
+    img: "/audiovisual/photography.webp",
     title: "Fotografía de Producto Comercial",
     tech: "Estudio de Iluminación Pro",
     desc: "Capturamos los detalles de tus productos con iluminación y ópticas de alto nivel para aumentar el valor percibido en tu eCommerce."
   },
   {
-    img: "/audiovisual/reels.png",
+    img: "/audiovisual/reels.webp",
     title: "Reels y Contenido Vertical Dinámico",
     tech: "Formato Móvil 9:16 & Ritmo",
     desc: "Grabamos y editamos videos dinámicos y ágiles estructurados con ganchos de retención para captar interés inmediato en Instagram y TikTok."
   },
   {
-    img: "/audiovisual/drone.png",
+    img: "/audiovisual/drone.webp",
     title: "Cinematografía Aérea con Drones",
     tech: "Resolución 4K & Piloto Certificado",
     desc: "Realizamos tomas aéreas espectaculares para videos corporativos, de infraestructura o eventos que le dan escala y prestigio a tu negocio."
@@ -258,6 +258,8 @@ function PromocionPage() {
                     src={item.img}
                     alt={item.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#000139] via-transparent to-transparent opacity-80" />
                   
