@@ -185,7 +185,7 @@ export const posts: Post[] = [
         type: "ol",
         items: [
           "Parte por el problema, no por la herramienta: define qué decisión no puedes tomar hoy por falta de datos.",
-          "Elige primero la capa de medición (GA4 + GTM). Es la que le da sentido a todo lo demás.",
+          "Elige primero la capa de [medición (GA4 + GTM)](/blog/medicion-de-eventos-sin-perder-datos): es la que le da sentido a todo lo demás.",
           "Verifica integraciones antes de contratar: ¿se conecta con tu CRM y tu e-commerce?",
           "Consolida: si dos herramientas hacen lo mismo, quédate con la que se integre mejor.",
           "Documenta quién usa qué y para qué. Una herramienta sin dueño es una suscripción muerta.",
@@ -242,7 +242,7 @@ export const posts: Post[] = [
     body: [
       {
         type: "p",
-        text: "Puedes tener el mejor dashboard del mundo, pero si los datos que lo alimentan están sucios, solo estarás tomando malas decisiones más rápido. La higiene de datos es la disciplina —poco glamorosa pero decisiva— de mantener la información limpia desde el momento en que se captura. Estas son las ocho prácticas que separan a los equipos que confían en sus números de los que viven 'peleándose con el Excel'.",
+        text: "Puedes tener el mejor dashboard del mundo, pero si los datos que lo alimentan están sucios, solo estarás tomando malas decisiones más rápido. La higiene de datos es la disciplina —poco glamorosa pero decisiva— de mantener la información limpia desde el momento en que se captura, y es la base de todo [análisis digital](/blog/analisis-digital-datos-a-decisiones) confiable. Estas son las ocho prácticas que separan a los equipos que confían en sus números de los que viven 'peleándose con el Excel'.",
       },
       { type: "h2", text: "¿Qué es la higiene de datos y por qué importa?" },
       {
@@ -324,7 +324,7 @@ export const posts: Post[] = [
       { type: "h2", text: "¿Por qué sube el CPA?" },
       {
         type: "p",
-        text: "El CPA es cuánto pagas, en promedio, por cada conversión. Sube cuando la plataforma publicitaria optimiza con datos incompletos: bloqueo de cookies, navegadores con ITP, AdBlockers y consentimiento mal implementado hacen que se pierda entre un 10% y un 30% de las conversiones. Menos señal significa peor optimización y, por lo tanto, CPA más alto.",
+        text: "El CPA es cuánto pagas, en promedio, por cada conversión. Sube cuando la plataforma publicitaria optimiza con datos incompletos: bloqueo de cookies, navegadores con ITP, AdBlockers y consentimiento mal implementado hacen que se pierda entre un 10% y un 30% de las conversiones. Menos señal significa peor optimización y, por lo tanto, CPA más alto. Lo vemos en detalle en [medición de eventos sin perder datos](/blog/medicion-de-eventos-sin-perder-datos).",
       },
       { type: "h2", text: "Los 7 tips" },
       {
@@ -400,7 +400,7 @@ export const posts: Post[] = [
     body: [
       {
         type: "p",
-        text: "Se puede escribir el mejor artículo del mundo, pero si Google no puede rastrearlo, indexarlo y entenderlo, no existe para el buscador. El SEO técnico es esa capa invisible que decide si tu contenido siquiera tiene la oportunidad de competir. Esta es la checklist que revisamos —y aplicamos en este mismo sitio— antes de preocuparnos por las palabras clave.",
+        text: "Se puede escribir el mejor artículo del mundo, pero si Google no puede rastrearlo, indexarlo y entenderlo, no existe para el buscador. El SEO técnico es esa capa invisible que decide si tu contenido siquiera tiene la oportunidad de competir. Esta es la checklist que revisamos —y aplicamos en cada [sitio que desarrollamos](/digitalizacion-de-negocios)— antes de preocuparnos por las palabras clave.",
       },
       { type: "h2", text: "¿Qué es el SEO técnico?" },
       {
@@ -502,7 +502,7 @@ export const posts: Post[] = [
     body: [
       {
         type: "p",
-        text: "Un gráfico existe para responder una pregunta más rápido que una tabla. Cuando eliges el tipo equivocado, ocurre lo contrario: escondes el insight bajo decoración. La clave no es memorizar 40 tipos de gráfico, sino identificar qué quieres mostrar. Casi todo cae en cuatro intenciones.",
+        text: "Un gráfico existe para responder una pregunta más rápido que una tabla. Cuando eliges el tipo equivocado, ocurre lo contrario: escondes el insight bajo decoración. La clave no es memorizar 40 tipos de gráfico, sino identificar qué quieres mostrar: elegir bien es parte esencial del [análisis digital](/blog/analisis-digital-datos-a-decisiones). Casi todo cae en cuatro intenciones.",
       },
       { type: "h2", text: "¿Qué quieres mostrar? Empieza por ahí" },
       {
@@ -598,7 +598,7 @@ export const posts: Post[] = [
           "**Pregunta:** empieza por una duda de negocio concreta. No '¿cómo va la web?', sino '¿por qué caen las ventas de móvil?'.",
           "**Métrica:** elige la métrica que responde esa pregunta (tasa de conversión móvil vs. escritorio).",
           "**Segmento:** desglosa. El promedio miente; el insight vive en los segmentos (dispositivo, canal, ciudad, cliente nuevo vs. recurrente).",
-          "**Acción:** define qué harás según cada resultado, antes de mirar el número. Si no hay acción posible, la pregunta no valía la pena.",
+          "**Acción:** define qué harás según cada resultado, antes de mirar el número. Muchas de esas métricas son [ratios y tasas concretos](/blog/ratios-y-tasas-marketing-clave); si no hay acción posible, la pregunta no valía la pena.",
         ],
       },
       { type: "h2", text: "Las tres vistas que todo dueño debería revisar" },
@@ -682,7 +682,7 @@ export const posts: Post[] = [
       { type: "h2", text: "El ratio que manda: LTV / CAC" },
       {
         type: "p",
-        text: "Si solo pudieras medir uno, mide la relación entre el valor de vida del cliente y su costo de adquisición. Una relación de 3 a 1 suele indicar un negocio sano: ganas tres veces lo que gastas en conseguir cada cliente. Por debajo de 1, estás pagando por perder dinero; muy por encima de 5, probablemente estás dejando de crecer por invertir de menos.",
+        text: "Si solo pudieras medir uno, mide la relación entre el valor de vida del cliente y su costo de adquisición. Una relación de 3 a 1 suele indicar un negocio sano: ganas tres veces lo que gastas en conseguir cada cliente. Por debajo de 1, estás pagando por perder dinero; muy por encima de 5, probablemente estás dejando de crecer por invertir de menos. Interpretar estos números es la esencia del [análisis digital](/blog/analisis-digital-datos-a-decisiones).",
       },
       { type: "h2", text: "Cuidado con el ROAS 'vanidoso'" },
       {
@@ -759,7 +759,7 @@ export const posts: Post[] = [
       { type: "h2", text: "La solución: mover la medición al servidor" },
       {
         type: "p",
-        text: "La medición server-side traslada el envío de eventos desde el navegador del usuario a un servidor que tú controlas. Desde ahí, las Conversions API (CAPI de Meta, la API de conversiones de Google) envían los eventos directamente a las plataformas, sin depender de cookies de terceros ni de que el navegador coopere.",
+        text: "La medición server-side traslada el envío de eventos desde el navegador del usuario a un servidor que tú controlas. Desde ahí, las Conversions API (CAPI de Meta, la API de conversiones de Google) envían los eventos directamente a las plataformas, sin depender de cookies de terceros ni de que el navegador coopere. Es el corazón de nuestro servicio de [optimización y medición](/optimizacion-de-negocios).",
       },
       {
         type: "table",
@@ -850,7 +850,7 @@ export const posts: Post[] = [
       {
         type: "ol",
         items: [
-          "Parte por la capa de datos: si no unificas la información del cliente, el resto se construye sobre arena.",
+          "Parte por la capa de datos: si no unificas la información del cliente (con buena [medición](/blog/medicion-de-eventos-sin-perder-datos) y [herramientas integradas](/blog/herramientas-digitales-imprescindibles)), el resto se construye sobre arena.",
           "Agrega herramientas solo cuando resuelvan un problema concreto y medible.",
           "Exige integración: cada nueva herramienta debe conectarse con las que ya tienes.",
           "Elimina duplicados: dos herramientas que hacen lo mismo son costo y confusión.",
@@ -889,6 +889,64 @@ export const posts: Post[] = [
 export const categoryBySlug = (slug: string) => categories.find((c) => c.slug === slug);
 export const postBySlug = (slug: string) => posts.find((p) => p.slug === slug);
 export const postsByCategory = (slug: string) => posts.filter((p) => p.categorySlug === slug);
+
+// Interlinking curado: qué leer después de cada post (relación temática real).
+const relatedMap: Record<string, string[]> = {
+  "herramientas-digitales-imprescindibles": [
+    "que-es-martech-como-armar-stack",
+    "medicion-de-eventos-sin-perder-datos",
+    "buenas-practicas-higiene-de-datos",
+  ],
+  "buenas-practicas-higiene-de-datos": [
+    "analisis-digital-datos-a-decisiones",
+    "medicion-de-eventos-sin-perder-datos",
+    "ratios-y-tasas-marketing-clave",
+  ],
+  "tips-marketing-bajar-cpa": [
+    "medicion-de-eventos-sin-perder-datos",
+    "ratios-y-tasas-marketing-clave",
+    "analisis-digital-datos-a-decisiones",
+  ],
+  "seo-tecnico-checklist-desarrollo": [
+    "herramientas-digitales-imprescindibles",
+    "medicion-de-eventos-sin-perder-datos",
+    "analisis-digital-datos-a-decisiones",
+  ],
+  "tipos-de-graficos-cuando-usar-cada-uno": [
+    "analisis-digital-datos-a-decisiones",
+    "ratios-y-tasas-marketing-clave",
+    "buenas-practicas-higiene-de-datos",
+  ],
+  "analisis-digital-datos-a-decisiones": [
+    "ratios-y-tasas-marketing-clave",
+    "tipos-de-graficos-cuando-usar-cada-uno",
+    "medicion-de-eventos-sin-perder-datos",
+  ],
+  "ratios-y-tasas-marketing-clave": [
+    "analisis-digital-datos-a-decisiones",
+    "tips-marketing-bajar-cpa",
+    "tipos-de-graficos-cuando-usar-cada-uno",
+  ],
+  "medicion-de-eventos-sin-perder-datos": [
+    "tips-marketing-bajar-cpa",
+    "que-es-martech-como-armar-stack",
+    "buenas-practicas-higiene-de-datos",
+  ],
+  "que-es-martech-como-armar-stack": [
+    "herramientas-digitales-imprescindibles",
+    "medicion-de-eventos-sin-perder-datos",
+    "analisis-digital-datos-a-decisiones",
+  ],
+};
+
+/** Posts relacionados curados; si faltan, completa con otros recientes. */
+export function relatedPosts(slug: string, count = 3): Post[] {
+  const curated = (relatedMap[slug] ?? [])
+    .map((s) => postBySlug(s))
+    .filter((p): p is Post => Boolean(p));
+  const extra = posts.filter((p) => p.slug !== slug && !curated.includes(p));
+  return [...curated, ...extra].slice(0, count);
+}
 
 export const postUrl = (slug: string) => `${SITE}/blog/${slug}`;
 export const postCover = (slug: string) => `/blog/${slug}.png`;

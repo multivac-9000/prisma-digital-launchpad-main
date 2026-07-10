@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, Clock, Sparkles, HelpCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Clock, RefreshCw, Sparkles, HelpCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import BlogContent from "@/components/blog/BlogContent";
@@ -13,12 +13,12 @@ import {
 import {
   postBySlug,
   categoryBySlug,
+  relatedPosts,
   postUrl,
   postCover,
   postCoverAbsolute,
   wordCount,
   SITE,
-  posts,
 } from "@/content/blog";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
@@ -116,9 +116,9 @@ function BlogPost() {
 
   if (!post) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
+      <main className="blog-canvas flex min-h-screen flex-col items-center justify-center px-6 text-center">
         <Navbar />
-        <h1 className="text-2xl font-bold text-ink">Artículo no encontrado</h1>
+        <h1 className="blog-serif text-2xl font-bold text-ink">Artículo no encontrado</h1>
         <Link to="/blog" className="mt-4 font-semibold text-prisma-magenta">
           Volver al blog
         </Link>
@@ -128,68 +128,85 @@ function BlogPost() {
 
   const cat = categoryBySlug(post.categorySlug);
   const accent = ACCENT_VAR[cat?.accent ?? "cyan"];
-  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const related = relatedPosts(post.slug, 3);
+  const updated = post.dateModified !== post.datePublished;
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="blog-canvas min-h-screen">
       <Navbar />
 
-      {/* Encabezado */}
-      <header
-        className="relative overflow-hidden px-6 pt-32 pb-14 md:pt-40 md:pb-16 text-white"
-        style={{ background: "var(--gradient-hero)" }}
-      >
-        <div className="hero-aura" aria-hidden="true" />
-        <div className="relative z-10 mx-auto max-w-3xl">
+      {/* Encabezado editorial (claro, distinto de las landings) */}
+      <header className="px-6 pt-32 pb-8 md:pt-40 md:pb-10">
+        <div className="mx-auto max-w-3xl">
           {/* Breadcrumb */}
-          <nav aria-label="Ruta de navegación" className="mb-6 text-sm text-white/60">
+          <nav aria-label="Ruta de navegación" className="mb-6 text-sm text-ink/50">
             <ol className="flex flex-wrap items-center gap-1.5 list-none">
               <li>
-                <Link to="/" className="hover:text-white">
+                <Link to="/" className="hover:text-ink">
                   Inicio
                 </Link>
               </li>
               <li aria-hidden>/</li>
               <li>
-                <Link to="/blog" className="hover:text-white">
+                <Link to="/blog" className="hover:text-ink">
                   Blog
                 </Link>
               </li>
               <li aria-hidden>/</li>
-              <li className="text-white/85">{cat?.label}</li>
+              <li className="text-ink/70">{cat?.label}</li>
             </ol>
           </nav>
 
-          <span
-            className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide text-white"
-            style={{ background: accent }}
+          <Link
+            to="/blog"
+            className="text-xs font-bold uppercase tracking-[0.18em]"
+            style={{ color: accent }}
           >
             {cat?.label}
-          </span>
+          </Link>
 
-          <h1 className="mt-4 text-balance text-3xl md:text-5xl font-extrabold leading-[1.08] tracking-tight">
+          <h1 className="blog-serif mt-3 text-balance text-3xl md:text-5xl font-bold leading-[1.1] tracking-tight text-ink">
             {post.title}
           </h1>
 
-          <p className="mt-5 text-base md:text-lg leading-relaxed text-white/75">{post.excerpt}</p>
+          <p className="blog-serif mt-5 text-lg md:text-xl leading-relaxed text-ink/70">
+            {post.excerpt}
+          </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/60">
-            <span>{post.author}</span>
+          {/* Autor + meta */}
+          <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-ink/60">
+            <span className="flex items-center gap-2.5">
+              <span
+                className="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold text-white"
+                style={{ background: "var(--gradient-brand)" }}
+                aria-hidden="true"
+              >
+                PD
+              </span>
+              <span className="font-semibold text-ink/80">{post.author}</span>
+            </span>
             <span className="inline-flex items-center gap-1.5">
               <CalendarDays className="h-4 w-4" aria-hidden="true" />
               {dateFmt(post.datePublished)}
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Clock className="h-4 w-4" aria-hidden="true" />
-              {post.readingMinutes} min de lectura
+              {post.readingMinutes} min
             </span>
+            {updated && (
+              <span className="inline-flex items-center gap-1.5">
+                <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
+                Actualizado {dateFmt(post.dateModified)}
+              </span>
+            )}
           </div>
+
+          <div className="blog-rule mt-7 w-full opacity-70" />
         </div>
       </header>
 
       {/* Cuerpo */}
-      <article className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-        {/* Portada */}
+      <article className="mx-auto max-w-3xl px-6 pb-4">
         <img
           src={postCover(post.slug)}
           alt={post.coverAlt}
@@ -201,7 +218,7 @@ function BlogPost() {
         {/* Puntos clave (GEO) */}
         <section
           aria-label="Puntos clave"
-          className="mb-10 rounded-2xl border border-ink/10 bg-ink/[0.02] p-5 md:p-6"
+          className="mb-10 rounded-2xl border border-ink/10 bg-white p-5 md:p-6 shadow-sm"
           style={{ borderInlineStartWidth: 4, borderInlineStartColor: accent }}
         >
           <p
@@ -213,7 +230,7 @@ function BlogPost() {
           </p>
           <ul className="space-y-2.5 list-none">
             {post.tldr.map((t, i) => (
-              <li key={i} className="flex gap-3 text-base leading-relaxed text-ink/85">
+              <li key={i} className="flex gap-3 leading-relaxed text-ink/85">
                 <span
                   aria-hidden
                   className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
@@ -228,10 +245,10 @@ function BlogPost() {
         <BlogContent body={post.body} accent={cat?.accent ?? "cyan"} />
 
         {/* FAQ */}
-        <section aria-labelledby="faq-title" className="mt-14">
+        <section aria-labelledby="faq-title" className="mt-16">
           <h2
             id="faq-title"
-            className="mb-5 inline-flex items-center gap-2 text-2xl md:text-3xl font-extrabold tracking-tight text-ink"
+            className="blog-serif mb-5 inline-flex items-center gap-2 text-2xl md:text-3xl font-bold tracking-tight text-ink"
           >
             <HelpCircle className="h-6 w-6" style={{ color: accent }} aria-hidden="true" />
             Preguntas frecuentes
@@ -252,15 +269,37 @@ function BlogPost() {
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-base leading-relaxed text-ink/75">{f.a}</p>
+                <p className="blog-serif mt-3 leading-relaxed text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>
         </section>
 
+        {/* Autor (E-E-A-T) */}
+        <aside className="mt-14 flex items-start gap-4 rounded-2xl border border-ink/10 bg-white p-5 md:p-6">
+          <span
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+            style={{ background: "var(--gradient-brand)" }}
+            aria-hidden="true"
+          >
+            PD
+          </span>
+          <div>
+            <p className="font-bold text-ink">{post.author}</p>
+            <p className="mt-1 text-sm leading-relaxed text-ink/65">
+              Agencia de crecimiento digital en Concepción, Chile. Digitalizamos, promocionamos y
+              optimizamos negocios con trayectoria usando datos y medición.{" "}
+              <Link to="/" className="blog-link">
+                Conócenos
+              </Link>
+              .
+            </p>
+          </div>
+        </aside>
+
         {/* CTA de conversión */}
-        <aside className="mt-14 overflow-hidden rounded-3xl bg-prisma-navy px-6 py-10 md:px-10 md:py-12 text-center text-white">
-          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-balance">
+        <aside className="mt-10 overflow-hidden rounded-3xl bg-prisma-navy px-6 py-10 md:px-10 md:py-12 text-center text-white">
+          <h2 className="blog-serif text-2xl md:text-3xl font-bold tracking-tight text-balance">
             ¿Quieres aplicar esto en tu negocio?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-white/75">
@@ -279,7 +318,6 @@ function BlogPost() {
           </a>
         </aside>
 
-        {/* Volver */}
         <div className="mt-12">
           <Link
             to="/blog"
@@ -292,9 +330,11 @@ function BlogPost() {
       </article>
 
       {/* Relacionados */}
-      <section className="border-t border-ink/10 bg-ink/[0.02]">
+      <section className="mt-14 border-t border-ink/10 bg-white/60">
         <div className="mx-auto max-w-6xl px-6 py-14">
-          <h2 className="mb-8 text-2xl font-extrabold tracking-tight text-ink">Sigue leyendo</h2>
+          <h2 className="blog-serif mb-8 text-2xl font-bold tracking-tight text-ink">
+            Sigue leyendo
+          </h2>
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => {
               const rc = categoryBySlug(p.categorySlug);
@@ -305,6 +345,7 @@ function BlogPost() {
                   to="/blog/$slug"
                   params={{ slug: p.slug }}
                   className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+                  style={{ borderTop: `3px solid ${ra}` }}
                 >
                   <div className="aspect-[1200/630] overflow-hidden bg-prisma-navy">
                     <img
@@ -318,12 +359,14 @@ function BlogPost() {
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <span
-                      className="mb-2 inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
-                      style={{ background: ra }}
+                      className="text-[11px] font-bold uppercase tracking-[0.18em]"
+                      style={{ color: ra }}
                     >
                       {rc?.label}
                     </span>
-                    <h3 className="text-base font-bold leading-snug text-ink">{p.title}</h3>
+                    <h3 className="blog-serif mt-1.5 text-lg font-bold leading-snug text-ink">
+                      {p.title}
+                    </h3>
                   </div>
                 </Link>
               );

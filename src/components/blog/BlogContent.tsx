@@ -7,10 +7,10 @@ const ACCENT_VAR: Record<string, string> = {
   red: "var(--prisma-red)",
 };
 
-/** Parser mínimo de énfasis inline: **negrita** y `código`. */
+/** Parser mínimo de énfasis inline: **negrita**, `código` y [texto](enlace). */
 function inline(text: string): ReactNode[] {
   const nodes: ReactNode[] = [];
-  const re = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+  const re = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;
@@ -23,7 +23,7 @@ function inline(text: string): ReactNode[] {
           {tok.slice(2, -2)}
         </strong>,
       );
-    } else {
+    } else if (tok.startsWith("`")) {
       nodes.push(
         <code
           key={i++}
@@ -31,6 +31,22 @@ function inline(text: string): ReactNode[] {
         >
           {tok.slice(1, -1)}
         </code>,
+      );
+    } else {
+      // [texto](url)
+      const mm = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(tok)!;
+      const label = mm[1];
+      const href = mm[2];
+      const external = /^https?:\/\//.test(href);
+      nodes.push(
+        <a
+          key={i++}
+          href={href}
+          className="blog-link"
+          {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
+          {label}
+        </a>,
       );
     }
     last = m.index + tok.length;
@@ -47,14 +63,19 @@ export default function BlogContent({
   accent?: "cyan" | "magenta" | "red";
 }) {
   const color = ACCENT_VAR[accent] ?? ACCENT_VAR.cyan;
+  // El primer párrafo del artículo lleva capitular.
+  const firstParagraph = body.findIndex((b) => b.type === "p");
 
   return (
-    <div className="space-y-5">
+    <div className="blog-body space-y-6">
       {body.map((b, i) => {
         switch (b.type) {
           case "p":
             return (
-              <p key={i} className="text-base md:text-lg leading-relaxed text-ink/80">
+              <p
+                key={i}
+                className={`text-ink/85 ${i === firstParagraph ? "blog-dropcap" : ""}`}
+              >
                 {inline(b.text)}
               </p>
             );
@@ -62,22 +83,27 @@ export default function BlogContent({
             return (
               <h2
                 key={i}
-                className="scroll-mt-28 pt-6 text-2xl md:text-3xl font-extrabold tracking-tight text-ink"
+                className="blog-serif scroll-mt-28 pt-8 text-[1.7rem] md:text-3xl font-bold tracking-tight text-ink"
               >
+                <span
+                  className="mr-3 inline-block h-5 w-1.5 translate-y-0.5 rounded-full"
+                  style={{ background: color }}
+                  aria-hidden
+                />
                 {b.text}
               </h2>
             );
           case "h3":
             return (
-              <h3 key={i} className="pt-2 text-lg md:text-xl font-bold text-ink">
+              <h3 key={i} className="blog-serif pt-3 text-xl md:text-2xl font-bold text-ink">
                 {b.text}
               </h3>
             );
           case "ul":
             return (
-              <ul key={i} className="space-y-2.5 pl-1">
+              <ul key={i} className="space-y-3 pl-1">
                 {b.items.map((it, j) => (
-                  <li key={j} className="flex gap-3 text-base md:text-lg leading-relaxed text-ink/80">
+                  <li key={j} className="flex gap-3 leading-relaxed text-ink/85">
                     <span
                       aria-hidden
                       className="mt-2.5 h-2 w-2 shrink-0 rounded-full"
@@ -90,11 +116,11 @@ export default function BlogContent({
             );
           case "ol":
             return (
-              <ol key={i} className="space-y-3">
+              <ol key={i} className="space-y-3.5">
                 {b.items.map((it, j) => (
-                  <li key={j} className="flex gap-3.5 text-base md:text-lg leading-relaxed text-ink/80">
+                  <li key={j} className="flex gap-4 leading-relaxed text-ink/85">
                     <span
-                      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+                      className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white blog-serif"
                       style={{ background: color }}
                     >
                       {j + 1}
@@ -108,23 +134,23 @@ export default function BlogContent({
             return (
               <aside
                 key={i}
-                className="my-6 rounded-2xl border border-ink/10 bg-ink/[0.03] p-5 md:p-6"
+                className="my-8 rounded-2xl border border-ink/10 bg-white p-5 md:p-6 shadow-sm"
                 style={{ borderInlineStartWidth: 4, borderInlineStartColor: color }}
               >
                 <p
-                  className="mb-1 text-xs font-bold uppercase tracking-widest"
+                  className="mb-1.5 text-xs font-bold uppercase tracking-widest"
                   style={{ color }}
                 >
                   {b.title}
                 </p>
-                <p className="text-base md:text-lg font-medium leading-relaxed text-ink/90">
+                <p className="blog-serif text-lg font-medium leading-relaxed text-ink/90">
                   {inline(b.text)}
                 </p>
               </aside>
             );
           case "table":
             return (
-              <div key={i} className="my-6 overflow-x-auto rounded-2xl border border-ink/10">
+              <div key={i} className="my-8 overflow-x-auto rounded-2xl border border-ink/10 bg-white">
                 <table className="w-full border-collapse text-left text-sm md:text-base">
                   <thead>
                     <tr style={{ background: color }}>
@@ -156,7 +182,7 @@ export default function BlogContent({
             return (
               <blockquote
                 key={i}
-                className="my-6 pl-5 text-lg md:text-xl font-medium italic text-ink/85"
+                className="blog-serif my-8 pl-6 text-xl md:text-2xl font-medium italic leading-snug text-ink/85"
                 style={{ borderInlineStartWidth: 4, borderInlineStartColor: color }}
               >
                 {inline(b.text)}
