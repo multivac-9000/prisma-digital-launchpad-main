@@ -2,11 +2,12 @@
 // del blog, con la identidad visual de Prisma Digital. Mismo lenguaje que las
 // imágenes OG de las páginas (ver generate-og-images.mjs).
 //
-// Uso puntual (no forma parte del build):
-//   node scripts/generate-blog-images.mjs
+// Uso puntual (no forma parte del build). `sharp` NO es dependencia del proyecto
+// (rompería el install de Vercel); instálalo solo para generar:
+//   npm i -D sharp && node scripts/generate-blog-images.mjs && npm rm sharp
 //
 // Salida: public/blog/<slug>.png (1200×630). Al añadir un post nuevo, agrega su
-// entrada en POSTS y vuelve a correr el script.
+// entrada en POSTS y vuelve a correr el script. Los PNG se commitean.
 
 import sharp from "sharp";
 import { mkdirSync } from "fs";

@@ -7,8 +7,10 @@
 // Salida: public/og/og-*.png  (1200×630, el tamaño canónico para WhatsApp,
 // Facebook, LinkedIn y Twitter/X con summary_large_image).
 //
-// Requiere `sharp` (devDependency). Si se cambian textos o colores, volver a
-// correr el script y commitear los PNG resultantes.
+// `sharp` NO es dependencia del proyecto (rompería el install de Vercel, es un
+// binario nativo y solo se usa aquí). Instálalo puntualmente para generar:
+//   npm i -D sharp && node scripts/generate-og-images.mjs && npm rm sharp
+// Los PNG resultantes se commitean; el sitio no necesita sharp en producción.
 
 import sharp from "sharp";
 import { mkdirSync } from "fs";
