@@ -12,16 +12,25 @@ const links = [
   { label: "Contáctanos", href: "/#contacto" },
 ];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({
+  variant = "auto",
+}: {
+  /** "auto": asume un hero oscuro arriba (transparente → sólido al hacer scroll).
+   *  "light": la página no tiene hero oscuro; el navbar siempre usa el estilo
+   *  de alto contraste (fondo claro, texto oscuro) desde el primer píxel. */
+  variant?: "auto" | "light";
+}) {
+  const [scrolledState, setScrolledState] = useState(false);
   const [open, setOpen] = useState(false);
+  const scrolled = variant === "light" ? true : scrolledState;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    if (variant === "light") return;
+    const onScroll = () => setScrolledState(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [variant]);
 
   return (
     <header className="fixed inset-x-0 top-3 md:top-5 z-50 px-3 md:px-6">

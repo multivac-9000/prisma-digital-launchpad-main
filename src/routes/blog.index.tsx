@@ -135,7 +135,7 @@ function BlogIndex() {
 
   return (
     <main className="blog-canvas min-h-screen">
-      <Navbar />
+      <Navbar variant="light" />
 
       {/* Masthead editorial */}
       <header className="px-6 pt-32 pb-10 md:pt-40 md:pb-12">
@@ -160,15 +160,19 @@ function BlogIndex() {
           <Link
             to="/blog/$slug"
             params={{ slug: featured.slug }}
-            className="group block overflow-hidden bg-prisma-navy"
+            className="group block self-center overflow-hidden bg-prisma-navy"
           >
-            <img
-              src={postCover(featured.slug)}
-              alt={featured.coverAlt}
-              width={1200}
-              height={630}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            />
+            {/* aspect-[1200/630] = proporción exacta de la portada: object-cover
+                no recorta nada porque el contenedor ya tiene su misma forma. */}
+            <div className="aspect-[1200/630] w-full overflow-hidden">
+              <img
+                src={postCover(featured.slug)}
+                alt={featured.coverAlt}
+                width={1200}
+                height={630}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </div>
           </Link>
           <div className="flex flex-col justify-center p-7 md:p-9">
             <div className="mb-3 flex items-center gap-2">

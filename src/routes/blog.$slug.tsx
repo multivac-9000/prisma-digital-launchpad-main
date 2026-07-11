@@ -75,13 +75,15 @@ export const Route = createFileRoute("/blog/$slug")({
     );
     return {
       meta: [
-        { title: post.title },
+        // <title>/og/twitter usan seoTitle (≤60 caracteres); el <h1> y el
+        // headline del schema usan el título expresivo completo (post.title).
+        { title: post.seoTitle },
         { name: "description", content: post.excerpt },
         { name: "keywords", content: post.keywords.join(", ") },
         { name: "robots", content: "index, follow" },
         { name: "author", content: post.author },
         { property: "og:type", content: "article" },
-        { property: "og:title", content: post.title },
+        { property: "og:title", content: post.seoTitle },
         { property: "og:description", content: post.excerpt },
         { property: "og:url", content: url },
         { property: "og:image", content: cover },
@@ -91,7 +93,7 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "article:published_time", content: post.datePublished },
         { property: "article:modified_time", content: post.dateModified },
         { property: "article:section", content: cat?.label ?? "Blog" },
-        { name: "twitter:title", content: post.title },
+        { name: "twitter:title", content: post.seoTitle },
         { name: "twitter:description", content: post.excerpt },
         { name: "twitter:image", content: cover },
         { name: "twitter:image:alt", content: post.coverAlt },
@@ -117,7 +119,7 @@ function BlogPost() {
   if (!post) {
     return (
       <main className="blog-canvas flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <Navbar />
+        <Navbar variant="light" />
         <h1 className="blog-serif text-2xl font-bold text-ink">Artículo no encontrado</h1>
         <Link to="/blog" className="mt-4 font-semibold text-prisma-magenta">
           Volver al blog
@@ -133,7 +135,7 @@ function BlogPost() {
 
   return (
     <main className="blog-canvas min-h-screen">
-      <Navbar />
+      <Navbar variant="light" />
 
       {/* Encabezado editorial (claro, distinto de las landings) */}
       <header className="px-6 pt-32 pb-8 md:pt-40 md:pb-10">

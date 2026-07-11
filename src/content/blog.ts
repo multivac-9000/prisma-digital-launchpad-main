@@ -32,7 +32,10 @@ export type Category = {
 export type Post = {
   slug: string;
   categorySlug: string;
+  /** Titular expresivo: se usa como <h1> y como headline del schema. */
   title: string;
+  /** Título compacto (≤60 caracteres) para <title>, og:title y twitter:title. */
+  seoTitle: string;
   excerpt: string;
   coverAlt: string;
   author: string;
@@ -120,6 +123,7 @@ export const posts: Post[] = [
     slug: "herramientas-digitales-imprescindibles",
     categorySlug: "herramientas-digitales",
     title: "12 herramientas digitales imprescindibles para un negocio consolidado en 2026",
+    seoTitle: "12 herramientas digitales imprescindibles (2026)",
     excerpt:
       "Una caja de herramientas mínima y bien integrada para vender, medir y operar sin fricción — pensada para negocios con trayectoria, no para partir de cero.",
     coverAlt:
@@ -218,6 +222,7 @@ export const posts: Post[] = [
     slug: "buenas-practicas-higiene-de-datos",
     categorySlug: "buenas-practicas",
     title: "Higiene de datos: 8 buenas prácticas para decisiones que no fallan",
+    seoTitle: "Higiene de datos: 8 buenas prácticas clave",
     excerpt:
       "Datos sucios igual a decisiones caras. Ocho hábitos para que tu información sea confiable, comparable y accionable.",
     coverAlt:
@@ -301,6 +306,7 @@ export const posts: Post[] = [
     slug: "tips-marketing-bajar-cpa",
     categorySlug: "tips-marketing",
     title: "7 tips de marketing para bajar tu CPA sin bajar tus ventas",
+    seoTitle: "7 tips de marketing para bajar tu CPA sin bajar ventas",
     excerpt:
       "El costo por adquisición sube cuando la señal de conversión es pobre. Siete tácticas medibles para pagar menos por cada cliente sin sacrificar volumen.",
     coverAlt:
@@ -375,6 +381,7 @@ export const posts: Post[] = [
     slug: "seo-tecnico-checklist-desarrollo",
     categorySlug: "desarrollo-seo",
     title: "SEO técnico: la checklist de desarrollo que sí mueve tu posicionamiento",
+    seoTitle: "SEO técnico: la checklist de desarrollo que rankea",
     excerpt:
       "El contenido no rankea si la base técnica falla. La checklist de desarrollo que Google necesita para indexar, entender y priorizar tu sitio.",
     coverAlt:
@@ -478,8 +485,9 @@ export const posts: Post[] = [
     slug: "tipos-de-graficos-cuando-usar-cada-uno",
     categorySlug: "tipos-de-graficos",
     title: "Qué tipo de gráfico usar según tus datos (guía práctica con ejemplos)",
+    seoTitle: "Qué gráfico usar según tus datos (guía práctica)",
     excerpt:
-      "Elegir mal el gráfico esconde el insight. Una guía para escoger la visualización correcta según lo que quieras mostrar: comparar, componer, distribuir o relacionar.",
+      "Elegir mal el gráfico esconde el insight. Guía práctica para escoger la visualización correcta: comparar, mostrar composición, distribución o relación.",
     coverAlt:
       "Portada de la guía sobre qué tipo de gráfico usar según tus datos, de Prisma Digital.",
     author: AUTHOR,
@@ -560,6 +568,7 @@ export const posts: Post[] = [
     slug: "analisis-digital-datos-a-decisiones",
     categorySlug: "analisis-digital",
     title: "Análisis digital para dueños de negocio: de los datos a las decisiones",
+    seoTitle: "Análisis digital: de los datos a las decisiones",
     excerpt:
       "Tener GA4 instalado no es analizar. El marco práctico para pasar de mirar métricas a tomar decisiones que mueven la aguja.",
     coverAlt:
@@ -642,6 +651,7 @@ export const posts: Post[] = [
     slug: "ratios-y-tasas-marketing-clave",
     categorySlug: "ratios-y-tasas",
     title: "Los 10 ratios y tasas de marketing que todo negocio debería medir",
+    seoTitle: "10 ratios y tasas de marketing que debes medir",
     excerpt:
       "Sin estos números, escalar es apostar. Diez ratios con su fórmula y su interpretación para saber si tu marketing es rentable.",
     coverAlt:
@@ -720,6 +730,7 @@ export const posts: Post[] = [
     slug: "medicion-de-eventos-sin-perder-datos",
     categorySlug: "tips-de-medicion",
     title: "Medición de eventos: cómo dejar de perder datos por cookies y AdBlockers",
+    seoTitle: "Medición de eventos: deja de perder datos por cookies",
     excerpt:
       "Entre el 10% y el 30% de tus conversiones no se están midiendo. Cómo recuperarlas con medición server-side, Conversions API y consent mode.",
     coverAlt:
@@ -810,6 +821,7 @@ export const posts: Post[] = [
     slug: "que-es-martech-como-armar-stack",
     categorySlug: "martech",
     title: "Qué es el stack martech y cómo armar el tuyo sin morir en el intento",
+    seoTitle: "Qué es martech y cómo armar tu stack sin morir",
     excerpt:
       "Martech no es acumular software, es orquestarlo. Las cuatro capas de un stack de marketing y cómo integrarlas para que trabajen como un solo sistema.",
     coverAlt:
