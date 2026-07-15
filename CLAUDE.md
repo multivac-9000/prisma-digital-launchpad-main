@@ -31,7 +31,10 @@ Landing page de Prisma Digital (https://www.prismadigital.io/). Se despliega en 
 - Perfiles que agendan: dueños/gerentes, jefes de células de desarrollo (no saben medir eventos de sus aplicativos) y jefes de marketing (necesitan bajar CPA con buena marcación de objetivos).
 - PROHIBIDO en el copy: "tienda desde cero", "vendiendo solo", "tus primeros clientes", "para emprendedores". Este cliente YA vende; el salto es escalar, no nacer.
 - Registro emocional en orden: alivio → alegría/esperanza → confianza (respaldada con métricas y clientes reales).
-- Textos ancla: Visión "impulsar decisiones digitales basadas en datos y con propósito humano en empresas consolidadas"; Misión "fortalecer los pilares del ecosistema digital midiendo lo importante"; Propósito "potenciar los activos digitales de empresas que buscan modernizar su presencia".
+- Textos ancla (texto exacto, idéntico al deck de `/presentacion-diagnostico`; no reescribir sin aprobación):
+  - **Visión:** "Impulsar decisiones digitales basadas en datos y con propósito humano en empresas consolidadas."
+  - **Misión:** "Fortalecer los pilares del ecosistema digital midiendo lo importante, con mentalidad de crecimiento."
+  - **Propósito:** "Potenciar los activos digitales de empresas que buscan modernizar su presencia en el mercado."
 
 ## Reglas de conversión y UX
 
