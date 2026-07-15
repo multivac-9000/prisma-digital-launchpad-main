@@ -320,7 +320,7 @@ export const posts: Post[] = [
       "El CPA (costo por adquisición) sube casi siempre por una razón: la plataforma no recibe buena señal de tus conversiones.",
       "Mejorar la medición (CAPI, server-side) suele bajar el CPA más que cambiar creatividades.",
       "Segmenta por valor de cliente, no solo por volumen de leads.",
-      "Una landing 1 segundo más rápida puede mejorar la conversión de forma medible.",
+      "La velocidad de la landing mueve la aguja: mejorar 0,1 s la carga móvil aumentó las conversiones un 8,4% en retail (Google y Deloitte, 2020).",
     ],
     body: [
       {
@@ -330,7 +330,7 @@ export const posts: Post[] = [
       { type: "h2", text: "¿Por qué sube el CPA?" },
       {
         type: "p",
-        text: "El CPA es cuánto pagas, en promedio, por cada conversión. Sube cuando la plataforma publicitaria optimiza con datos incompletos: bloqueo de cookies, navegadores con ITP, AdBlockers y consentimiento mal implementado hacen que se pierda entre un 10% y un 30% de las conversiones. Menos señal significa peor optimización y, por lo tanto, CPA más alto. Lo vemos en detalle en [medición de eventos sin perder datos](/blog/medicion-de-eventos-sin-perder-datos).",
+        text: "El CPA es cuánto pagas, en promedio, por cada conversión. Sube cuando la plataforma publicitaria optimiza con datos incompletos: el bloqueo de cookies, el ITP de los navegadores, los AdBlockers y un consentimiento mal implementado hacen que parte de tus conversiones nunca se registre. Para dimensionarlo: cerca de un **30% de los usuarios de internet** navega con un bloqueador de anuncios ([GWI, 2025](https://backlinko.com/ad-blockers-users)). Menos señal significa peor optimización y, por lo tanto, CPA más alto. Lo vemos en detalle en [medición de eventos sin perder datos](/blog/medicion-de-eventos-sin-perder-datos).",
       },
       { type: "h2", text: "Los 7 tips" },
       {
@@ -339,7 +339,7 @@ export const posts: Post[] = [
           "**Recupera la señal con Conversions API (CAPI) y server-side.** Es, con diferencia, lo que más baja el CPA: le devuelves a la plataforma las conversiones que el navegador perdía.",
           "**Segmenta por valor, no por volumen.** Optimiza hacia el evento de compra o de lead calificado, no hacia clics o leads baratos que no compran.",
           "**Envía eventos de calidad de lead.** Marca cuáles leads avanzaron en el embudo para que el algoritmo aprenda a buscar más como esos.",
-          "**Acelera la landing.** Cada segundo de carga extra cuesta conversiones. Optimiza imágenes, usa carga diferida y mide con datos reales.",
+          "**Acelera la landing.** No es un detalle técnico: en el estudio [*Milliseconds Make Millions*](https://web.dev/case-studies/milliseconds-make-millions) de Google y Deloitte, mejorar la carga móvil en solo **0,1 s** subió las conversiones un **8,4% en retail** y un **10,1% en viajes**. Optimiza imágenes, usa carga diferida y mídelo.",
           "**Usa exclusiones.** No pagues por audiencias que ya son clientes o que nunca convertirán; libera presupuesto para las que sí.",
           "**Estructura el presupuesto por objetivo,** no por canal de moda. Cada peso debe perseguir una conversión medible.",
           "**Mide incrementalidad.** Antes de escalar, confirma que la campaña genera ventas que no habrían ocurrido igual sin ella.",
@@ -348,11 +348,15 @@ export const posts: Post[] = [
       { type: "h2", text: "El impacto de recuperar la señal" },
       {
         type: "table",
-        headers: ["Escenario", "Conversiones detectadas", "Efecto en el CPA"],
+        headers: ["Escenario", "Qué ve la plataforma", "Efecto en el CPA"],
         rows: [
-          ["Solo píxel de navegador", "70–90% del real", "CPA aparente más alto y peor optimización"],
-          ["Píxel + Conversions API", "95–99% del real", "Mejor aprendizaje del algoritmo y CPA más bajo"],
+          ["Solo píxel de navegador", "Pierde a quien usa AdBlocker o cuya cookie expiró", "CPA aparente más alto y peor optimización"],
+          ["Píxel + Conversions API", "Recupera eventos que el navegador no pudo enviar", "Mejor aprendizaje del algoritmo y CPA más bajo"],
         ],
+      },
+      {
+        type: "p",
+        text: "Meta no publica un porcentaje universal de mejora, y desconfía de quien te lo prometa: depende de tu rubro, tu público y tu implementación. Lo que sí puedes medir es la **calidad de la coincidencia de eventos** (*Event Match Quality*), el puntaje de 0 a 10 con el que Meta evalúa la señal que le envías.",
       },
       {
         type: "callout",
@@ -429,6 +433,10 @@ export const posts: Post[] = [
         ],
       },
       { type: "h3", text: "2. Velocidad y experiencia (Core Web Vitals)" },
+      {
+        type: "p",
+        text: "Aquí está el mejor argumento para convencer a quien firma el presupuesto: en el estudio [*Milliseconds Make Millions*](https://web.dev/case-studies/milliseconds-make-millions), Google y Deloitte analizaron 37 marcas y midieron que **mejorar la carga móvil en apenas 0,1 segundos** aumentó las conversiones un **8,4% en retail** —con un **9,2% más de ticket promedio**— y un **10,1% en viajes**. Una décima de segundo. La velocidad no es un capricho técnico: es ingreso.",
+      },
       {
         type: "ul",
         items: [
@@ -679,7 +687,7 @@ export const posts: Post[] = [
         rows: [
           ["CAC (costo de adquisición)", "Inversión ÷ clientes nuevos", "Cuánto te cuesta ganar un cliente"],
           ["LTV (valor de vida)", "Ticket medio × frecuencia × años", "Cuánto vale un cliente en el tiempo"],
-          ["LTV / CAC", "LTV ÷ CAC", "Si el negocio es sostenible (ideal ≥ 3)"],
+          ["LTV / CAC", "LTV ÷ CAC", "Si adquirir clientes es sostenible (referencia ≥ 3, ver más abajo)"],
           ["ROAS", "Ingresos por pauta ÷ inversión en pauta", "Retorno bruto de la publicidad"],
           ["Tasa de conversión", "Conversiones ÷ visitas × 100", "Qué tan bien convierte tu sitio"],
           ["Ticket promedio (AOV)", "Ingresos ÷ número de pedidos", "Cuánto gasta cada compra"],
@@ -692,7 +700,7 @@ export const posts: Post[] = [
       { type: "h2", text: "El ratio que manda: LTV / CAC" },
       {
         type: "p",
-        text: "Si solo pudieras medir uno, mide la relación entre el valor de vida del cliente y su costo de adquisición. Una relación de 3 a 1 suele indicar un negocio sano: ganas tres veces lo que gastas en conseguir cada cliente. Por debajo de 1, estás pagando por perder dinero; muy por encima de 5, probablemente estás dejando de crecer por invertir de menos. Interpretar estos números es la esencia del [análisis digital](/blog/analisis-digital-datos-a-decisiones).",
+        text: "Si solo pudieras medir uno, mide la relación entre el valor de vida del cliente y su costo de adquisición. La referencia que más se cita es **3 a 1**: ganas tres veces lo que gastas en conseguir cada cliente. Conviene saber de dónde sale: la popularizó [David Skok](https://www.forentrepreneurs.com/saas-metrics-2/) analizando **empresas de software con ingreso recurrente**, no negocios de retail físico. Por debajo de 1 estás pagando por perder dinero, eso aplica a cualquiera; pero el número \"sano\" exacto depende de tu margen y de tu frecuencia de recompra. **Úsalo como brújula, no como meta.** Interpretar estos números es la esencia del [análisis digital](/blog/analisis-digital-datos-a-decisiones).",
       },
       { type: "h2", text: "Cuidado con el ROAS 'vanidoso'" },
       {
@@ -712,7 +720,7 @@ export const posts: Post[] = [
     faq: [
       {
         q: "¿Cuál es el ratio de marketing más importante?",
-        a: "La relación LTV/CAC, que compara el valor de vida del cliente con el costo de adquirirlo. Indica si el modelo de adquisición es sostenible; una relación cercana a 3 a 1 suele considerarse saludable.",
+        a: "La relación LTV/CAC, que compara el valor de vida del cliente con el costo de adquirirlo. Indica si el modelo de adquisición es sostenible. La referencia de 3 a 1 que suele citarse proviene del análisis de empresas de software con ingreso recurrente (David Skok), así que en retail físico conviene tomarla como brújula y no como meta: el número sano depende de tu margen y tu frecuencia de recompra.",
       },
       {
         q: "¿Qué diferencia hay entre CAC y CPL?",
@@ -732,7 +740,7 @@ export const posts: Post[] = [
     title: "Medición de eventos: cómo dejar de perder datos por cookies y AdBlockers",
     seoTitle: "Medición de eventos: deja de perder datos por cookies",
     excerpt:
-      "Entre el 10% y el 30% de tus conversiones no se están midiendo. Cómo recuperarlas con medición server-side, Conversions API y consent mode.",
+      "Cookies bloqueadas y AdBlockers hacen que parte de tus conversiones nunca se midan. Cómo recuperarlas con medición server-side y Conversions API.",
     coverAlt:
       "Portada del artículo sobre medición de eventos server-side para no perder datos por cookies y AdBlockers, de Prisma Digital.",
     author: AUTHOR,
@@ -747,7 +755,8 @@ export const posts: Post[] = [
       "GA4",
     ],
     tldr: [
-      "El tracking solo con el navegador pierde entre 10% y 30% de las conversiones por cookies, ITP y AdBlockers.",
+      "Cerca de un 30% de los usuarios de internet navega con un bloqueador de anuncios, que impide que tus scripts de medición se ejecuten (GWI, 2025).",
+      "El ITP de Safari acorta la vida de las cookies del navegador, así que parte de tus conversiones deja de atribuirse.",
       "La medición server-side y las Conversions API (CAPI) recuperan gran parte de esa señal perdida.",
       "El Consent Mode permite medir respetando la decisión de privacidad del usuario.",
       "Una buena nomenclatura de eventos es tan importante como la infraestructura.",
@@ -755,7 +764,7 @@ export const posts: Post[] = [
     body: [
       {
         type: "p",
-        text: "Si tomas decisiones con lo que mide tu píxel de navegador, estás decidiendo con datos incompletos y ni siquiera lo sabes. Safari limita las cookies, los AdBlockers bloquean scripts y el consentimiento mal implementado descarta eventos. El resultado: pierdes entre un 10% y un 30% de tus conversiones. La buena noticia es que se recuperan.",
+        text: "Si tomas decisiones con lo que mide tu píxel de navegador, estás decidiendo con datos incompletos y ni siquiera lo sabes. Safari limita las cookies, los AdBlockers bloquean scripts y el consentimiento mal implementado descarta eventos. Para dimensionarlo: cerca de un **30% de los usuarios de internet** usa un bloqueador de anuncios ([GWI, 2025](https://backlinko.com/ad-blockers-users)), y en esos casos tu medición del lado del navegador simplemente no corre. La buena noticia es que esa señal se recupera.",
       },
       { type: "h2", text: "¿Por qué se pierden datos de eventos?" },
       {
@@ -778,7 +787,7 @@ export const posts: Post[] = [
         rows: [
           ["Afectada por AdBlockers", "Sí", "No"],
           ["Depende de cookies de terceros", "Sí", "Menos"],
-          ["Precisión de conversiones", "70–90%", "95–99%"],
+          ["Sobrevive al ITP de Safari", "Parcialmente", "Sí"],
           ["Control del dato", "Del navegador", "Tuyo"],
         ],
       },
@@ -806,8 +815,8 @@ export const posts: Post[] = [
         a: "Es una forma de rastrear eventos (compras, leads, clics) enviándolos desde un servidor que tú controlas en lugar del navegador del usuario. Así se evita la pérdida de datos causada por AdBlockers, límites de cookies y restricciones de los navegadores.",
       },
       {
-        q: "¿Cuántas conversiones se pierden con el tracking tradicional?",
-        a: "Habitualmente entre un 10% y un 30%, dependiendo del navegador, el uso de AdBlockers y la configuración de consentimiento. La medición server-side con Conversions API recupera gran parte de esa señal.",
+        q: "¿Por qué se pierden conversiones con el tracking tradicional?",
+        a: "Porque la medición del lado del navegador depende de que el navegador coopere. Cerca de un 30% de los usuarios de internet usa un bloqueador de anuncios que impide ejecutar los scripts de medición (GWI, 2025), y el ITP de Safari acorta la vida de las cookies. Cuánto se pierde exactamente depende de tu público, rubro y país: hay que medirlo en cada caso.",
       },
       {
         q: "¿La medición server-side respeta la privacidad?",
