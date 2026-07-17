@@ -48,7 +48,7 @@ const organizationNode: Node = {
   image: { "@id": LOGO_ID },
   email: EMAIL,
   telephone: PHONE,
-  slogan: "Con datos, no con suposiciones",
+  slogan: "Menos ilusión, más acción",
   description:
     "Agencia de crecimiento digital para empresas consolidadas: integramos y medimos ecosistemas digitales para duplicar las ventas online.",
   foundingLocation: {
