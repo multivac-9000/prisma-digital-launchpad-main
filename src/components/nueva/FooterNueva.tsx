@@ -1,6 +1,20 @@
 import { Mail, MessageCircle, CalendarDays, Instagram, Facebook, Linkedin } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import NewsletterNueva from "./NewsletterNueva";
+
+/* Firma dinámica del footer: cada página se queda con SU palabra del espectro
+   del eslogan. Refuerza el mensaje del canal sin repetir el eslogan completo.
+   Todas las palabras riman en "-ión" para leerse como variación de "acción". */
+const SIGNATURE_WORD_BY_PATH: Record<string, string> = {
+  "/digitalizacion-de-negocios": "dirección",
+  "/promocion-de-negocios": "decisión",
+  "/optimizacion-de-negocios": "precisión",
+};
+function signatureWordFor(pathname: string): string {
+  if (SIGNATURE_WORD_BY_PATH[pathname]) return SIGNATURE_WORD_BY_PATH[pathname];
+  if (pathname.startsWith("/blog")) return "medición";
+  return "acción"; // home y resto
+}
 
 const socials = [
   {
@@ -63,6 +77,8 @@ const columnTitle =
 /* FOOTER con el nuevo posicionamiento: newsletter horizontal arriba y columnas
    de navegación / contacto / legal que aprovechan el ancho completo. */
 export default function FooterNueva() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const signatureWord = signatureWordFor(pathname);
   return (
     <footer className="nl-dark relative z-[1] -mt-10 rounded-t-[2.5rem] text-white">
       <div className="nl-gem" aria-hidden="true" />
@@ -157,6 +173,22 @@ export default function FooterNueva() {
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+
+      {/* Firma dinámica: cada página se queda con su palabra del espectro */}
+      <div className="border-t border-white/10">
+        <div className="mx-auto max-w-7xl px-6 py-3 text-center text-xs tracking-wide text-white/55">
+          Prisma Digital · Menos ilusión, más{" "}
+          <span
+            key={signatureWord}
+            className="font-semibold text-white/85"
+            style={{
+              animation: "nl-word-swap-in 500ms cubic-bezier(0.22, 0.65, 0.3, 0.9) both",
+            }}
+          >
+            {signatureWord}
+          </span>
         </div>
       </div>
 

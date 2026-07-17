@@ -1,4 +1,4 @@
-import { useEffect, useRef, Fragment, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, Fragment, type CSSProperties, type ReactNode } from "react";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { trackCta } from "./track";
 import { Reveal } from "./scrolly";
@@ -20,6 +20,57 @@ type Node = {
 
 const H1_LINE_1 = "Llevas años consolidando tu negocio.";
 const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
+
+/* Palabras que rotan al final del eslogan del hero. Todas riman en "-ión" para
+   que el oído las lea como una variación del eslogan oficial ("Menos ilusión,
+   más acción"). No agregar palabras que no rimen: rompe el mecanismo. */
+const SLOGAN_WORDS = [
+  "acción",
+  "medición",
+  "decisión",
+  "evolución",
+  "dirección",
+  "precisión",
+] as const;
+const SLOGAN_LONGEST = SLOGAN_WORDS.reduce((a, b) => (a.length >= b.length ? a : b));
+
+/* Rota la última palabra del eslogan del badge cada 3,5s con fade suave.
+   SSR-safe (renderiza "acción" hasta hidratar) y respeta prefers-reduced-motion. */
+function RotatingSloganWord() {
+  const [i, setI] = useState(0);
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setEnabled(true);
+    const id = window.setInterval(() => {
+      setI((v) => (v + 1) % SLOGAN_WORDS.length);
+    }, 3500);
+    return () => window.clearInterval(id);
+  }, []);
+  return (
+    <span
+      aria-live={enabled ? "polite" : undefined}
+      className="relative inline-block text-center align-baseline"
+    >
+      {/* Palabra fantasma (la más larga) que reserva el ancho fijo → sin CLS */}
+      <span aria-hidden="true" className="invisible">
+        {SLOGAN_LONGEST}
+      </span>
+      <span
+        key={enabled ? i : "init"}
+        className="absolute inset-0 whitespace-nowrap"
+        style={{
+          animation: enabled
+            ? "nl-word-swap-in 500ms cubic-bezier(0.22, 0.65, 0.3, 0.9) both"
+            : undefined,
+        }}
+      >
+        {enabled ? SLOGAN_WORDS[i] : "acción"}
+      </span>
+    </span>
+  );
+}
 
 // Cinta de datos: resultados reales de clientes, en vivo bajo el hero.
 const tickerItems = [
@@ -299,7 +350,8 @@ export default function HeroNueva({
               className="hidden sm:inline-block h-4 w-4 text-prisma-cyan shrink-0"
               aria-hidden="true"
             />
-            Menos ilusión, más acción
+            <span>Menos ilusión, más&nbsp;</span>
+            <RotatingSloganWord />
           </span>
 
           <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.6rem,4.3vw,3.6rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
