@@ -51,7 +51,7 @@ function RotatingSloganWord() {
   return (
     <span
       aria-live={enabled ? "polite" : undefined}
-      className="relative inline-block text-center align-baseline"
+      className="relative inline-block text-left align-baseline"
     >
       {/* Palabra fantasma (la más larga) que reserva el ancho fijo → sin CLS */}
       <span aria-hidden="true" className="invisible">
