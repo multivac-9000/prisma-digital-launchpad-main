@@ -350,8 +350,9 @@ export default function HeroNueva({
               className="hidden sm:inline-block h-4 w-4 text-prisma-cyan shrink-0"
               aria-hidden="true"
             />
-            <span>Menos ilusión, más&nbsp;</span>
-            <RotatingSloganWord />
+            <span>
+              Menos ilusión, más <RotatingSloganWord />
+            </span>
           </span>
 
           <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.6rem,4.3vw,3.6rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
