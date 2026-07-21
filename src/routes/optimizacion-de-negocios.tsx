@@ -51,14 +51,14 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
       {
         property: "og:description",
         content:
-          "Se acabó gastar dinero a ciegas. Medimos y modelamos eventos comerciales sin pérdidas para bajar tu CPA y optimizar tu pauta.",
+          "Mide lo que importa y baja tu CPA. GA4, Conversions API, Server-Side GTM y dashboards en Looker.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
       { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:height", content: "1200" },
       {
         property: "og:image:alt",
         content:

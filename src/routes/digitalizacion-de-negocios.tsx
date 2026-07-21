@@ -73,14 +73,14 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
       {
         property: "og:description",
         content:
-          "Tu nueva página web hecha para vender, con todo tu marketing medido y conectado a tu stock, tus ventas y tus clientes. Sin partir de cero.",
+          "Sitios web profesionales hechos para vender. Web, stock, ventas y clientes conectados y medidos.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
       { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:height", content: "1200" },
       {
         property: "og:image:alt",
         content:

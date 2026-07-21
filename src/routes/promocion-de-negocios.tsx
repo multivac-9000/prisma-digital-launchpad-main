@@ -55,14 +55,14 @@ export const Route = createFileRoute("/promocion-de-negocios")({
       {
         property: "og:description",
         content:
-          "Atrae un flujo constante de clientes nuevos con pautas publicitarias basadas en datos y un contenido audiovisual que impacta y vende.",
+          "Captación de clientes predecible y medible. Meta Ads, Google Ads, embudos y audiovisual que vende.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://www.prismadigital.io/og/og-promocion.png" },
       { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-promocion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:height", content: "1200" },
       {
         property: "og:image:alt",
         content:

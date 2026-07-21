@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Llevamos tu empresa al mundo digital y la convertimos en una máquina de prospección predecible. Con datos, no con suposiciones.",
+          "Duplica tus ventas online con datos, no con suposiciones. Diagnóstico gratis y avances medibles en 90 días.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "es_CL" },
@@ -106,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Llevamos tu empresa al mundo digital y la convertimos en una máquina de prospección predecible. Con datos, no con suposiciones.",
+          "Duplica tus ventas online con datos, no con suposiciones. Diagnóstico gratis · 90 días.",
       },
       // Imagen destacada por defecto (fallback). Cada página indexada la
       // sobrescribe con la suya en public/og/ (ver generate-og-images.mjs).
@@ -114,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-home.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:height", content: "1200" },
       {
         property: "og:image:alt",
         content:
