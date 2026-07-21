@@ -19,7 +19,7 @@ const JSON_LD = buildGraph(
     name: "Promoción de Negocios y Captación Predictiva — Prisma Digital",
     description:
       "Diseñamos un sistema predictivo de captación de clientes. Campañas inteligentes en Meta, Google y producción audiovisual premium.",
-    image: "https://www.prismadigital.io/og/og-promocion.png",
+    image: "https://prismadigital.io/og/og-promocion.png",
     withBreadcrumb: true,
   }),
   breadcrumb(CANONICAL_URL, "Promoción de Negocios"),
@@ -58,8 +58,8 @@ export const Route = createFileRoute("/promocion-de-negocios")({
           "Captación de clientes predecible y medible. Meta Ads, Google Ads, embudos y audiovisual que vende.",
       },
       { property: "og:url", content: CANONICAL_URL },
-      { property: "og:image", content: "https://www.prismadigital.io/og/og-promocion.png" },
-      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-promocion.png" },
+      { property: "og:image", content: "https://prismadigital.io/og/og-promocion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-promocion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "1200" },
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/promocion-de-negocios")({
         content:
           "Un flujo constante de clientes nuevos con pauta basada en datos y contenido audiovisual que vende.",
       },
-      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-promocion.png" },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-promocion.png" },
       {
         name: "twitter:image:alt",
         content:

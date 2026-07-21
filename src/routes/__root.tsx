@@ -110,8 +110,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       // Imagen destacada por defecto (fallback). Cada página indexada la
       // sobrescribe con la suya en public/og/ (ver generate-og-images.mjs).
-      { property: "og:image", content: "https://www.prismadigital.io/og/og-home.png" },
-      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-home.png" },
+      { property: "og:image", content: "https://prismadigital.io/og/og-home.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-home.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "1200" },
@@ -120,7 +120,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Prisma Digital, agencia de crecimiento digital que duplica las ventas online de negocios consolidados con datos y medición.",
       },
-      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-home.png" },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-home.png" },
       {
         name: "twitter:image:alt",
         content: "Prisma Digital — duplica tus ventas online con datos, no con suposiciones.",

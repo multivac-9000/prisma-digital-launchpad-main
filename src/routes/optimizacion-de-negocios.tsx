@@ -20,7 +20,7 @@ const JSON_LD = buildGraph(
     name: "Optimización de Negocios y Medición Avanzada — Prisma Digital",
     description:
       "Configuramos GA4, Conversions API y Looker Studio. Toma el control del retorno de tu inversión publicitaria.",
-    image: "https://www.prismadigital.io/og/og-optimizacion.png",
+    image: "https://prismadigital.io/og/og-optimizacion.png",
     withBreadcrumb: true,
   }),
   breadcrumb(CANONICAL_URL, "Optimización de Negocios"),
@@ -54,8 +54,8 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
           "Mide lo que importa y baja tu CPA. GA4, Conversions API, Server-Side GTM y dashboards en Looker.",
       },
       { property: "og:url", content: CANONICAL_URL },
-      { property: "og:image", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
-      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-optimizacion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "1200" },
@@ -73,7 +73,7 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
         content:
           "Medimos y modelamos eventos sin pérdidas con GA4 y Conversions API para bajar tu CPA. Sin suposiciones.",
       },
-      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-optimizacion.png" },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
       {
         name: "twitter:image:alt",
         content:

@@ -38,7 +38,7 @@ const JSON_LD = buildGraph(
     name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
     description:
       "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
-    image: "https://www.prismadigital.io/og/og-digitalizacion.png",
+    image: "https://prismadigital.io/og/og-digitalizacion.png",
     withBreadcrumb: true,
   }),
   breadcrumb(CANONICAL_URL, "Digitalización de Negocios"),
@@ -76,8 +76,8 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
           "Sitios web profesionales hechos para vender. Web, stock, ventas y clientes conectados y medidos.",
       },
       { property: "og:url", content: CANONICAL_URL },
-      { property: "og:image", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
-      { property: "og:image:secure_url", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-digitalizacion.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "1200" },
@@ -95,7 +95,7 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
         content:
           "Tu web hecha para vender, con el marketing medido y conectado a tu stock, ventas y clientes.",
       },
-      { name: "twitter:image", content: "https://www.prismadigital.io/og/og-digitalizacion.png" },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
       {
         name: "twitter:image:alt",
         content:

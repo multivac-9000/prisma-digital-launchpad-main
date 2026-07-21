@@ -21,7 +21,7 @@ const JSON_LD = buildGraph(
     name: "Prisma Digital — Duplica tus ventas online con datos",
     description:
       "Modernizamos y medimos el ecosistema digital de negocios con años de trayectoria para duplicar sus ventas online. Agenda tu diagnóstico gratis.",
-    image: "https://www.prismadigital.io/og/og-home.png",
+    image: "https://prismadigital.io/og/og-home.png",
   }),
 );
 
