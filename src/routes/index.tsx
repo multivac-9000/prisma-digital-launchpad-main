@@ -39,7 +39,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Tu marca ya vende offline. Integramos y medimos tu ecosistema digital para duplicar tus ventas online. Diagnóstico gratis.",
+          "Integramos y medimos tu ecosistema digital para duplicar tus ventas online.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { name: "twitter:title", content: "Prisma Digital — Duplica tus ventas online con datos" },

@@ -60,7 +60,7 @@ const JSON_LD = buildGraph(
 export const Route = createFileRoute("/digitalizacion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Sitios Web Profesionales y Digitalización — Prisma Digital" },
+      { title: "Sitios Web Hechos para Vender — Prisma Digital" },
       {
         name: "description",
         content:
@@ -68,12 +68,12 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
       },
       {
         property: "og:title",
-        content: "Sitios Web Profesionales y Digitalización — Prisma Digital",
+        content: "Sitios Web Hechos para Vender — Prisma Digital",
       },
       {
         property: "og:description",
         content:
-          "Sitios web profesionales hechos para vender. Web, stock, ventas y clientes conectados y medidos.",
+          "Sitios web hechos para vender, con stock y clientes conectados.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
@@ -88,12 +88,12 @@ export const Route = createFileRoute("/digitalizacion-de-negocios")({
       },
       {
         name: "twitter:title",
-        content: "Sitios Web Profesionales y Digitalización — Prisma Digital",
+        content: "Sitios Web Hechos para Vender — Prisma Digital",
       },
       {
         name: "twitter:description",
         content:
-          "Tu web hecha para vender, con el marketing medido y conectado a tu stock, ventas y clientes.",
+          "Sitios web hechos para vender, con stock y clientes conectados.",
       },
       { name: "twitter:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
       {

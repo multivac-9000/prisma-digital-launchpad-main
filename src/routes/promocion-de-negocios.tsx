@@ -45,17 +45,17 @@ const JSON_LD = buildGraph(
 export const Route = createFileRoute("/promocion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Promoción de Negocios y Captación de Clientes — Prisma Digital" },
+      { title: "Captación de Clientes que sí Vende — Prisma Digital" },
       {
         name: "description",
         content:
           "Construimos sistemas de captación de clientes predecibles y medibles. Embudos de venta, Meta Ads, Google Ads y producción audiovisual premium.",
       },
-      { property: "og:title", content: "Promoción de Negocios y Captación de Clientes — Prisma Digital" },
+      { property: "og:title", content: "Captación de Clientes que sí Vende — Prisma Digital" },
       {
         property: "og:description",
         content:
-          "Captación de clientes predecible y medible. Meta Ads, Google Ads, embudos y audiovisual que vende.",
+          "Captación predecible y medible con Meta Ads, Google Ads y audiovisual.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://prismadigital.io/og/og-promocion.png" },
@@ -70,12 +70,12 @@ export const Route = createFileRoute("/promocion-de-negocios")({
       },
       {
         name: "twitter:title",
-        content: "Promoción de Negocios y Captación de Clientes — Prisma Digital",
+        content: "Captación de Clientes que sí Vende — Prisma Digital",
       },
       {
         name: "twitter:description",
         content:
-          "Un flujo constante de clientes nuevos con pauta basada en datos y contenido audiovisual que vende.",
+          "Captación predecible y medible con Meta Ads, Google Ads y audiovisual.",
       },
       { name: "twitter:image", content: "https://prismadigital.io/og/og-promocion.png" },
       {

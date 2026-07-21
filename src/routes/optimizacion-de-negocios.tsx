@@ -41,17 +41,17 @@ const JSON_LD = buildGraph(
 export const Route = createFileRoute("/optimizacion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Optimización de Negocios y Medición de Eventos — Prisma Digital" },
+      { title: "Baja tu CPA con Medición Real — Prisma Digital" },
       {
         name: "description",
         content:
           "Medición de eventos web y apps con GA4, Conversions API y Server-Side GTM, más dashboards en Looker Studio para reducir tu CPA. Con datos, no suposiciones.",
       },
-      { property: "og:title", content: "Optimización de Negocios y Medición de Eventos — Prisma Digital" },
+      { property: "og:title", content: "Baja tu CPA con Medición Real — Prisma Digital" },
       {
         property: "og:description",
         content:
-          "Mide lo que importa y baja tu CPA. GA4, Conversions API, Server-Side GTM y dashboards en Looker.",
+          "Mide lo que importa y baja tu CPA. GA4, Conversions API y Looker.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
@@ -66,12 +66,12 @@ export const Route = createFileRoute("/optimizacion-de-negocios")({
       },
       {
         name: "twitter:title",
-        content: "Optimización de Negocios y Medición de Eventos — Prisma Digital",
+        content: "Baja tu CPA con Medición Real — Prisma Digital",
       },
       {
         name: "twitter:description",
         content:
-          "Medimos y modelamos eventos sin pérdidas con GA4 y Conversions API para bajar tu CPA. Sin suposiciones.",
+          "Mide lo que importa y baja tu CPA. GA4, Conversions API y Looker.",
       },
       { name: "twitter:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
       {
