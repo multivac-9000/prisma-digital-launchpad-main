@@ -159,109 +159,90 @@ function TrustTicker() {
   );
 }
 
-/* Recreación animada del isotipo de Prisma Digital: triángulo + los 4 rayos
-   reales del logo (magenta, rojo, amarillo, cian — ver public/logo.png).
-   ⚠️ Excepción deliberada y acotada a esta pieza: el amarillo es uno de los 4
-   colores propios del isotipo, así que aquí se recrea el logo tal cual es.
-   Esto NO abre la puerta a usar amarillo en otro elemento del sitio — sigue
-   siendo exclusivo del CTA de agenda en todo lo demás (decisión del cliente,
-   2026-07-23).
-   Un rayo blanco entra desde la izquierda y "se transforma" en los 4 rayos
-   de color al tocar el prisma — la lectura de refracción que pedía el cliente.
-   Movimiento: wobble 3D (perspective + rotateX/Y en el grupo), cada rayo con
-   su propio flotado/pulso escalonado, glow de color por rayo, y un glint
-   automático que recorre el triángulo. Todo se apaga con
-   prefers-reduced-motion (clases nl-hv-* ya lo gestionan). */
-function rayPath(length: number, tipR = 10, midW = 4.5) {
-  const midY = -length * 0.55;
-  const tipY = -length * 0.86;
-  return `M 0,0 Q ${-midW},${midY} ${-tipR},${tipY} A ${tipR},${tipR} 0 1 0 ${tipR},${tipY} Q ${midW},${midY} 0,0 Z`;
-}
-
-// Ángulos medidos desde la vertical (0° = recto hacia arriba), igual que el
-// abanico real del logo: rojo más a la izquierda/empinado → magenta más
-// tendido a la derecha. Spread amplio (~55°) para que los 4 se vean separados.
-const RAYS = [
-  { angle: -20, length: 112, color: "#fd3833", floatClass: "nl-hv-float" }, // rojo
-  { angle: -3, length: 148, color: "#fecd2b", floatClass: "nl-hv-float-b" }, // amarillo (el más alto, color propio del isotipo)
-  { angle: 15, length: 92, color: "#32d6ff", floatClass: "nl-hv-float-c" }, // cian (el más corto)
-  { angle: 34, length: 138, color: "#d713f9", floatClass: "nl-hv-float" }, // magenta (el más tendido)
+/* Escena de dispersión de luz tipo prisma para el header de /contacto.
+   Réplica del lenguaje visual del hero clásico del sitio
+   (prismadigital-lyart.vercel.app): rayos de luz de colores de marca que
+   barren en diagonal con glow, haces blancos que giran (mix-blend-screen),
+   orbes difusos que respiran y un núcleo que late. Abstracto —evoca un
+   prisma dispersando luz— en vez de dibujar el logo literal.
+   ⚠️ El amarillo aparece aquí como color de DISPERSIÓN de la marca (uno de
+   los tonos del isotipo), no como CTA. Sigue siendo exclusivo del CTA de
+   agenda en el resto del sitio (verificado: solo los 3 botones de agenda lo
+   usan). Decisión del cliente, 2026-07-23.
+   Todo es transform/opacity y se apaga con prefers-reduced-motion. */
+const LIGHT_RAYS = [
+  { top: "20%", h: "3px", color: "#d713f9", glow: 26, dur: "5.5s", delay: "0s" }, // magenta
+  { top: "34%", h: "2px", color: "#fecd2b", glow: 22, dur: "7s", delay: "-2s" }, // amarillo (dispersión)
+  { top: "50%", h: "4px", color: "#fd3833", glow: 30, dur: "6s", delay: "-4s" }, // rojo
+  { top: "63%", h: "2px", color: "#32d6ff", glow: 22, dur: "6.5s", delay: "-1.2s" }, // cian
+  { top: "78%", h: "3px", color: "#ffffff", glow: 18, dur: "8s", delay: "-3s" }, // luz blanca
 ];
 
 function ContactoVisual() {
   return (
-    <div
-      className="relative hidden lg:flex items-center justify-center h-full min-h-[300px]"
-      style={{ perspective: "900px" }}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 320 320" className="w-full max-w-[300px] overflow-visible nl-hv-wobble3d">
-        <defs>
-          <radialGradient id="contacto-glow" cx="0.42" cy="0.55" r="0.65">
-            <stop offset="0" stopColor="#d713f9" stopOpacity="0.32" />
-            <stop offset="1" stopColor="#d713f9" stopOpacity="0" />
-          </radialGradient>
-          <clipPath id="contacto-tri-clip">
-            <polygon points="128,60 196,232 60,232" />
-          </clipPath>
-        </defs>
-
-        <circle cx="150" cy="160" r="150" fill="url(#contacto-glow)" />
-
-        {/* Anillos orbitales */}
-        <circle cx="150" cy="160" r="128" fill="none" stroke="white" strokeOpacity="0.07" strokeWidth="1" className="nl-hv-spin" />
-        <circle cx="150" cy="160" r="98" fill="none" stroke="white" strokeOpacity="0.05" strokeWidth="1" className="nl-hv-spin-rev" />
-
-        {/* Triángulo de marca (silueta detrás de los rayos) */}
-        <polygon
-          points="128,60 196,232 60,232"
-          fill="none"
-          stroke="white"
-          strokeOpacity="0.55"
-          strokeWidth="3"
-          strokeLinejoin="round"
+    <div className="relative hidden lg:block h-full min-h-[340px]" aria-hidden="true">
+      <div className="absolute inset-0 overflow-hidden rounded-[2rem] ring-1 ring-white/5">
+        {/* Orbes difusos que respiran */}
+        <div
+          className="nl-prism-orb absolute left-[14%] top-[16%] h-44 w-44 rounded-full blur-[72px]"
+          style={{ background: "#d713f9", ["--nl-dur" as string]: "7s" }}
         />
-        {/* Glint automático: barre el triángulo cada ~5s */}
-        <g clipPath="url(#contacto-tri-clip)">
-          <rect x="40" y="40" width="26" height="220" fill="white" opacity="0" className="nl-hv-glint" />
-        </g>
-
-        {/* Rayo blanco entrando al prisma: cuenta la historia de refracción
-            (luz blanca que entra y sale convertida en los colores de marca). */}
-        <line
-          x1="4"
-          y1="158"
-          x2="116"
-          y2="150"
-          stroke="white"
-          strokeOpacity="0.9"
-          strokeWidth="3"
-          strokeLinecap="round"
-          style={{ filter: "drop-shadow(0 0 5px rgba(255,255,255,0.7))" }}
+        <div
+          className="nl-prism-orb absolute right-[10%] top-[42%] h-40 w-40 rounded-full blur-[72px]"
+          style={{ background: "#32d6ff", ["--nl-dur" as string]: "6s", ["--nl-delay" as string]: "-2s" }}
+        />
+        <div
+          className="nl-prism-orb absolute left-[38%] bottom-[10%] h-36 w-36 rounded-full blur-[72px]"
+          style={{ background: "#fd3833", ["--nl-dur" as string]: "8.5s", ["--nl-delay" as string]: "-4s" }}
         />
 
-        {/* Los 4 rayos, desde el punto donde el rayo blanco toca el prisma.
-            IMPORTANTE: la rotación (ángulo del abanico) va en un <g> con el
-            atributo SVG `transform`, y el flotado (CSS) en un <g> ANIDADO
-            aparte — si se mezclan en el mismo elemento, el `transform` CSS
-            de la animación pisa el atributo SVG y los 4 rayos colapsan
-            apuntando todos derecho hacia arriba (perdiendo el abanico). */}
-        <g transform="translate(118,150)">
-          {RAYS.map((r) => (
-            <g key={r.color} transform={`rotate(${r.angle})`}>
-              <g className={r.floatClass}>
-                <path
-                  d={rayPath(r.length)}
-                  fill={r.color}
-                  className="nl-hv-raypulse"
-                  style={{ filter: `drop-shadow(0 0 7px ${r.color}99)` }}
-                />
-              </g>
-            </g>
+        {/* Rayos de luz que barren en diagonal (el contenedor rotado los
+            inclina; overflow-hidden del padre los recorta) */}
+        <div className="absolute inset-0 -rotate-[30deg] scale-[1.4]">
+          {LIGHT_RAYS.map((r) => (
+            <div
+              key={r.color}
+              className="nl-prism-ray absolute left-0 w-full rounded-full"
+              style={{
+                top: r.top,
+                height: r.h,
+                background: `linear-gradient(90deg, transparent, ${r.color}, transparent)`,
+                boxShadow: `0 0 ${r.glow}px ${r.color}`,
+                ["--nl-dur" as string]: r.dur,
+                ["--nl-delay" as string]: r.delay,
+              }}
+            />
           ))}
-          <circle r="5" fill="white" />
-        </g>
-      </svg>
+        </div>
+
+        {/* Haces blancos que giran: la "luz viva" del prisma */}
+        <div className="absolute inset-0 flex items-center justify-center mix-blend-screen">
+          <div
+            className="nl-prism-scan h-[160%] w-px bg-white"
+            style={{ boxShadow: "0 0 20px #fff, 0 0 44px rgba(255,255,255,0.5)" }}
+          />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center mix-blend-screen">
+          <div
+            className="nl-prism-scan-rev h-[160%] w-px bg-white/70"
+            style={{ boxShadow: "0 0 14px rgba(255,255,255,0.6)" }}
+          />
+        </div>
+
+        {/* Núcleo que late (el punto de convergencia de la luz) */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="nl-prism-core h-3 w-3 rounded-full bg-white"
+            style={{ boxShadow: "0 0 26px 7px rgba(255,255,255,0.7)" }}
+          />
+        </div>
+
+        {/* Viñeta suave para fundir los bordes con el fondo navy */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,1,57,0.55) 100%)" }}
+        />
+      </div>
     </div>
   );
 }
