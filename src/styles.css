@@ -783,6 +783,66 @@
   transform-origin: bottom;
 }
 
+/* --- Recreación animada del logo (rayos del prisma) --- */
+/* Tercera variante de flotado, para escalonar 4 rayos en vez de 2. */
+.nl-hv-float-c {
+  animation: nl-hv-float 7.4s ease-in-out infinite;
+  animation-delay: -3.1s;
+}
+/* "Respiro" de energía: cada rayo pulsa opacidad/escala en su propio ritmo. */
+.nl-hv-raypulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nl-hv-raypulse 3.6s ease-in-out infinite;
+}
+@keyframes nl-hv-raypulse {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.045);
+  }
+}
+/* Tilt 3D sutil (hologram wobble): requiere perspective en el contenedor padre. */
+.nl-hv-wobble3d {
+  transform-style: preserve-3d;
+  animation: nl-hv-wobble3d 9s ease-in-out infinite;
+}
+@keyframes nl-hv-wobble3d {
+  0%,
+  100% {
+    transform: rotateY(-9deg) rotateX(4deg) rotateZ(-1deg);
+  }
+  50% {
+    transform: rotateY(9deg) rotateX(-4deg) rotateZ(1deg);
+  }
+}
+/* Destello que recorre el triángulo cada pocos segundos (glint automático,
+   no depende de hover: es la pieza "viva" del logo). */
+.nl-hv-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nl-hv-glint 4.8s ease-in-out infinite;
+}
+@keyframes nl-hv-glint {
+  0%,
+  78%,
+  100% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  86% {
+    opacity: 0.5;
+  }
+  94% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
 /* Móvil: tipografía más compacta en todo el rediseño (interlineado reducido) */
 @media (max-width: 767px) {
   .nl-page p,
@@ -844,13 +904,20 @@
   .nl-hv-flow,
   .nl-hv-float,
   .nl-hv-float-b,
+  .nl-hv-float-c,
   .nl-hv-spin,
   .nl-hv-spin-rev,
   .nl-hv-ring,
   .nl-hv-fall,
-  .nl-hv-pulse {
+  .nl-hv-pulse,
+  .nl-hv-raypulse,
+  .nl-hv-wobble3d,
+  .nl-hv-glint {
     animation: none !important;
     transform: none !important;
+  }
+  .nl-hv-glint {
+    opacity: 0 !important;
   }
   .nl-hv-flow {
     stroke-dasharray: none;

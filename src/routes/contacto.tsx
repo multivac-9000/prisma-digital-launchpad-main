@@ -159,69 +159,82 @@ function TrustTicker() {
   );
 }
 
-/* Visual decorativo: el prisma de marca refractando el espectro, con
-   movimiento sutil (giro lento + flotado + pulso). Llena el vacío del header
-   en desktop y aporta el "movimiento" pedido sin distraer del formulario.
-   Se apaga solo con prefers-reduced-motion (clases nl-hv-* ya lo gestionan). */
+/* Recreación animada del isotipo de Prisma Digital: triángulo + los 4 rayos
+   reales del logo (magenta, rojo, amarillo, cian — ver public/logo.png).
+   ⚠️ Excepción deliberada y acotada a esta pieza: el amarillo es uno de los 4
+   colores propios del isotipo, así que aquí se recrea el logo tal cual es.
+   Esto NO abre la puerta a usar amarillo en otro elemento del sitio — sigue
+   siendo exclusivo del CTA de agenda en todo lo demás (decisión del cliente,
+   2026-07-23).
+   Movimiento: wobble 3D (perspective + rotateX/Y en el grupo), cada rayo con
+   su propio flotado/pulso escalonado, glow de color por rayo, y un glint
+   automático que recorre el triángulo. Todo se apaga con
+   prefers-reduced-motion (clases nl-hv-* ya lo gestionan). */
+function rayPath(length: number, tipR = 10, midW = 4.5) {
+  const midY = -length * 0.55;
+  const tipY = -length * 0.86;
+  return `M 0,0 Q ${-midW},${midY} ${-tipR},${tipY} A ${tipR},${tipR} 0 1 0 ${tipR},${tipY} Q ${midW},${midY} 0,0 Z`;
+}
+
+const RAYS = [
+  { angle: -14, length: 118, color: "#fd3833", floatClass: "nl-hv-float" }, // rojo
+  { angle: 4, length: 150, color: "#fecd2b", floatClass: "nl-hv-float-b" }, // amarillo (color propio del isotipo)
+  { angle: 24, length: 100, color: "#32d6ff", floatClass: "nl-hv-float-c" }, // cian
+  { angle: 44, length: 140, color: "#d713f9", floatClass: "nl-hv-float" }, // magenta
+];
+
 function ContactoVisual() {
   return (
-    <div className="relative hidden lg:flex items-center justify-center h-full min-h-[280px]" aria-hidden="true">
-      <svg viewBox="0 0 320 320" className="w-full max-w-[300px]">
+    <div
+      className="relative hidden lg:flex items-center justify-center h-full min-h-[300px]"
+      style={{ perspective: "900px" }}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 320 320" className="w-full max-w-[300px] overflow-visible nl-hv-wobble3d">
         <defs>
-          <linearGradient id="contacto-spectrum" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#32d6ff" />
-            <stop offset="0.55" stopColor="#d713f9" />
-            <stop offset="1" stopColor="#fd3833" />
-          </linearGradient>
-          <radialGradient id="contacto-glow" cx="0.5" cy="0.45" r="0.6">
-            <stop offset="0" stopColor="#d713f9" stopOpacity="0.35" />
+          <radialGradient id="contacto-glow" cx="0.42" cy="0.55" r="0.65">
+            <stop offset="0" stopColor="#d713f9" stopOpacity="0.32" />
             <stop offset="1" stopColor="#d713f9" stopOpacity="0" />
           </radialGradient>
+          <clipPath id="contacto-tri-clip">
+            <polygon points="128,60 196,232 60,232" />
+          </clipPath>
         </defs>
 
-        <circle cx="160" cy="150" r="140" fill="url(#contacto-glow)" />
+        <circle cx="150" cy="160" r="150" fill="url(#contacto-glow)" />
 
-        {/* Anillo orbital lento */}
-        <circle
-          cx="160"
-          cy="150"
-          r="118"
+        {/* Anillos orbitales */}
+        <circle cx="150" cy="160" r="128" fill="none" stroke="white" strokeOpacity="0.07" strokeWidth="1" className="nl-hv-spin" />
+        <circle cx="150" cy="160" r="98" fill="none" stroke="white" strokeOpacity="0.05" strokeWidth="1" className="nl-hv-spin-rev" />
+
+        {/* Triángulo de marca (silueta detrás de los rayos) */}
+        <polygon
+          points="128,60 196,232 60,232"
           fill="none"
           stroke="white"
-          strokeOpacity="0.08"
-          strokeWidth="1"
-          className="nl-hv-spin"
+          strokeOpacity="0.55"
+          strokeWidth="3"
+          strokeLinejoin="round"
         />
-        <circle
-          cx="160"
-          cy="150"
-          r="90"
-          fill="none"
-          stroke="white"
-          strokeOpacity="0.06"
-          strokeWidth="1"
-          className="nl-hv-spin-rev"
-        />
-
-        {/* Prisma central con el espectro refractando */}
-        <g className="nl-hv-float">
-          <polygon
-            points="160,72 214,196 106,196"
-            fill="none"
-            stroke="url(#contacto-spectrum)"
-            strokeWidth="3"
-          />
-          <line x1="40" y1="150" x2="140" y2="146" stroke="white" strokeOpacity="0.45" strokeWidth="2" />
-          <line x1="180" y1="140" x2="290" y2="108" stroke="#32d6ff" strokeOpacity="0.85" strokeWidth="2" />
-          <line x1="180" y1="152" x2="296" y2="150" stroke="#d713f9" strokeOpacity="0.85" strokeWidth="2" />
-          <line x1="180" y1="164" x2="290" y2="192" stroke="#fd3833" strokeOpacity="0.85" strokeWidth="2" />
+        {/* Glint automático: barre el triángulo cada ~5s */}
+        <g clipPath="url(#contacto-tri-clip)">
+          <rect x="40" y="40" width="26" height="220" fill="white" opacity="0" className="nl-hv-glint" />
         </g>
 
-        {/* Nodo con pulso: la señal "en vivo" */}
-        <circle cx="290" cy="108" r="4" fill="#32d6ff" className="nl-hv-float-b" />
-        <circle cx="296" cy="150" r="4" fill="#d713f9" />
-        <circle cx="296" cy="150" r="4" fill="#d713f9" className="nl-hv-ring" />
-        <circle cx="290" cy="192" r="4" fill="#fd3833" className="nl-hv-float" />
+        {/* Los 4 rayos, desde un origen compartido cerca de la base del triángulo */}
+        <g transform="translate(112,206)">
+          {RAYS.map((r) => (
+            <g key={r.color} transform={`rotate(${r.angle})`} className={r.floatClass}>
+              <path
+                d={rayPath(r.length)}
+                fill={r.color}
+                className="nl-hv-raypulse"
+                style={{ filter: `drop-shadow(0 0 7px ${r.color}99)` }}
+              />
+            </g>
+          ))}
+          <circle r="5" fill="#d713f9" />
+        </g>
       </svg>
     </div>
   );
