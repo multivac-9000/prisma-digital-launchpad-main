@@ -845,6 +845,41 @@
     transform: scale(1.35);
   }
 }
+/* Cada rayo del arcoíris disperso brilla en su propio ritmo (staggered).
+   Solo opacidad: los rayos están rotados, así que escalarlos los deformaría. */
+.nl-prism-shimmer {
+  animation: nl-prism-shimmer var(--nl-dur, 3s) ease-in-out infinite;
+  animation-delay: var(--nl-delay, 0s);
+}
+@keyframes nl-prism-shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+/* Pulso de luz que viaja por el rayo blanco entrante hacia el prisma. */
+.nl-prism-inbeam {
+  animation: nl-prism-inbeam 2.8s ease-in-out infinite;
+}
+@keyframes nl-prism-inbeam {
+  0% {
+    transform: translateX(-70px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120px);
+    opacity: 0;
+  }
+}
 
 /* Móvil: tipografía más compacta en todo el rediseño (interlineado reducido) */
 @media (max-width: 767px) {
@@ -916,13 +951,16 @@
   .nl-prism-ray,
   .nl-prism-scan,
   .nl-prism-scan-rev,
-  .nl-prism-core {
+  .nl-prism-core,
+  .nl-prism-shimmer,
+  .nl-prism-inbeam {
     animation: none !important;
     transform: none !important;
   }
-  /* Sin movimiento: los rayos que barren quedarían "congelados" a mitad de
-     pantalla; mejor ocultarlos y dejar solo el glow estático. */
-  .nl-prism-ray {
+  /* Sin movimiento: el rayo entrante que viaja quedaría congelado; se oculta
+     y el prisma + arcoíris quedan visibles y estáticos (siguen legibles). */
+  .nl-prism-ray,
+  .nl-prism-inbeam {
     opacity: 0 !important;
   }
   .nl-hv-flow {

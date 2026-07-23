@@ -159,90 +159,158 @@ function TrustTicker() {
   );
 }
 
-/* Escena de dispersión de luz tipo prisma para el header de /contacto.
-   Réplica del lenguaje visual del hero clásico del sitio
-   (prismadigital-lyart.vercel.app): rayos de luz de colores de marca que
-   barren en diagonal con glow, haces blancos que giran (mix-blend-screen),
-   orbes difusos que respiran y un núcleo que late. Abstracto —evoca un
-   prisma dispersando luz— en vez de dibujar el logo literal.
-   ⚠️ El amarillo aparece aquí como color de DISPERSIÓN de la marca (uno de
-   los tonos del isotipo), no como CTA. Sigue siendo exclusivo del CTA de
-   agenda en el resto del sitio (verificado: solo los 3 botones de agenda lo
-   usan). Decisión del cliente, 2026-07-23.
-   Todo es transform/opacity y se apaga con prefers-reduced-motion. */
-const LIGHT_RAYS = [
-  { top: "20%", h: "3px", color: "#d713f9", glow: 26, dur: "5.5s", delay: "0s" }, // magenta
-  { top: "34%", h: "2px", color: "#fecd2b", glow: 22, dur: "7s", delay: "-2s" }, // amarillo (dispersión)
-  { top: "50%", h: "4px", color: "#fd3833", glow: 30, dur: "6s", delay: "-4s" }, // rojo
-  { top: "63%", h: "2px", color: "#32d6ff", glow: 22, dur: "6.5s", delay: "-1.2s" }, // cian
-  { top: "78%", h: "3px", color: "#ffffff", glow: 18, dur: "8s", delay: "-3s" }, // luz blanca
+/* Prisma de vidrio que refracta un rayo de luz blanca y lo dispersa en el
+   arcoíris — el ícono clásico del prisma (tipo "Dark Side of the Moon"),
+   glassy y animado. Cuenta la marca de forma literal pero elegante: la luz
+   blanca entra, atraviesa el prisma y sale convertida en el espectro.
+   ⚠️ Los colores del espectro incluyen amarillo porque es luz dispersada, no
+   un CTA. El amarillo sigue siendo exclusivo del CTA de agenda en el resto
+   del sitio (verificado). Decisión del cliente, 2026-07-23.
+   Movimiento (todo transform/opacity, se apaga con prefers-reduced-motion):
+   el prisma flota suave, un pulso de luz viaja por el rayo entrante, el punto
+   de refracción late y cada color del arcoíris titila en su propio ritmo. */
+
+// Punto de salida en la cara derecha del prisma, desde donde nace el arcoíris.
+const EXIT = { x: 234, y: 186 };
+const rad = (deg: number) => (deg * Math.PI) / 180;
+const tip = (deg: number, r: number) => ({
+  x: +(EXIT.x + r * Math.cos(rad(deg))).toFixed(1),
+  y: +(EXIT.y + r * Math.sin(rad(deg))).toFixed(1),
+});
+
+// Espectro: rojo (menos desviado, arriba) → magenta (más desviado, abajo),
+// como en una dispersión real. Cada rayo titila con su propio ritmo.
+const SPECTRUM = [
+  { deg: -6, color: "#fd3833", dur: "3.2s", delay: "0s" }, // rojo
+  { deg: 2, color: "#ff7a1a", dur: "3.6s", delay: "-0.3s" }, // naranja
+  { deg: 10, color: "#fecd2b", dur: "3.0s", delay: "-0.6s" }, // amarillo
+  { deg: 18, color: "#3ce07a", dur: "3.8s", delay: "-0.9s" }, // verde
+  { deg: 26, color: "#32d6ff", dur: "3.3s", delay: "-1.2s" }, // cian
+  { deg: 34, color: "#3d6bff", dur: "3.7s", delay: "-1.5s" }, // azul
+  { deg: 42, color: "#d713f9", dur: "3.1s", delay: "-1.8s" }, // magenta
 ];
+const RAY_LEN = 152;
+const bandTop = tip(-9, 150);
+const bandBottom = tip(46, 150);
 
 function ContactoVisual() {
   return (
     <div className="relative hidden lg:block h-full min-h-[340px]" aria-hidden="true">
-      <div className="absolute inset-0 overflow-hidden rounded-[2rem] ring-1 ring-white/5">
-        {/* Orbes difusos que respiran */}
-        <div
-          className="nl-prism-orb absolute left-[14%] top-[16%] h-44 w-44 rounded-full blur-[72px]"
-          style={{ background: "#d713f9", ["--nl-dur" as string]: "7s" }}
-        />
-        <div
-          className="nl-prism-orb absolute right-[10%] top-[42%] h-40 w-40 rounded-full blur-[72px]"
-          style={{ background: "#32d6ff", ["--nl-dur" as string]: "6s", ["--nl-delay" as string]: "-2s" }}
-        />
-        <div
-          className="nl-prism-orb absolute left-[38%] bottom-[10%] h-36 w-36 rounded-full blur-[72px]"
-          style={{ background: "#fd3833", ["--nl-dur" as string]: "8.5s", ["--nl-delay" as string]: "-4s" }}
+      {/* Orbes de ambiente detrás del prisma */}
+      <div
+        className="nl-prism-orb absolute left-[10%] top-[18%] h-44 w-44 rounded-full blur-[80px]"
+        style={{ background: "#d713f9", ["--nl-dur" as string]: "7s" }}
+      />
+      <div
+        className="nl-prism-orb absolute right-[8%] bottom-[14%] h-40 w-40 rounded-full blur-[80px]"
+        style={{ background: "#32d6ff", ["--nl-dur" as string]: "6s", ["--nl-delay" as string]: "-2.5s" }}
+      />
+
+      <svg viewBox="0 0 400 360" className="relative w-full max-w-[400px] overflow-visible">
+        <defs>
+          {/* Vidrio del prisma: sheen de arriba a abajo */}
+          <linearGradient id="prism-glass" x1="0.2" y1="0" x2="0.7" y2="1">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.28" />
+            <stop offset="0.45" stopColor="#bcd4ff" stopOpacity="0.12" />
+            <stop offset="1" stopColor="#32d6ff" stopOpacity="0.05" />
+          </linearGradient>
+          {/* Halo de arcoíris (suave, detrás de los rayos nítidos) */}
+          <linearGradient
+            id="rainbow-band"
+            gradientUnits="userSpaceOnUse"
+            x1={bandTop.x}
+            y1={bandTop.y}
+            x2={bandBottom.x}
+            y2={bandBottom.y}
+          >
+            <stop offset="0" stopColor="#fd3833" />
+            <stop offset="0.18" stopColor="#ff7a1a" />
+            <stop offset="0.34" stopColor="#fecd2b" />
+            <stop offset="0.5" stopColor="#3ce07a" />
+            <stop offset="0.66" stopColor="#32d6ff" />
+            <stop offset="0.82" stopColor="#3d6bff" />
+            <stop offset="1" stopColor="#d713f9" />
+          </linearGradient>
+        </defs>
+
+        {/* Halo suave del arcoíris (cono difuminado que nace en EXIT) */}
+        <path
+          d={`M ${EXIT.x},${EXIT.y} L ${bandTop.x},${bandTop.y} L ${bandBottom.x},${bandBottom.y} Z`}
+          fill="url(#rainbow-band)"
+          opacity="0.5"
+          style={{ filter: "blur(11px)" }}
         />
 
-        {/* Rayos de luz que barren en diagonal (el contenedor rotado los
-            inclina; overflow-hidden del padre los recorta) */}
-        <div className="absolute inset-0 -rotate-[30deg] scale-[1.4]">
-          {LIGHT_RAYS.map((r) => (
-            <div
+        {/* Rayos nítidos del espectro, titilando escalonados */}
+        {SPECTRUM.map((r) => {
+          const end = tip(r.deg, RAY_LEN);
+          return (
+            <line
               key={r.color}
-              className="nl-prism-ray absolute left-0 w-full rounded-full"
+              x1={EXIT.x}
+              y1={EXIT.y}
+              x2={end.x}
+              y2={end.y}
+              stroke={r.color}
+              strokeWidth="3"
+              strokeLinecap="round"
+              className="nl-prism-shimmer"
               style={{
-                top: r.top,
-                height: r.h,
-                background: `linear-gradient(90deg, transparent, ${r.color}, transparent)`,
-                boxShadow: `0 0 ${r.glow}px ${r.color}`,
+                filter: `drop-shadow(0 0 6px ${r.color})`,
                 ["--nl-dur" as string]: r.dur,
                 ["--nl-delay" as string]: r.delay,
               }}
             />
-          ))}
-        </div>
+          );
+        })}
 
-        {/* Haces blancos que giran: la "luz viva" del prisma */}
-        <div className="absolute inset-0 flex items-center justify-center mix-blend-screen">
-          <div
-            className="nl-prism-scan h-[160%] w-px bg-white"
-            style={{ boxShadow: "0 0 20px #fff, 0 0 44px rgba(255,255,255,0.5)" }}
-          />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center mix-blend-screen">
-          <div
-            className="nl-prism-scan-rev h-[160%] w-px bg-white/70"
-            style={{ boxShadow: "0 0 14px rgba(255,255,255,0.6)" }}
-          />
-        </div>
-
-        {/* Núcleo que late (el punto de convergencia de la luz) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className="nl-prism-core h-3 w-3 rounded-full bg-white"
-            style={{ boxShadow: "0 0 26px 7px rgba(255,255,255,0.7)" }}
-          />
-        </div>
-
-        {/* Viñeta suave para fundir los bordes con el fondo navy */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,1,57,0.55) 100%)" }}
+        {/* Rayo de luz blanca entrando + su pulso viajero */}
+        <line
+          x1="8"
+          y1="177"
+          x2="140"
+          y2="177"
+          stroke="white"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeOpacity="0.75"
+          style={{ filter: "drop-shadow(0 0 6px rgba(255,255,255,0.8))" }}
         />
-      </div>
+        <g className="nl-prism-inbeam">
+          <rect
+            x="18"
+            y="174"
+            width="40"
+            height="6"
+            rx="3"
+            fill="white"
+            style={{ filter: "drop-shadow(0 0 8px #ffffff)" }}
+          />
+        </g>
+
+        {/* El prisma de vidrio (semi-transparente: el arcoíris se cuela por el
+            borde). Flota suave. */}
+        <g className="nl-hv-float">
+          <polygon
+            points="185,92 92,264 278,264"
+            fill="url(#prism-glass)"
+            stroke="#ffffff"
+            strokeOpacity="0.85"
+            strokeWidth="2.5"
+            strokeLinejoin="round"
+            style={{ filter: "drop-shadow(0 0 20px rgba(130,180,255,0.35))" }}
+          />
+          {/* Sheen interior en la arista superior-izquierda (efecto vidrio) */}
+          <line x1="185" y1="102" x2="112" y2="240" stroke="white" strokeOpacity="0.35" strokeWidth="2" strokeLinecap="round" />
+        </g>
+
+        {/* Segmento refractado dentro del vidrio (blanco → punto de salida) */}
+        <line x1="140" y1="177" x2={EXIT.x} y2={EXIT.y} stroke="white" strokeOpacity="0.5" strokeWidth="2" strokeLinecap="round" />
+
+        {/* Puntos de luz que laten: entrada y salida (refracción) */}
+        <circle cx="140" cy="177" r="3.5" fill="white" className="nl-prism-core" style={{ filter: "drop-shadow(0 0 8px #fff)" }} />
+        <circle cx={EXIT.x} cy={EXIT.y} r="5" fill="white" className="nl-prism-core" style={{ filter: "drop-shadow(0 0 12px #fff)" }} />
+      </svg>
     </div>
   );
 }
