@@ -1,11 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MessageCircle, MapPin, CalendarDays, ArrowUpRight } from "lucide-react";
+import {
+  Mail,
+  MessageCircle,
+  MapPin,
+  CalendarDays,
+  ArrowUpRight,
+  Globe,
+  Megaphone,
+  Gauge,
+} from "lucide-react";
 import { buildGraph, webPage, breadcrumb } from "@/lib/schema";
 import Navbar from "@/components/Navbar";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import ContactoForm from "@/components/nueva/ContactoForm";
-import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
+import { ScrollProgress, Reveal, useMagnetic } from "@/components/nueva/scrolly";
 
 const CANONICAL_URL = "https://www.prismadigital.io/contacto";
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
@@ -87,14 +96,140 @@ const contactItems = [
   {
     icon: MapPin,
     label: "Dónde estamos",
-    value: "Concepción, Chile · Atendemos todo Chile",
+    value: "Concepción, Chile · Atendemos todo Chile y Latam",
     href: null,
     accent: "text-prisma-magenta",
     external: false,
   },
 ];
 
+const serviceLinks = [
+  {
+    icon: Globe,
+    label: "Digitalización",
+    desc: "Sitios web hechos para vender",
+    href: "/digitalizacion-de-negocios",
+    accent: "text-prisma-cyan",
+  },
+  {
+    icon: Megaphone,
+    label: "Promoción",
+    desc: "Captación predecible y medible",
+    href: "/promocion-de-negocios",
+    accent: "text-prisma-magenta",
+  },
+  {
+    icon: Gauge,
+    label: "Optimización",
+    desc: "Mide lo que importa, baja tu CPA",
+    href: "/optimizacion-de-negocios",
+    accent: "text-prisma-red",
+  },
+];
+
+const tickerItems = [
+  "Respuesta en menos de 24 horas hábiles",
+  "Atendemos Chile y Latam",
+  "Diagnóstico 100% gratis",
+  "Con datos, no con suposiciones",
+];
+
+/* Franja de movimiento continuo: llena el ancho y refuerza mensajes clave
+   sin competir con los CTA. Mismo patrón de marquee que el ticker del hero. */
+function TrustTicker() {
+  return (
+    <div
+      className="nl-ticker nl-marquee-pause relative mt-10 border-y border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden"
+      aria-label="Por qué escribirnos"
+    >
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#000139] to-transparent z-10" />
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#000139] to-transparent z-10" />
+      <div className="flex w-max animate-marquee items-center py-3">
+        {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
+          <span
+            key={`${item}-${i}`}
+            className="nl-tabular flex items-center gap-2 mx-7 text-sm font-semibold text-white/75 whitespace-nowrap"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-prisma-cyan" aria-hidden="true" />
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Visual decorativo: el prisma de marca refractando el espectro, con
+   movimiento sutil (giro lento + flotado + pulso). Llena el vacío del header
+   en desktop y aporta el "movimiento" pedido sin distraer del formulario.
+   Se apaga solo con prefers-reduced-motion (clases nl-hv-* ya lo gestionan). */
+function ContactoVisual() {
+  return (
+    <div className="relative hidden lg:flex items-center justify-center h-full min-h-[280px]" aria-hidden="true">
+      <svg viewBox="0 0 320 320" className="w-full max-w-[300px]">
+        <defs>
+          <linearGradient id="contacto-spectrum" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#32d6ff" />
+            <stop offset="0.55" stopColor="#d713f9" />
+            <stop offset="1" stopColor="#fd3833" />
+          </linearGradient>
+          <radialGradient id="contacto-glow" cx="0.5" cy="0.45" r="0.6">
+            <stop offset="0" stopColor="#d713f9" stopOpacity="0.35" />
+            <stop offset="1" stopColor="#d713f9" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        <circle cx="160" cy="150" r="140" fill="url(#contacto-glow)" />
+
+        {/* Anillo orbital lento */}
+        <circle
+          cx="160"
+          cy="150"
+          r="118"
+          fill="none"
+          stroke="white"
+          strokeOpacity="0.08"
+          strokeWidth="1"
+          className="nl-hv-spin"
+        />
+        <circle
+          cx="160"
+          cy="150"
+          r="90"
+          fill="none"
+          stroke="white"
+          strokeOpacity="0.06"
+          strokeWidth="1"
+          className="nl-hv-spin-rev"
+        />
+
+        {/* Prisma central con el espectro refractando */}
+        <g className="nl-hv-float">
+          <polygon
+            points="160,72 214,196 106,196"
+            fill="none"
+            stroke="url(#contacto-spectrum)"
+            strokeWidth="3"
+          />
+          <line x1="40" y1="150" x2="140" y2="146" stroke="white" strokeOpacity="0.45" strokeWidth="2" />
+          <line x1="180" y1="140" x2="290" y2="108" stroke="#32d6ff" strokeOpacity="0.85" strokeWidth="2" />
+          <line x1="180" y1="152" x2="296" y2="150" stroke="#d713f9" strokeOpacity="0.85" strokeWidth="2" />
+          <line x1="180" y1="164" x2="290" y2="192" stroke="#fd3833" strokeOpacity="0.85" strokeWidth="2" />
+        </g>
+
+        {/* Nodo con pulso: la señal "en vivo" */}
+        <circle cx="290" cy="108" r="4" fill="#32d6ff" className="nl-hv-float-b" />
+        <circle cx="296" cy="150" r="4" fill="#d713f9" />
+        <circle cx="296" cy="150" r="4" fill="#d713f9" className="nl-hv-ring" />
+        <circle cx="290" cy="192" r="4" fill="#fd3833" className="nl-hv-float" />
+      </svg>
+    </div>
+  );
+}
+
 function ContactoPage() {
+  const agendaRef = useMagnetic<HTMLAnchorElement>(180, 12);
+
   return (
     <main className="nl-page min-h-screen bg-background">
       <noscript>
@@ -109,23 +244,30 @@ function ContactoPage() {
         </div>
 
         <div className="relative mx-auto max-w-6xl px-6">
-          {/* Encabezado */}
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-prisma-cyan backdrop-blur-sm">
-              Hablemos
-            </span>
-            <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.6rem,4.4vw,3.6rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
-              Tu próximo salto digital empieza con una conversación
-            </h1>
-            <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed max-w-2xl">
-              Cuéntanos qué necesita tu negocio hoy y te respondemos con una primera lectura
-              concreta de tu situación — con datos, no con promesas. ¿Prefieres ir directo al
-              grano? Agenda tu diagnóstico gratis.
-            </p>
+          {/* Encabezado: texto + visual animado (llena el espacio en desktop) */}
+          <div className="grid items-center gap-6 lg:grid-cols-[1.25fr_1fr]">
+            <div>
+              <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-prisma-cyan backdrop-blur-sm">
+                Hablemos
+              </span>
+              <h1 className="mt-6 text-4xl md:text-5xl lg:text-[clamp(2.6rem,4.4vw,3.6rem)] font-extrabold text-white leading-[1.08] tracking-tight text-balance">
+                Tu próximo salto digital empieza con una conversación
+              </h1>
+              <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed max-w-2xl">
+                Cuéntanos qué necesita tu negocio hoy y te respondemos con una primera lectura
+                concreta de tu situación — con datos, no con promesas. ¿Prefieres ir directo al
+                grano? Agenda tu diagnóstico gratis.
+              </p>
+            </div>
+            <ContactoVisual />
           </div>
 
+          <Reveal variant="up" delay={80}>
+            <TrustTicker />
+          </Reveal>
+
           {/* Dos caminos */}
-          <div className="mt-12 grid items-start gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+          <div className="mt-10 grid items-start gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
             {/* Columna izquierda: agenda rápida + datos de contacto */}
             <Reveal variant="up" className="flex flex-col gap-8">
               {/* Camino rápido: agendar */}
@@ -138,6 +280,7 @@ function ContactoPage() {
                   mostramos un plan a 90 días — sin compromiso.
                 </p>
                 <a
+                  ref={agendaRef}
                   href={MEET_URL}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -182,6 +325,37 @@ function ContactoPage() {
                     <div key={label}>{inner}</div>
                   );
                 })}
+              </div>
+
+              {/* Los 3 servicios: refuerza la conversación y da salida a quien
+                  ya sabe qué necesita (útil también para enlazado interno). */}
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                  ¿Por dónde empezamos?
+                </p>
+                <div className="mt-3 flex flex-col gap-1">
+                  {serviceLinks.map(({ icon: Icon, label, desc, href, accent }) => (
+                    <a
+                      key={href}
+                      href={href}
+                      className="group flex items-center gap-4 rounded-xl px-2 py-2.5 transition-colors hover:bg-white/[0.05]"
+                    >
+                      <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/15">
+                        <Icon className={`h-4 w-4 ${accent}`} aria-hidden="true" />
+                      </span>
+                      <span className="flex-1">
+                        <span className="block text-sm font-semibold text-white/90">
+                          {label}
+                        </span>
+                        <span className="block text-xs text-white/55">{desc}</span>
+                      </span>
+                      <ArrowUpRight
+                        className="h-4 w-4 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/60"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ))}
+                </div>
               </div>
             </Reveal>
 

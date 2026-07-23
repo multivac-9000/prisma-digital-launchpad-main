@@ -1,4 +1,5 @@
 import { trackCta } from "./track";
+import { useMagnetic } from "./scrolly";
 
 // Endpoint del formulario de Brevo (lista "LEADS WEB"). El POST nativo del
 // navegador navega a Brevo, que procesa y redirige a /gracias-infinitas
@@ -27,6 +28,8 @@ const inputBase =
   "rounded-xl bg-white/[0.06] border border-white/15 text-white placeholder-white/40 px-4 py-3.5 text-base outline-none transition-colors focus:border-prisma-cyan focus:ring-2 focus:ring-prisma-cyan/25";
 
 export default function ContactoForm() {
+  const btnRef = useMagnetic<HTMLButtonElement>(160, 10);
+
   return (
     <form
       method="POST"
@@ -142,9 +145,14 @@ export default function ContactoForm() {
       <input type="hidden" name="locale" value="es" />
 
       <button
+        ref={btnRef}
         type="submit"
-        className="nl-shine mt-1 inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-bold text-white shadow-xl transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-        style={{ background: "var(--nl-g-spectrum, linear-gradient(90deg,#32d6ff,#d713f9,#fd3833))" }}
+        className="nl-shine mt-1 inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-bold text-white shadow-xl transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-[0_12px_36px_-8px_rgba(253,56,51,0.55)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        style={{
+          background:
+            "linear-gradient(135deg, #ff7a68 0%, var(--prisma-red, #fd3833) 45%, #b8110f 100%)",
+          boxShadow: "0 8px 28px -10px rgba(253, 56, 51, 0.55)",
+        }}
       >
         Enviar mensaje
       </button>
