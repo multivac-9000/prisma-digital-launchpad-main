@@ -16,6 +16,7 @@ import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-p
 import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
+import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -57,6 +58,11 @@ const DigitalizacionDeNegociosRoute =
     path: '/digitalizacion-de-negocios',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -81,6 +87,7 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -163,6 +175,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
+  ContactoRoute: typeof ContactoRoute
   DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
@@ -259,6 +279,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
+  ContactoRoute: ContactoRoute,
   DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
