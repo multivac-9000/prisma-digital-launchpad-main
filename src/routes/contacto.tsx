@@ -166,6 +166,8 @@ function TrustTicker() {
    Esto NO abre la puerta a usar amarillo en otro elemento del sitio — sigue
    siendo exclusivo del CTA de agenda en todo lo demás (decisión del cliente,
    2026-07-23).
+   Un rayo blanco entra desde la izquierda y "se transforma" en los 4 rayos
+   de color al tocar el prisma — la lectura de refracción que pedía el cliente.
    Movimiento: wobble 3D (perspective + rotateX/Y en el grupo), cada rayo con
    su propio flotado/pulso escalonado, glow de color por rayo, y un glint
    automático que recorre el triángulo. Todo se apaga con
@@ -176,11 +178,14 @@ function rayPath(length: number, tipR = 10, midW = 4.5) {
   return `M 0,0 Q ${-midW},${midY} ${-tipR},${tipY} A ${tipR},${tipR} 0 1 0 ${tipR},${tipY} Q ${midW},${midY} 0,0 Z`;
 }
 
+// Ángulos medidos desde la vertical (0° = recto hacia arriba), igual que el
+// abanico real del logo: rojo más a la izquierda/empinado → magenta más
+// tendido a la derecha. Spread amplio (~55°) para que los 4 se vean separados.
 const RAYS = [
-  { angle: -14, length: 118, color: "#fd3833", floatClass: "nl-hv-float" }, // rojo
-  { angle: 4, length: 150, color: "#fecd2b", floatClass: "nl-hv-float-b" }, // amarillo (color propio del isotipo)
-  { angle: 24, length: 100, color: "#32d6ff", floatClass: "nl-hv-float-c" }, // cian
-  { angle: 44, length: 140, color: "#d713f9", floatClass: "nl-hv-float" }, // magenta
+  { angle: -20, length: 112, color: "#fd3833", floatClass: "nl-hv-float" }, // rojo
+  { angle: -3, length: 148, color: "#fecd2b", floatClass: "nl-hv-float-b" }, // amarillo (el más alto, color propio del isotipo)
+  { angle: 15, length: 92, color: "#32d6ff", floatClass: "nl-hv-float-c" }, // cian (el más corto)
+  { angle: 34, length: 138, color: "#d713f9", floatClass: "nl-hv-float" }, // magenta (el más tendido)
 ];
 
 function ContactoVisual() {
@@ -221,19 +226,40 @@ function ContactoVisual() {
           <rect x="40" y="40" width="26" height="220" fill="white" opacity="0" className="nl-hv-glint" />
         </g>
 
-        {/* Los 4 rayos, desde un origen compartido cerca de la base del triángulo */}
-        <g transform="translate(112,206)">
+        {/* Rayo blanco entrando al prisma: cuenta la historia de refracción
+            (luz blanca que entra y sale convertida en los colores de marca). */}
+        <line
+          x1="4"
+          y1="158"
+          x2="116"
+          y2="150"
+          stroke="white"
+          strokeOpacity="0.9"
+          strokeWidth="3"
+          strokeLinecap="round"
+          style={{ filter: "drop-shadow(0 0 5px rgba(255,255,255,0.7))" }}
+        />
+
+        {/* Los 4 rayos, desde el punto donde el rayo blanco toca el prisma.
+            IMPORTANTE: la rotación (ángulo del abanico) va en un <g> con el
+            atributo SVG `transform`, y el flotado (CSS) en un <g> ANIDADO
+            aparte — si se mezclan en el mismo elemento, el `transform` CSS
+            de la animación pisa el atributo SVG y los 4 rayos colapsan
+            apuntando todos derecho hacia arriba (perdiendo el abanico). */}
+        <g transform="translate(118,150)">
           {RAYS.map((r) => (
-            <g key={r.color} transform={`rotate(${r.angle})`} className={r.floatClass}>
-              <path
-                d={rayPath(r.length)}
-                fill={r.color}
-                className="nl-hv-raypulse"
-                style={{ filter: `drop-shadow(0 0 7px ${r.color}99)` }}
-              />
+            <g key={r.color} transform={`rotate(${r.angle})`}>
+              <g className={r.floatClass}>
+                <path
+                  d={rayPath(r.length)}
+                  fill={r.color}
+                  className="nl-hv-raypulse"
+                  style={{ filter: `drop-shadow(0 0 7px ${r.color}99)` }}
+                />
+              </g>
             </g>
           ))}
-          <circle r="5" fill="#d713f9" />
+          <circle r="5" fill="white" />
         </g>
       </svg>
     </div>
