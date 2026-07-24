@@ -860,7 +860,7 @@
     opacity: 1;
   }
 }
-/* Pulso de luz que viaja por el rayo blanco entrante hacia el prisma. */
+/* Pulso de luz que viaja por el rayo blanco entrante hacia el centro del prisma. */
 .nl-prism-inbeam {
   animation: nl-prism-inbeam 2.8s ease-in-out infinite;
 }
@@ -880,6 +880,170 @@
     opacity: 0;
   }
 }
+
+/* --- Animación 3D del Logo de Prisma en /contacto --- */
+
+/* Haz entrante blanco sincrónico hacia el centro */
+.nl-prism-inbeam-3d {
+  animation: nl-prism-inbeam-3d 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes nl-prism-inbeam-3d {
+  0% {
+    transform: translate(-180px, -19px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(0px, 0px);
+    opacity: 1;
+  }
+  55% {
+    transform: translate(5px, 0.5px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0px, 0px);
+    opacity: 0;
+  }
+}
+
+/* Ignición y pulso del Núcleo Central del Prisma */
+.nl-prism-core-ignite {
+  transform-origin: 180px 220px;
+  animation: nl-prism-core-ignite 3.2s ease-in-out infinite;
+}
+@keyframes nl-prism-core-ignite {
+  0%, 45% {
+    transform: scale(0.7);
+    opacity: 0.4;
+  }
+  52% {
+    transform: scale(1.75);
+    opacity: 1;
+    filter: drop-shadow(0 0 24px #ffffff) drop-shadow(0 0 45px #32d6ff);
+  }
+  65% {
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.7);
+    opacity: 0.4;
+  }
+}
+
+/* Anillo cromático en el núcleo */
+.nl-prism-core-ring {
+  transform-origin: 180px 220px;
+  animation: nl-prism-core-ring 3.2s ease-out infinite;
+}
+@keyframes nl-prism-core-ring {
+  0%, 48% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.95;
+  }
+  85% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Rayos gruesos: Brillo neón pulsante */
+.nl-prism-ray-glow {
+  animation: nl-prism-ray-glow var(--nl-dur, 3.2s) ease-in-out infinite;
+  animation-delay: var(--nl-delay, 0s);
+}
+@keyframes nl-prism-ray-glow {
+  0%, 45% {
+    opacity: 0.45;
+    stroke-width: var(--nl-sw-base, 10px);
+  }
+  55% {
+    opacity: 1;
+    stroke-width: var(--nl-sw-peak, 15px);
+    filter: drop-shadow(0 0 16px var(--nl-color, #ffffff));
+  }
+  75% {
+    opacity: 0.85;
+    stroke-width: var(--nl-sw-base, 10px);
+  }
+  100% {
+    opacity: 0.45;
+    stroke-width: var(--nl-sw-base, 10px);
+  }
+}
+
+/* Pulso de luz viajando hacia afuera en los rayos */
+.nl-prism-ray-wave {
+  stroke-dasharray: 60 140;
+  animation: nl-prism-ray-wave 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  animation-delay: var(--nl-delay, 0s);
+}
+@keyframes nl-prism-ray-wave {
+  0%, 48% {
+    stroke-dashoffset: 200;
+    opacity: 0;
+  }
+  53% {
+    opacity: 1;
+  }
+  90% {
+    stroke-dashoffset: -120;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -160;
+    opacity: 0;
+  }
+}
+
+/* Sheen de reflejo de cristal 3D */
+.nl-prism-sheen {
+  animation: nl-prism-sheen 4.8s ease-in-out infinite;
+}
+@keyframes nl-prism-sheen {
+  0%, 100% {
+    opacity: 0.15;
+    transform: translateY(-20px);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translateY(20px);
+  }
+}
+
+/* Partículas flotantes de dispersión cromática */
+.nl-prism-sparkle {
+  animation: nl-prism-sparkle var(--nl-dur, 3s) ease-in-out infinite;
+  animation-delay: var(--nl-delay, 0s);
+}
+@keyframes nl-prism-sparkle {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(var(--dx, 15px), var(--dy, -25px)) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(calc(var(--dx, 15px) * 1.5), calc(var(--dy, -25px) * 1.5)) scale(0);
+    opacity: 0;
+  }
+}
+
 
 /* Móvil: tipografía más compacta en todo el rediseño (interlineado reducido) */
 @media (max-width: 767px) {
