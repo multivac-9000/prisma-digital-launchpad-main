@@ -16,8 +16,11 @@ import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-p
 import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
+import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
   id: '/terminos-y-condiciones',
@@ -55,6 +58,11 @@ const DigitalizacionDeNegociosRoute =
     path: '/digitalizacion-de-negocios',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -65,10 +73,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -76,10 +95,13 @@ export interface FileRoutesByFullPath {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -87,11 +109,14 @@ export interface FileRoutesByTo {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
@@ -99,12 +124,15 @@ export interface FileRoutesById {
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -112,10 +140,13 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -123,10 +154,13 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/'
     | '/assessment'
+    | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
     | '/optimizacion-de-negocios'
@@ -134,11 +168,14 @@ export interface FileRouteTypes {
     | '/presentacion-diagnostico'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
+  ContactoRoute: typeof ContactoRoute
   DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
@@ -146,6 +183,8 @@ export interface RootRouteChildren {
   PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
   TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -199,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
@@ -213,12 +259,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
+  ContactoRoute: ContactoRoute,
   DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
@@ -226,6 +287,8 @@ const rootRouteChildren: RootRouteChildren = {
   PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
   TerminosYCondicionesRoute: TerminosYCondicionesRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

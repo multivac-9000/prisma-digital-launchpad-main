@@ -9,45 +9,80 @@ import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
 import { PromocionVisual } from "@/components/nueva/heroVisuals";
 import { Megaphone, Target, BarChart2, Video, Eye, ShieldCheck } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 
 const CANONICAL_URL = "https://www.prismadigital.io/promocion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Promoción de Negocios y Captación Predictiva — Prisma Digital",
-      description: "Diseñamos un sistema predictivo de captación de clientes. Campañas inteligentes en Meta, Google y producción audiovisual premium.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Promoción de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Promoción de Negocios y Captación Predictiva — Prisma Digital",
+    description:
+      "Diseñamos un sistema predictivo de captación de clientes. Campañas inteligentes en Meta, Google y producción audiovisual premium.",
+    image: "https://prismadigital.io/og/og-promocion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Promoción de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Promoción y captación de clientes",
+    name: "Promoción de negocios y captación de clientes",
+    description:
+      "Sistema de captación de clientes predecible y medible con pauta basada en datos y producción audiovisual premium.",
+    offers: [
+      "Campañas de publicidad en Meta Ads",
+      "Campañas de publicidad en Google Ads",
+      "Segmentación avanzada de audiencias",
+      "Embudos de venta de alta conversión",
+      "Producción de spots comerciales",
+      "Fotografía de producto comercial",
+      "Reels y contenido vertical",
+      "Cinematografía aérea con drones",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/promocion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Promoción de Negocios y Captación de Clientes — Prisma Digital" },
+      { title: "Captación de Clientes que sí Vende — Prisma Digital" },
       {
         name: "description",
         content:
           "Construimos sistemas de captación de clientes predecibles y medibles. Embudos de venta, Meta Ads, Google Ads y producción audiovisual premium.",
       },
-      { property: "og:title", content: "Promoción de Negocios y Captación de Clientes — Prisma Digital" },
+      { property: "og:title", content: "Captación de Clientes que sí Vende — Prisma Digital" },
       {
         property: "og:description",
         content:
-          "Atrae un flujo constante de clientes nuevos con pautas publicitarias basadas en datos y un contenido audiovisual que impacta y vende.",
+          "Captación predecible y medible con Meta Ads, Google Ads y audiovisual.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://prismadigital.io/og/og-promocion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-promocion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "1200" },
+      {
+        property: "og:image:alt",
+        content:
+          "Promoción de negocios en Prisma Digital: captación de clientes con Meta Ads, Google Ads y producción audiovisual.",
+      },
+      {
+        name: "twitter:title",
+        content: "Captación de Clientes que sí Vende — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Captación predecible y medible con Meta Ads, Google Ads y audiovisual.",
+      },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-promocion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Promoción y captación de clientes: Meta Ads, Google Ads, embudos de venta y producción audiovisual.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },

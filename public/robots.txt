@@ -1,0 +1,11 @@
+# robots.txt — Prisma Digital (https://www.prismadigital.io/)
+
+User-agent: *
+Allow: /
+
+# Páginas de uso interno / privadas: no indexar ni rastrear
+Disallow: /presentacion-diagnostico
+Disallow: /assessment
+Disallow: /gracias-infinitas
+
+Sitemap: https://www.prismadigital.io/sitemap.xml

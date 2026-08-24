@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 import Navbar from "@/components/Navbar";
 import HeroNueva from "@/components/nueva/HeroNueva";
 import ServiciosNueva from "@/components/nueva/ServiciosNueva";
@@ -31,45 +32,75 @@ import {
 
 const CANONICAL_URL = "https://www.prismadigital.io/digitalizacion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
-      description: "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Digitalización de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Sitios Web Profesionales y Digitalización de Negocios — Prisma Digital",
+    description:
+      "Creamos tu sitio web profesional con las herramientas de marketing y medición conectadas, integrado a tu stock, tus ventas y tus clientes. Digitaliza tu negocio físico sin partir de cero.",
+    image: "https://prismadigital.io/og/og-digitalizacion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Digitalización de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Digitalización de negocios",
+    name: "Digitalización de negocios y sitios web profesionales",
+    description:
+      "Sitio web profesional hecho para vender, integrado a stock, ventas y clientes, con la medición ya conectada.",
+    offers: [
+      "Diseño y desarrollo de sitios web profesionales",
+      "Integración de stock e inventario online y en tienda",
+      "Automatización de ventas y procesos",
+      "CRM: centralización de clientes",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/digitalizacion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Sitios Web Profesionales y Digitalización — Prisma Digital" },
+      { title: "Sitios Web Hechos para Vender — Prisma Digital" },
       {
         name: "description",
         content:
-          "Creamos tu sitio web profesional listo para vender, con el marketing y la medición ya conectados, e integrado a tu stock, ventas y clientes. Digitaliza tu negocio físico sin partir de cero.",
+          "Creamos tu sitio web profesional listo para vender, conectado a tu stock, ventas y clientes y con la medición integrada. Digitaliza tu negocio físico.",
       },
       {
         property: "og:title",
-        content: "Sitios Web Profesionales y Digitalización — Prisma Digital",
+        content: "Sitios Web Hechos para Vender — Prisma Digital",
       },
       {
         property: "og:description",
         content:
-          "Tu nueva página web hecha para vender, con todo tu marketing medido y conectado a tu stock, tus ventas y tus clientes. Sin partir de cero.",
+          "Sitios web hechos para vender, con stock y clientes conectados.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-digitalizacion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "1200" },
+      {
+        property: "og:image:alt",
+        content:
+          "Digitalización de negocios en Prisma Digital: sitios web profesionales integrados a stock, ventas y clientes.",
+      },
+      {
+        name: "twitter:title",
+        content: "Sitios Web Hechos para Vender — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Sitios web hechos para vender, con stock y clientes conectados.",
+      },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-digitalizacion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Digitalización de negocios: sitio web profesional que vende, conectado a stock, ventas y clientes.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },

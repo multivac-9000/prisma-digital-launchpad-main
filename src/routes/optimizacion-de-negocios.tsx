@@ -10,45 +10,75 @@ import { ScrollProgress, Reveal, CountUp } from "@/components/nueva/scrolly";
 import { OptimizacionVisual } from "@/components/nueva/heroVisuals";
 import { TrendingUp, LineChart, Code, BarChart3 } from "lucide-react";
 import { trackCta } from "@/components/nueva/track";
+import { buildGraph, webPage, breadcrumb, service } from "@/lib/schema";
 
 const CANONICAL_URL = "https://www.prismadigital.io/optimizacion-de-negocios";
 
-const JSON_LD = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${CANONICAL_URL}/#webpage`,
-      url: CANONICAL_URL,
-      name: "Optimización de Negocios y Medición Avanzada — Prisma Digital",
-      description: "Configuramos GA4, Conversions API y Looker Studio. Toma el control del retorno de tu inversión publicitaria.",
-      breadcrumb: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.prismadigital.io/" },
-          { "@type": "ListItem", position: 2, name: "Optimización de Negocios", item: CANONICAL_URL }
-        ]
-      }
-    }
-  ]
-});
+const JSON_LD = buildGraph(
+  webPage({
+    url: CANONICAL_URL,
+    name: "Optimización de Negocios y Medición Avanzada — Prisma Digital",
+    description:
+      "Configuramos GA4, Conversions API y Looker Studio. Toma el control del retorno de tu inversión publicitaria.",
+    image: "https://prismadigital.io/og/og-optimizacion.png",
+    withBreadcrumb: true,
+  }),
+  breadcrumb(CANONICAL_URL, "Optimización de Negocios"),
+  service({
+    url: CANONICAL_URL,
+    serviceType: "Optimización y medición de eventos",
+    name: "Optimización de negocios y medición de eventos",
+    description:
+      "Medición de eventos web y apps con GA4, Conversions API y Server-Side GTM, más dashboards en Looker Studio para reducir el CPA.",
+    offers: [
+      "Conversions API (CAPI) y Server-Side GTM",
+      "Auditoría e implementación de eventos GA4",
+      "Dashboards a medida en Looker Studio",
+    ],
+  }),
+);
 
 export const Route = createFileRoute("/optimizacion-de-negocios")({
   head: () => ({
     meta: [
-      { title: "Optimización de Negocios y Medición de Eventos — Prisma Digital" },
+      { title: "Baja tu CPA con Medición Real — Prisma Digital" },
       {
         name: "description",
         content:
-          "Configuramos GA4, Conversions API y Looker Studio para reducir tu CPA con datos reales. Sin suposiciones.",
+          "Medición de eventos web y apps con GA4, Conversions API y Server-Side GTM, más dashboards en Looker Studio para reducir tu CPA. Con datos, no suposiciones.",
       },
-      { property: "og:title", content: "Optimización de Negocios y Medición de Eventos — Prisma Digital" },
+      { property: "og:title", content: "Baja tu CPA con Medición Real — Prisma Digital" },
       {
         property: "og:description",
         content:
-          "Se acabó gastar dinero a ciegas. Medimos y modelamos eventos comerciales sin pérdidas para bajar tu CPA y optimizar tu pauta.",
+          "Mide lo que importa y baja tu CPA. GA4, Conversions API y Looker.",
       },
       { property: "og:url", content: CANONICAL_URL },
+      { property: "og:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image:secure_url", content: "https://prismadigital.io/og/og-optimizacion.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "1200" },
+      {
+        property: "og:image:alt",
+        content:
+          "Optimización de negocios en Prisma Digital: GA4, Conversions API y Looker Studio para reducir el CPA.",
+      },
+      {
+        name: "twitter:title",
+        content: "Baja tu CPA con Medición Real — Prisma Digital",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Mide lo que importa y baja tu CPA. GA4, Conversions API y Looker.",
+      },
+      { name: "twitter:image", content: "https://prismadigital.io/og/og-optimizacion.png" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "Optimización y medición de eventos: GA4, Conversions API, Server-Side GTM y dashboards en Looker Studio.",
+      },
     ],
     links: [
       { rel: "canonical", href: CANONICAL_URL },
