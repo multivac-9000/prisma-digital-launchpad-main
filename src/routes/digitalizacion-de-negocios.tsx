@@ -223,7 +223,7 @@ const realProjects: RealProject[] = [
     textColor: "text-white",
     accentColor: "#fecd2b",
     mockupType: "music",
-    portfolioImage: "/portfolio/Rassayana.webp"
+    portfolioImage: "/portfolio/Rassayana_.webp"
   },
   {
     name: "Mundo Deco Store",
