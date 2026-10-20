@@ -18,9 +18,16 @@ import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as Motordeventas360RouteImport } from './routes/motordeventas360'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+
+const Motordeventas360Route = Motordeventas360RouteImport.update({
+  id: '/motordeventas360',
+  path: '/motordeventas360',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
   id: '/terminos-y-condiciones',
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/motordeventas360': typeof Motordeventas360Route
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
@@ -104,6 +112,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/motordeventas360': typeof Motordeventas360Route
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
@@ -119,6 +128,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/digitalizacion-de-negocios': typeof DigitalizacionDeNegociosRoute
   '/gracias-infinitas': typeof GraciasInfinitasRoute
+  '/motordeventas360': typeof Motordeventas360Route
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
+    | '/motordeventas360'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
+    | '/motordeventas360'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
@@ -163,6 +175,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/digitalizacion-de-negocios'
     | '/gracias-infinitas'
+    | '/motordeventas360'
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
@@ -178,6 +191,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   DigitalizacionDeNegociosRoute: typeof DigitalizacionDeNegociosRoute
   GraciasInfinitasRoute: typeof GraciasInfinitasRoute
+  Motordeventas360Route: typeof Motordeventas360Route
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
   PoliticaDePrivacidadRoute: typeof PoliticaDePrivacidadRoute
   PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
@@ -222,6 +236,13 @@ declare module '@tanstack/react-router' {
       path: '/optimizacion-de-negocios'
       fullPath: '/optimizacion-de-negocios'
       preLoaderRoute: typeof OptimizacionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motordeventas360': {
+      id: '/motordeventas360'
+      path: '/motordeventas360'
+      fullPath: '/motordeventas360'
+      preLoaderRoute: typeof Motordeventas360RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gracias-infinitas': {
@@ -282,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   DigitalizacionDeNegociosRoute: DigitalizacionDeNegociosRoute,
   GraciasInfinitasRoute: GraciasInfinitasRoute,
+  Motordeventas360Route: Motordeventas360Route,
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
   PoliticaDePrivacidadRoute: PoliticaDePrivacidadRoute,
   PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,

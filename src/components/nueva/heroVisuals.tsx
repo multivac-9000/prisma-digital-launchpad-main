@@ -11,6 +11,11 @@ import {
   TrendingDown,
   Activity,
   Zap,
+  Mail,
+  CheckCircle2,
+  ArrowRight,
+  Layers,
+  Sparkles,
 } from "lucide-react";
 import { Reveal } from "./scrolly";
 
@@ -366,6 +371,173 @@ export function OptimizacionVisual() {
               />
             ))}
           </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ============================================================
+   4 · MOTOR DE VENTAS 360 — Máquina automatizada de ventas
+   Meta Ads → CRM Brevo ordenado → Respuesta automática por Email → Cierre
+   ============================================================ */
+
+export function MotorVentasVisual() {
+  return (
+    <Reveal variant="scale" delay={280} className="nl-hero-exit">
+      <div className={`${card} mx-auto w-full max-w-[460px] overflow-hidden p-5 md:p-6 shadow-2xl backdrop-blur-md`}>
+        {/* Cabecera del Motor */}
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-prisma-cyan to-prisma-magenta text-white shadow-md">
+              <Zap className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div>
+              <span className="text-sm font-bold text-white block">Motor de Ventas 360</span>
+              <span className="text-[11px] text-white/50 block">Meta Ads + CRM Brevo + Email Auto</span>
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 text-[11px] font-bold text-emerald-400">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 nl-hv-ring" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            SINCRONIZADO
+          </span>
+        </div>
+
+        {/* Flujo Visual Interactivo */}
+        <div className="relative mt-5 space-y-3.5">
+          {/* Paso 1: Anuncio Meta captando lead */}
+          <div className="rounded-xl border border-prisma-cyan/30 bg-gradient-to-r from-prisma-cyan/10 to-transparent p-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-prisma-cyan/20 text-prisma-cyan font-black text-xs">
+                ADS
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white">Anuncio en Instagram / FB</p>
+                <p className="text-[10px] text-white/60">Cliente potencial deja sus datos</p>
+              </div>
+            </div>
+            <span className="text-[11px] font-mono font-semibold text-prisma-cyan bg-prisma-cyan/10 px-2 py-0.5 rounded">
+              +1 Lead hoy
+            </span>
+          </div>
+
+          {/* Conexión animada vertical con SVG */}
+          <div className="relative flex justify-center h-6 -my-2 z-10">
+            <svg viewBox="0 0 40 24" className="w-10 h-6 overflow-visible" fill="none">
+              <line
+                className="nl-hv-flow"
+                x1="20"
+                y1="0"
+                x2="20"
+                y2="24"
+                stroke="#32d6ff"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          {/* Paso 2: Automatización Brevo Email */}
+          <div className="rounded-xl border border-prisma-magenta/30 bg-gradient-to-r from-prisma-magenta/10 to-transparent p-3 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-prisma-magenta/20 text-prisma-magenta">
+                <Mail className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white">Respuesta Automática por Email</p>
+                <p className="text-[10px] text-white/60">Catálogo / Precios enviados en 8 seg</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-prisma-magenta bg-prisma-magenta/10 px-2 py-0.5 rounded">
+              <CheckCircle2 className="h-3 w-3" />
+              Entregado
+            </span>
+          </div>
+
+          {/* Conexión animada vertical con SVG */}
+          <div className="relative flex justify-center h-6 -my-2 z-10">
+            <svg viewBox="0 0 40 24" className="w-10 h-6 overflow-visible" fill="none">
+              <line
+                className="nl-hv-flow"
+                x1="20"
+                y1="0"
+                x2="20"
+                y2="24"
+                stroke="#d713f9"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          {/* Paso 3: Embudo Brevo Organizado */}
+          <div className="rounded-xl border border-white/15 bg-white/[0.04] p-3">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-white/90">
+                <Layers className="h-3.5 w-3.5 text-prisma-cyan" />
+                <span>Embudo Comercial en Brevo</span>
+              </div>
+              <span className="text-[10px] text-white/50">Cero desorden</span>
+            </div>
+
+            {/* Columnas Kanban simplificadas */}
+            <div className="grid grid-cols-3 gap-2 text-left">
+              <div className="rounded-lg bg-white/[0.05] p-2 border border-white/10">
+                <div className="text-[9px] font-bold uppercase tracking-wider text-white/45 mb-1.5">
+                  1. Nuevos (4)
+                </div>
+                <div className="rounded bg-[#061a33] p-1.5 border border-white/10 text-[10px] text-white/80 truncate">
+                  Nicolás M.
+                  <span className="block text-[8px] text-prisma-cyan">Interesado</span>
+                </div>
+              </div>
+
+              <div className="rounded-lg bg-white/[0.05] p-2 border border-white/10">
+                <div className="text-[9px] font-bold uppercase tracking-wider text-prisma-magenta/80 mb-1.5">
+                  2. Cotizado (2)
+                </div>
+                <div className="rounded bg-[#061a33] p-1.5 border border-prisma-magenta/30 text-[10px] text-white/90 truncate">
+                  Camila R.
+                  <span className="block text-[8px] text-prisma-magenta">Email abierto</span>
+                </div>
+              </div>
+
+              <div className="rounded-lg bg-emerald-500/10 p-2 border border-emerald-500/30">
+                <div className="text-[9px] font-bold uppercase tracking-wider text-emerald-400 mb-1.5">
+                  3. Ganado (6)
+                </div>
+                <div className="rounded bg-emerald-950/60 p-1.5 border border-emerald-500/40 text-[10px] text-white font-bold truncate">
+                  Venta Cerrada
+                  <span className="block text-[8px] text-emerald-400">+$320.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mini KPIs */}
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] px-2.5 py-2 text-center">
+            <span className="block text-[9px] font-bold uppercase text-white/45">Atención</span>
+            <span className="text-sm font-extrabold text-prisma-cyan">{"< 15 seg"}</span>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] px-2.5 py-2 text-center">
+            <span className="block text-[9px] font-bold uppercase text-white/45">Seguimiento</span>
+            <span className="text-sm font-extrabold text-prisma-magenta">100% Leads</span>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] px-2.5 py-2 text-center">
+            <span className="block text-[9px] font-bold uppercase text-white/45">Inversión</span>
+            <span className="text-sm font-extrabold text-white">Desde $120k</span>
+          </div>
+        </div>
+
+        {/* Píldora inferior */}
+        <div className="mt-3.5 flex items-center justify-center gap-2 rounded-lg bg-white/[0.04] py-1.5 px-3 text-[11px] text-white/70 border border-white/5">
+          <Sparkles className="h-3 w-3 text-amber-300" />
+          <span>Convierte cada clic en un cliente ordenado y listo para comprar</span>
         </div>
       </div>
     </Reveal>
