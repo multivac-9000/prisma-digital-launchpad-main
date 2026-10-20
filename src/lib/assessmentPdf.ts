@@ -65,6 +65,75 @@ function hexToRgb(hex: string): [number, number, number] {
 
 const notaTxt = ["—", "No existe", "Deficiente", "Básico", "Bueno", "Óptimo"];
 
+/* Logos servidos desde /public. El blanco va sobre la banda navy del
+   encabezado; el negro, en el pie de cada página. */
+const LOGO_BLANCO = "/logo.png";
+const LOGO_NEGRO = "/prisma-digital-black-logo.png";
+
+// Espectro del prisma (cian → magenta → rojo, sin amarillo): el amarillo queda
+// reservado para el CTA de agenda, nunca para elementos decorativos.
+const SPECTRUM: [number, number, number][] = [
+  [50, 214, 255],
+  [215, 19, 249],
+  [253, 56, 51],
+];
+
+type LoadedImage = { dataUrl: string; w: number; h: number };
+
+const logoCache = new Map<string, LoadedImage>();
+
+/* Carga un logo del sitio y lo reduce a `maxPx` de ancho antes de incrustarlo:
+   los PNG originales pesan ~60 KB y el PDF viaja en base64 dentro del correo.
+   Si algo falla (sin red, canvas bloqueado) devuelve null y el PDF se arma
+   igual con el encabezado de solo texto. */
+async function loadLogo(url: string, maxPx: number): Promise<LoadedImage | null> {
+  if (typeof window === "undefined" || typeof document === "undefined") return null;
+  const cached = logoCache.get(url);
+  if (cached) return cached;
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const el = new Image();
+      el.onload = () => resolve(el);
+      el.onerror = () => reject(new Error(`No se pudo cargar ${url}`));
+      el.src = url;
+    });
+    const scale = Math.min(1, maxPx / img.naturalWidth);
+    const w = Math.max(1, Math.round(img.naturalWidth * scale));
+    const h = Math.max(1, Math.round(img.naturalHeight * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0, w, h);
+    const loaded: LoadedImage = { dataUrl: canvas.toDataURL("image/png"), w, h };
+    logoCache.set(url, loaded);
+    return loaded;
+  } catch {
+    return null;
+  }
+}
+
+// Filete degradado del espectro, dibujado por segmentos (jsPDF no tiene gradientes).
+function spectrumBar(doc: jsPDF, x: number, y: number, w: number, h: number) {
+  const steps = 96;
+  const seg = w / steps;
+  for (let i = 0; i < steps; i++) {
+    const t = (i / (steps - 1)) * (SPECTRUM.length - 1);
+    const i0 = Math.min(Math.floor(t), SPECTRUM.length - 2);
+    const f = t - i0;
+    const [r0, g0, b0] = SPECTRUM[i0];
+    const [r1, g1, b1] = SPECTRUM[i0 + 1];
+    doc.setFillColor(
+      Math.round(r0 + (r1 - r0) * f),
+      Math.round(g0 + (g1 - g0) * f),
+      Math.round(b0 + (b1 - b0) * f),
+    );
+    // +0.15 mm de solape: evita costuras blancas entre segmentos al imprimir.
+    doc.rect(x + i * seg, y, seg + 0.15, h, "F");
+  }
+}
+
 export async function generateAssessmentPdf(data: ReportData): Promise<jsPDF> {
   const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({ unit: "mm", format: "a4" });
@@ -80,20 +149,50 @@ export async function generateAssessmentPdf(data: ReportData): Promise<jsPDF> {
     }
   };
 
-  // ---- Encabezado con banda de marca ----
+  // ---- Encabezado: banda de marca con el logo ----
+  const [logoBlanco, logoNegro] = await Promise.all([
+    loadLogo(LOGO_BLANCO, 760),
+    loadLogo(LOGO_NEGRO, 460),
+  ]);
+
   doc.setFillColor(...NAVY);
-  doc.rect(0, 0, W, 34, "F");
+  doc.rect(0, 0, W, 42, "F");
+
+  if (logoBlanco) {
+    const lw = 46;
+    doc.addImage(
+      logoBlanco.dataUrl,
+      "PNG",
+      M,
+      9,
+      lw,
+      (lw * logoBlanco.h) / logoBlanco.w,
+      "pd-logo-blanco",
+    );
+  } else {
+    // Sin logo (fetch o canvas bloqueados): la marca se sostiene con el texto.
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("PRISMA DIGITAL", M, 16);
+  }
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(200, 210, 255);
+  doc.text(data.fecha, W - M, 16, { align: "right" });
+
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
-  doc.text("Diagnóstico Digital", M, 16);
+  doc.text("Diagnóstico Digital", M, 30);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(200, 210, 255);
-  doc.text("Prisma Digital · Auditoría de 15 puntos", M, 23);
-  doc.setFontSize(9);
-  doc.text(data.fecha, W - M, 16, { align: "right" });
-  y = 44;
+  doc.text("Auditoría de 15 puntos", M, 36.5);
+
+  spectrumBar(doc, 0, 42, W, 1.4);
+  y = 52;
 
   // ---- Datos del cliente ----
   doc.setTextColor(...INK);
@@ -288,12 +387,21 @@ export async function generateAssessmentPdf(data: ReportData): Promise<jsPDF> {
   const pages = doc.getNumberOfPages();
   for (let p = 1; p <= pages; p++) {
     doc.setPage(p);
+    let textX = M;
+    if (logoNegro) {
+      const lw = 24;
+      const lh = (lw * logoNegro.h) / logoNegro.w;
+      doc.addImage(logoNegro.dataUrl, "PNG", M, 292 - lh + 1.2, lw, lh, "pd-logo-negro");
+      textX = M + lw + 4;
+    }
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.setTextColor(...GREY);
     doc.text(
-      "Prisma Digital · prismadigital.io@gmail.com · +56 9 5715 1303 · Concepción, Chile",
-      M,
+      logoNegro
+        ? "prismadigital.io@gmail.com · +56 9 5715 1303 · Concepción, Chile"
+        : "Prisma Digital · prismadigital.io@gmail.com · +56 9 5715 1303 · Concepción, Chile",
+      textX,
       292,
     );
     doc.text(`${p} / ${pages}`, W - M, 292, { align: "right" });

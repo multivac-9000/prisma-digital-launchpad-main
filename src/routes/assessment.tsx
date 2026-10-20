@@ -15,12 +15,13 @@ import {
   FileDown,
   Mail,
   Loader2,
+  PlugZap,
   type LucideIcon,
 } from "lucide-react";
 import AccessGate from "@/components/AccessGate";
 import { firebaseReady, saveAssessment } from "@/lib/firebase";
 import { generateAssessmentPdf, type ReportData } from "@/lib/assessmentPdf";
-import { sendReportEmail } from "@/lib/api/report.functions";
+import { sendReportEmail, checkBrevoStatus, type MotivoFallo } from "@/lib/api/report.functions";
 
 /* ASSESSMENT DE DIAGNÓSTICO EN VIVO — la "Auditoría de 15 puntos".
    Se llena durante la reunión, después de la presentación (/presentacion-diagnostico).
@@ -341,14 +342,27 @@ type SaveStatus =
 type MailStatus =
   | { kind: "idle" }
   | { kind: "sending" }
-  | { kind: "ok" }
-  | { kind: "error"; msg: string };
+  | { kind: "ok"; destinatario: string; copiaA: string | null }
+  | {
+      kind: "error";
+      msg: string;
+      motivo?: MotivoFallo;
+      detalle?: string | null;
+      ayudaUrl?: string | null;
+    };
+
+type PruebaStatus =
+  | { kind: "idle" }
+  | { kind: "probando" }
+  | { kind: "ok"; msg: string }
+  | { kind: "error"; msg: string; ayudaUrl: string | null };
 
 function AssessmentPage() {
   const [state, setState] = useState<AssessmentState>(estadoInicial);
   const [status, setStatus] = useState<SaveStatus>({ kind: "idle" });
   const [pdfBusy, setPdfBusy] = useState(false);
   const [mail, setMail] = useState<MailStatus>({ kind: "idle" });
+  const [prueba, setPrueba] = useState<PruebaStatus>({ kind: "idle" });
   // Flag de ESTADO (no ref): el autoguardado solo se activa en el render
   // posterior a cargar el borrador. Con un ref, el doble-invoke de efectos en
   // dev (StrictMode) sobrescribía el borrador con el estado inicial vacío.
@@ -571,14 +585,48 @@ function AssessmentPage() {
     try {
       const doc = await generateAssessmentPdf(collectReport());
       const pdfBase64 = doc.output("datauristring").split(",")[1];
-      await sendReportEmail({
+      const res = await sendReportEmail({
         data: { email, empresa: state.cliente.empresa.trim() || "cliente", pdfBase64 },
       });
-      setMail({ kind: "ok" });
+      if (res.ok) {
+        setMail({ kind: "ok", destinatario: res.destinatario, copiaA: res.copiaA });
+      } else {
+        setMail({
+          kind: "error",
+          msg: res.msg,
+          motivo: res.motivo,
+          detalle: res.detalle,
+          ayudaUrl: res.ayudaUrl,
+        });
+      }
     } catch (e) {
+      // Solo se llega aqui si fallo la generacion del PDF o la propia request.
       setMail({
         kind: "error",
         msg: e instanceof Error ? e.message : "No se pudo enviar el correo.",
+      });
+    }
+  };
+
+  // Ping a Brevo sin enviar nada: separa "configuracion rota" de "problema del envio".
+  const onProbarBrevo = async () => {
+    if (prueba.kind === "probando") return;
+    setPrueba({ kind: "probando" });
+    try {
+      const res = await checkBrevoStatus();
+      setPrueba(
+        res.ok
+          ? {
+              kind: "ok",
+              msg: `Conectado a Brevo (${res.cuenta}). Remitente: ${res.remitente}.`,
+            }
+          : { kind: "error", msg: res.msg, ayudaUrl: res.ayudaUrl },
+      );
+    } catch (e) {
+      setPrueba({
+        kind: "error",
+        msg: e instanceof Error ? e.message : "No se pudo probar la conexion.",
+        ayudaUrl: null,
       });
     }
   };
@@ -589,6 +637,7 @@ function AssessmentPage() {
     setState(estadoInicial());
     setStatus({ kind: "idle" });
     setMail({ kind: "idle" });
+    setPrueba({ kind: "idle" });
     window.scrollTo({ top: 0 });
   };
 
@@ -1036,17 +1085,91 @@ function AssessmentPage() {
                 )}
                 {mail.kind === "sending" ? "Enviando…" : "Enviar al correo"}
               </button>
+              <button
+                type="button"
+                onClick={onProbarBrevo}
+                disabled={prueba.kind === "probando"}
+                title="Comprueba la conexión con Brevo sin enviar ningún correo"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-3 text-sm font-semibold text-white/70 hover:bg-white/10 hover:text-white transition disabled:opacity-50"
+              >
+                {prueba.kind === "probando" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <PlugZap className="h-4 w-4" aria-hidden="true" />
+                )}
+                Probar Brevo
+              </button>
             </div>
+
+            {prueba.kind === "ok" && (
+              <p className="inline-flex items-start gap-2 text-sm font-semibold text-green-400">
+                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+                {prueba.msg}
+              </p>
+            )}
+            {prueba.kind === "error" && (
+              <p className="inline-flex items-start gap-2 text-sm font-semibold text-prisma-red">
+                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+                <span>
+                  {prueba.msg}
+                  {prueba.ayudaUrl && (
+                    <>
+                      {" "}
+                      <a
+                        href={prueba.ayudaUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline underline-offset-2"
+                      >
+                        Abrir Brevo
+                      </a>
+                    </>
+                  )}
+                </span>
+              </p>
+            )}
+
             {mail.kind === "ok" && (
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-green-400">
-                <CheckCircle2 className="h-4 w-4" aria-hidden="true" /> Reporte enviado a{" "}
-                {state.cliente.email.trim()}.
+              <p className="inline-flex items-start gap-2 text-sm font-semibold text-green-400">
+                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+                <span>
+                  Reporte enviado a {mail.destinatario}.
+                  {mail.copiaA && ` Copia al equipo (${mail.copiaA}).`}
+                </span>
               </p>
             )}
             {mail.kind === "error" && (
-              <p className="inline-flex items-start gap-2 text-sm font-semibold text-prisma-red">
-                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" /> {mail.msg}
-              </p>
+              <div className="rounded-2xl border border-prisma-red/40 bg-prisma-red/10 p-4 text-sm">
+                <p className="flex items-start gap-2 font-semibold text-prisma-red">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+                  <span>{mail.msg}</span>
+                </p>
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 pl-6">
+                  {mail.ayudaUrl && (
+                    <a
+                      href={mail.ayudaUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-white/80 underline underline-offset-2 hover:text-white"
+                    >
+                      Abrir la configuración de Brevo
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={onDescargarPdf}
+                    className="font-semibold text-white/80 underline underline-offset-2 hover:text-white"
+                  >
+                    Descargar el PDF y enviarlo a mano
+                  </button>
+                </div>
+                {mail.detalle && (
+                  <details className="mt-2 pl-6 text-xs text-white/45">
+                    <summary className="cursor-pointer">Respuesta de Brevo</summary>
+                    <p className="mt-1 break-words font-mono">{mail.detalle}</p>
+                  </details>
+                )}
+              </div>
             )}
             <p className="text-xs text-white/45">
               El PDF incluye el puntaje, los 15 puntos con sus notas, PageSpeed, el contexto y la
