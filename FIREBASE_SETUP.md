@@ -117,13 +117,31 @@ Brevo solo envía desde remitentes verificados. En **Senders, Domains & Dedicate
 correo de tu dominio (ej. `hola@prismadigital.io`). Si usas `prismadigital.io@gmail.com`,
 verifícalo ahí primero.
 
-### Paso C — Variables de entorno (SOLO servidor, sin `VITE_`)
+### Paso C — Desactivar el bloqueo por IP de las claves API ⚠️ (imprescindible)
+
+Brevo trae activado **"Bloqueando direcciones IP no autorizadas"**: la API key solo
+funciona desde IPs que estén en una lista blanca. El sitio corre en **funciones
+serverless de Vercel**, que salen por IPs de AWS **distintas en cada invocación**, así
+que autorizarlas una a una nunca alcanza — hoy funciona y mañana vuelve el error
+`401 · We have detected you are using an unrecognised IP address …`.
+
+En Brevo: **Settings → Seguridad → IP autorizadas** → en el bloque "Bloqueando
+direcciones IP no autorizadas", pulsa **"Desactivar para claves API"**.
+
+No baja la seguridad de forma relevante: la key vive solo en las variables de entorno
+del servidor, nunca llega al navegador y no está en el repo.
+
+> Si la política de la cuenta obliga a mantener el filtro de IP, la única alternativa
+> es sacar el envío de Vercel (un relay propio con IP fija, o Vercel Secure Compute).
+
+### Paso D — Variables de entorno (SOLO servidor, sin `VITE_`)
 
 | Variable             | Valor                                                            |
 | -------------------- | ---------------------------------------------------------------- |
 | `BREVO_API_KEY`      | La API key del Paso A (secreta — nunca va al navegador)          |
 | `BREVO_SENDER_EMAIL` | El remitente verificado del Paso B                               |
 | `BREVO_SENDER_NAME`  | Nombre visible del remitente (ej. `Prisma Digital`)              |
+| `BREVO_BCC_EMAIL`    | Opcional: copia oculta al equipo de cada reporte enviado          |
 
 - **Local**: agrégalas a tu archivo `.env` (junto a las de Firebase).
 - **Vercel**: **Settings → Environment Variables**, las mismas 3 en Production,
@@ -133,11 +151,18 @@ verifícalo ahí primero.
 > `VITE_`: viven solo en el servidor (el envío ocurre en un *server function*), así la
 > API key nunca se expone en el navegador.
 
-### Paso D — Verificar
+### Paso E — Verificar
 
-En `/assessment`, escribe un correo de prueba tuyo, pulsa **Enviar al correo** → debe
-aparecer "Reporte enviado a …" y llegar el email con el PDF adjunto. Mientras no
-configures la key, el botón responde "El envío por correo no está configurado".
+En `/assessment`, sección **Reporte de resultados**:
+
+1. Pulsa **Probar Brevo** — no envía nada, solo consulta la cuenta. Debe decir
+   "Conectado a Brevo (…)". Si responde que la IP está bloqueada, falta el Paso C.
+2. Escribe un correo de prueba tuyo y pulsa **Enviar al correo** → "Reporte enviado a …"
+   y llega el email con el PDF adjunto.
+
+Cuando algo falla, la tarjeta de error dice **qué** falló (IP bloqueada, key ausente,
+remitente sin verificar, cuota) y ofrece el atajo para descargar el PDF y enviarlo a
+mano; el detalle crudo de Brevo queda en el desplegable "Respuesta de Brevo".
 
 ## Estructura del documento guardado
 
