@@ -94,6 +94,8 @@ function CenterPanel({ id, onClose }: { id: CenterId; onClose: () => void }) {
 export default function PrismateUniverse() {
   const [env, setEnv] = React.useState<{ webgl: boolean; reduced: boolean; compact: boolean } | null>(null);
   const [selected, setSelected] = React.useState<CenterId | null>(null);
+  const [inView, setInView] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setEnv({
@@ -103,8 +105,28 @@ export default function PrismateUniverse() {
     });
   }, []);
 
+  // El 3D (y su entrada con zoom-out) se monta cuando el universo entra en pantalla.
+  React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="relative h-[72svh] min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black md:h-[76vh] md:max-h-[780px]">
+    <div
+      ref={containerRef}
+      className="relative h-[72svh] min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black md:h-[76vh] md:max-h-[780px]"
+    >
       {/* Título dentro del lienzo */}
       <div className="pointer-events-none absolute left-5 top-5 z-10 md:left-7 md:top-7">
         <h2 className="font-extrabold tracking-tight text-white text-[22px] md:text-[28px]">La luz de Prismate</h2>
@@ -112,7 +134,7 @@ export default function PrismateUniverse() {
       </div>
 
       {/* 3D (solo navegador + con WebGL) */}
-      {env === null ? (
+      {env === null || (env.webgl && !inView) ? (
         <div className="flex h-full items-center justify-center text-sm text-white/50">Abriendo tu universo de luz…</div>
       ) : env.webgl ? (
         <React.Suspense
@@ -126,6 +148,7 @@ export default function PrismateUniverse() {
             dive={null}
             reduced={env.reduced}
             compact={env.compact}
+            intro={!env.reduced}
           />
         </React.Suspense>
       ) : (
