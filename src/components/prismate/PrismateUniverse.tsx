@@ -1,5 +1,6 @@
 import * as React from "react";
-import { X, MessageCircle } from "lucide-react";
+import { createPortal } from "react-dom";
+import { X, MessageCircle, Maximize2, Minimize2 } from "lucide-react";
 import { CENTERS, CENTER_BY_ID, type CenterId } from "@/lib/prism/bands";
 import { GEOMETRY } from "@/lib/prism/geometry";
 import { computeSpectrum, decodeResult } from "@/lib/prism/score";
@@ -139,15 +140,76 @@ export default function PrismateUniverse() {
     return () => io.disconnect();
   }, []);
 
-  return (
+  // Modo inmersivo: overlay a pantalla completa + Fullscreen API nativa (si existe).
+  const [immersive, setImmersive] = React.useState(false);
+  const enterImmersive = () => {
+    setImmersive(true);
+    try {
+      containerRef.current?.requestFullscreen?.();
+    } catch {}
+  };
+  const exitImmersive = () => {
+    setImmersive(false);
+    try {
+      if (document.fullscreenElement) document.exitFullscreen?.();
+    } catch {}
+  };
+  // Si el usuario sale del fullscreen nativo (Esc), salimos del modo inmersivo.
+  React.useEffect(() => {
+    const onFs = () => {
+      if (!document.fullscreenElement) setImmersive(false);
+    };
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+  // Bloquea el scroll del fondo mientras es inmersivo.
+  React.useEffect(() => {
+    if (!immersive) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [immersive]);
+
+  const content = (
     <div
       ref={containerRef}
-      className="relative h-[72svh] min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black md:h-[76vh] md:max-h-[780px]"
+      className={
+        immersive
+          ? "fixed inset-0 z-[80] h-dvh w-screen overflow-hidden border-0 bg-black"
+          : "relative h-[72svh] min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black md:h-[76vh] md:max-h-[780px]"
+      }
     >
       {/* Título dentro del lienzo */}
-      <div className="pointer-events-none absolute left-5 top-5 z-10 md:left-7 md:top-7">
+      <div className="pointer-events-none absolute left-5 top-5 z-20 md:left-7 md:top-7">
         <h2 className="font-extrabold tracking-tight text-white text-[22px] md:text-[28px]">{data.personal ? "Tu universo de luz" : "La luz de Prismate"}</h2>
         <p className="mt-1 text-[13px] text-white/60 md:text-[14px]">Gira con el dedo o el mouse. Toca un color para entenderlo.</p>
+      </div>
+
+      {/* Controles (pantalla completa / inmersivo) */}
+      <div className="absolute right-4 top-4 z-30 flex items-center gap-2 md:right-6 md:top-6">
+        {immersive && (
+          <button
+            type="button"
+            onClick={() => {
+              exitImmersive();
+              setTimeout(() => document.getElementById("habla-prismate")?.scrollIntoView({ behavior: "smooth" }), 120);
+            }}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[13px] font-bold text-prisma-navy transition-transform hover:scale-[1.03]"
+          >
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Hablar con Prismate</span>
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={immersive ? exitImmersive : enterImmersive}
+          aria-label={immersive ? "Salir de pantalla completa" : "Modo inmersivo a pantalla completa"}
+          className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-3.5 py-2 text-[13px] font-medium text-white backdrop-blur transition-colors hover:border-white/50"
+        >
+          {immersive ? <Minimize2 className="h-4 w-4" aria-hidden="true" /> : <Maximize2 className="h-4 w-4" aria-hidden="true" />}
+          <span className="hidden sm:inline">{immersive ? "Salir" : "Modo inmersivo"}</span>
+        </button>
       </div>
 
       {/* 3D (solo navegador + con WebGL) */}
@@ -215,4 +277,7 @@ export default function PrismateUniverse() {
       {selected && <CenterPanel id={selected} onClose={() => setSelected(null)} />}
     </div>
   );
+
+  // En inmersivo, se saca al <body> para escapar de cualquier ancestro con transform.
+  return immersive ? createPortal(content, document.body) : content;
 }
