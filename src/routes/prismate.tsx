@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import FooterNueva from "@/components/nueva/FooterNueva";
 import FloatingCta from "@/components/nueva/FloatingCta";
 import { ScrollProgress, Reveal } from "@/components/nueva/scrolly";
+import PrismateUniverse from "@/components/prismate/PrismateUniverse";
 import PrismateChat from "@/components/prismate/PrismateChat";
 
 const CANONICAL_URL = "https://www.prismadigital.io/prismate";
@@ -11,9 +12,9 @@ const CANONICAL_URL = "https://www.prismadigital.io/prismate";
 const JSON_LD = buildGraph(
   webPage({
     url: CANONICAL_URL,
-    name: "Prismate — asistente IA de Prisma Digital",
+    name: "Prismate — el universo de luz de Prisma Digital",
     description:
-      "Conversa con Prismate, el asistente con IA de Prisma Digital. Resuelve tus dudas y te ayuda a escalar tus ventas online con datos.",
+      "Explora el prisma de Prisma Digital: 9 colores de luz, cada uno un mercado y un propósito. Y conversa con Prismate, su asistente con IA.",
     image: "https://prismadigital.io/og/og-home.png",
     withBreadcrumb: true,
   }),
@@ -23,27 +24,27 @@ const JSON_LD = buildGraph(
 export const Route = createFileRoute("/prismate")({
   head: () => ({
     meta: [
-      { title: "Prismate — asistente IA de Prisma Digital" },
+      { title: "Prismate — el universo de luz de Prisma Digital" },
       {
         name: "description",
         content:
-          "Conversa con Prismate, el asistente con IA de Prisma Digital: tecnología con sentido humano y datos duros para recuperar tiempo y crecer, estés empezando o optimizando.",
+          "Explora el prisma 3D de Prisma Digital: 9 colores de luz, cada uno un mercado y un propósito. Conversa con Prismate, su asistente con IA.",
       },
       { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "Prismate — asistente IA de Prisma Digital" },
+      { property: "og:title", content: "Prismate — el universo de luz de Prisma Digital" },
       {
         property: "og:description",
-        content: "Conversa con el asistente con IA de Prisma Digital y escala tus ventas online con datos.",
+        content: "Explora el prisma 3D de Prisma Digital y conversa con Prismate, su asistente con IA.",
       },
       { property: "og:url", content: CANONICAL_URL },
       { property: "og:image", content: "https://prismadigital.io/og/og-home.png" },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "1200" },
-      { name: "twitter:title", content: "Prismate — asistente IA de Prisma Digital" },
+      { name: "twitter:title", content: "Prismate — el universo de luz de Prisma Digital" },
       {
         name: "twitter:description",
-        content: "Conversa con el asistente con IA de Prisma Digital y escala tus ventas online con datos.",
+        content: "Explora el prisma 3D de Prisma Digital y conversa con Prismate, su asistente con IA.",
       },
       { name: "twitter:image", content: "https://prismadigital.io/og/og-home.png" },
     ],
@@ -65,27 +66,46 @@ function PrismatePage() {
       <ScrollProgress />
       <Navbar />
 
-      <section className="nl-dark relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+      {/* El universo 3D de Prismate */}
+      <section className="nl-dark relative overflow-hidden pt-28 pb-14 md:pt-36 md:pb-16">
         <div className="nl-grain absolute inset-0 overflow-hidden" aria-hidden="true">
           <div className="nl-aura" />
         </div>
 
-        <div className="relative mx-auto max-w-3xl px-6">
+        <div className="relative mx-auto max-w-6xl px-6">
           <div className="text-center">
             <span className="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-prisma-cyan backdrop-blur-sm">
-              Nuevo · Asistente con IA
+              Prismate · Universo de luz
             </span>
             <h1 className="mt-6 text-4xl md:text-5xl font-extrabold text-white leading-[1.08] tracking-tight text-balance">
-              Habla con Prismate
+              Tu luz se separa en 9 colores
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base md:text-lg text-white/80 leading-relaxed">
-              El asistente con IA de Prisma Digital. Pregúntale por nuestros servicios, casos y cómo
-              <span className="text-white"> recuperar tiempo y crecer con datos</span>, estés empezando o quieras
-              optimizar lo que ya tienes. Si quieres, te lleva directo a agendar tu diagnóstico gratis.
+            <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-white/80 leading-relaxed">
+              Cada color es un mercado y un propósito. Explora el prisma, toca un color para entender su
+              significado, y habla con <span className="text-white">Prismate</span> para encontrar el tuyo.
             </p>
           </div>
 
-          <Reveal variant="up" delay={80} className="mt-10">
+          <Reveal variant="up" delay={80} className="mt-9">
+            <PrismateUniverse />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* El chat de Prismate, conectado a n8n */}
+      <section className="nl-dark relative overflow-hidden pb-20 pt-4">
+        <div className="relative mx-auto max-w-3xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight text-balance">
+              Habla con Prismate
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-white/75 leading-relaxed">
+              Pregúntale por nuestros servicios, casos y cómo recuperar tiempo y crecer con datos —
+              estés empezando o quieras optimizar lo que ya tienes.
+            </p>
+          </div>
+
+          <Reveal variant="up" delay={80} className="mt-8">
             <PrismateChat />
           </Reveal>
 
