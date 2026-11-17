@@ -11,23 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosYCondicionesRouteImport } from './routes/terminos-y-condiciones'
 import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
+import { Route as PrismateRouteImport } from './routes/prismate'
 import { Route as PresentacionDiagnosticoRouteImport } from './routes/presentacion-diagnostico'
 import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-privacidad'
 import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
+import { Route as Motordeventas360RouteImport } from './routes/motordeventas360'
 import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
 import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as AssessmentRouteImport } from './routes/assessment'
-import { Route as Motordeventas360RouteImport } from './routes/motordeventas360'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-
-const Motordeventas360Route = Motordeventas360RouteImport.update({
-  id: '/motordeventas360',
-  path: '/motordeventas360',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
   id: '/terminos-y-condiciones',
@@ -37,6 +32,11 @@ const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
 const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
   id: '/promocion-de-negocios',
   path: '/promocion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrismateRoute = PrismateRouteImport.update({
+  id: '/prismate',
+  path: '/prismate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresentacionDiagnosticoRoute = PresentacionDiagnosticoRouteImport.update({
@@ -52,6 +52,11 @@ const PoliticaDePrivacidadRoute = PoliticaDePrivacidadRouteImport.update({
 const OptimizacionDeNegociosRoute = OptimizacionDeNegociosRouteImport.update({
   id: '/optimizacion-de-negocios',
   path: '/optimizacion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Motordeventas360Route = Motordeventas360RouteImport.update({
+  id: '/motordeventas360',
+  path: '/motordeventas360',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
@@ -101,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
+  '/prismate': typeof PrismateRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -116,6 +122,7 @@ export interface FileRoutesByTo {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
+  '/prismate': typeof PrismateRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -132,6 +139,7 @@ export interface FileRoutesById {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
+  '/prismate': typeof PrismateRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -149,6 +157,7 @@ export interface FileRouteTypes {
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
+    | '/prismate'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
+    | '/prismate'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
+    | '/prismate'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
@@ -195,6 +206,7 @@ export interface RootRouteChildren {
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
   PoliticaDePrivacidadRoute: typeof PoliticaDePrivacidadRoute
   PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
+  PrismateRoute: typeof PrismateRoute
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
   TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -215,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/promocion-de-negocios'
       fullPath: '/promocion-de-negocios'
       preLoaderRoute: typeof PromocionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prismate': {
+      id: '/prismate'
+      path: '/prismate'
+      fullPath: '/prismate'
+      preLoaderRoute: typeof PrismateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presentacion-diagnostico': {
@@ -307,6 +326,7 @@ const rootRouteChildren: RootRouteChildren = {
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
   PoliticaDePrivacidadRoute: PoliticaDePrivacidadRoute,
   PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,
+  PrismateRoute: PrismateRoute,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
   TerminosYCondicionesRoute: TerminosYCondicionesRoute,
   BlogSlugRoute: BlogSlugRoute,
