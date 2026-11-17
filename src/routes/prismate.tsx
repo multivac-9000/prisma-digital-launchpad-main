@@ -27,7 +27,7 @@ export const Route = createFileRoute("/prismate")({
       {
         name: "description",
         content:
-          "Conversa con Prismate, el asistente con IA de Prisma Digital: resuelve dudas y te orienta para duplicar tus ventas online con datos.",
+          "Conversa con Prismate, el asistente con IA de Prisma Digital: tecnología con sentido humano y datos duros para recuperar tiempo y crecer, estés empezando o optimizando.",
       },
       { name: "robots", content: "index, follow" },
       { property: "og:title", content: "Prismate — asistente IA de Prisma Digital" },
@@ -80,8 +80,8 @@ function PrismatePage() {
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base md:text-lg text-white/80 leading-relaxed">
               El asistente con IA de Prisma Digital. Pregúntale por nuestros servicios, casos y cómo
-              <span className="text-white"> duplicar tus ventas online con datos</span>. Si quieres, te lleva directo a
-              agendar tu diagnóstico gratis.
+              <span className="text-white"> recuperar tiempo y crecer con datos</span>, estés empezando o quieras
+              optimizar lo que ya tienes. Si quieres, te lleva directo a agendar tu diagnóstico gratis.
             </p>
           </div>
 

@@ -50,7 +50,7 @@ const organizationNode: Node = {
   telephone: PHONE,
   slogan: "Menos ilusión, más acción",
   description:
-    "Agencia de crecimiento digital para empresas consolidadas: integramos y medimos ecosistemas digitales para duplicar las ventas online.",
+    "Estudio de tecnología e inteligencia artificial con sentido humano: diseñamos sistemas digitales y decidimos con datos duros, no con suposiciones, para que las personas detrás de cada negocio recuperen tiempo y crezcan sin perder su esencia.",
   foundingLocation: {
     "@type": "Place",
     address: {
@@ -87,7 +87,7 @@ const websiteNode: Node = {
   url: `${SITE}/`,
   name: "Prisma Digital",
   description:
-    "Modernizamos y medimos el ecosistema digital de empresas consolidadas para duplicar sus ventas online.",
+    "Tecnología e IA con sentido humano y datos duros: construye con conciencia o optimiza lo que ya tienes para crecer sin perder tu esencia.",
   publisher: { "@id": ORG_ID },
   inLanguage: "es-CL",
 };
@@ -260,7 +260,7 @@ export function blogListing(
     url: `${SITE}/blog`,
     name: "Blog de Prisma Digital",
     description:
-      "Guías prácticas de marketing digital, medición, análisis, martech y SEO para empresas consolidadas.",
+      "Guías prácticas de marketing digital, medición, análisis, martech y SEO para quienes construyen y hacen crecer su negocio con datos.",
     publisher: { "@id": ORG_ID },
     inLanguage: "es-CL",
     blogPost: posts.map((p) => ({

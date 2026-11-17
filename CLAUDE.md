@@ -27,14 +27,15 @@ Landing page de Prisma Digital (https://www.prismadigital.io/). Se despliega en 
 
 ## Posicionamiento (regla que atraviesa todo el copy de /nueva-landing)
 
-- Público: negocios con 10+ años de trayectoria, reconocidos por su presencia física (restaurantes, pubs, automotoras, farmacias, pet shops, retail de servicios), sin célula de martech, que quieren duplicar sus ventas online.
-- Perfiles que agendan: dueños/gerentes, jefes de células de desarrollo (no saben medir eventos de sus aplicativos) y jefes de marketing (necesitan bajar CPA con buena marcación de objetivos).
-- PROHIBIDO en el copy: "tienda desde cero", "vendiendo solo", "tus primeros clientes", "para emprendedores". Este cliente YA vende; el salto es escalar, no nacer.
-- Registro emocional en orden: alivio → alegría/esperanza → confianza (respaldada con métricas y clientes reales).
+- Núcleo de marca (actualizado 2026-11-17): Prisma Digital es un estudio de **tecnología e IA con sentido humano**. El relato central es **liberar el tiempo de las personas detrás de cada negocio** para que la tecnología haga lo repetitivo y ellas vuelvan a crear, conectar y crecer. Siempre con **datos duros, no suposiciones**.
+- Público (DOS caminos, ambos bienvenidos): (1) quienes **empiezan o emprenden** → construir con conciencia desde el primer paso; (2) **empresas/negocios con trayectoria** → optimizar lo que ya tienen (ecosistema digital, medición de eventos, bajar CPA, automatizar con IA). Ya NO es solo B2B consolidado.
+- Perfiles que agendan: dueños/gerentes, jefes de desarrollo (no saben medir eventos de sus aplicativos) y jefes de marketing (bajar CPA con buena marcación de objetivos), y también personas iniciando su proyecto.
+- EVITAR descalificar a quien recién empieza. (Se retiró la antigua prohibición de dirigirse a emprendedores: la nueva misión los incluye explícitamente.)
+- Registro emocional: alivio (recuperar tiempo) → esperanza (crecer sin perder la esencia) → confianza (datos duros, métricas y clientes reales).
 - Textos ancla (texto exacto, idéntico al deck de `/presentacion-diagnostico`; no reescribir sin aprobación):
-  - **Visión:** "Impulsar decisiones digitales basadas en datos y con propósito humano en empresas consolidadas."
-  - **Misión:** "Fortalecer los pilares del ecosistema digital midiendo lo importante, con mentalidad de crecimiento."
-  - **Propósito:** "Potenciar los activos digitales de empresas que buscan modernizar su presencia en el mercado."
+  - **Propósito (Por qué):** "Liberar el tiempo y la energía de las personas detrás de cada negocio, para que la tecnología haga lo repetitivo y ellas puedan dedicarse a lo que solo un ser humano puede hacer: crear, conectar y crecer."
+  - **Visión (Causa Justa):** "Un futuro donde la tecnología sirve a la vida: negocios conscientes y prósperos, en los que las máquinas trabajan y las personas recuperan tiempo para su propósito, su gente y su bienestar."
+  - **Misión (Cómo + Qué):** "Diseñamos sistemas digitales y de inteligencia artificial con sentido humano y tomamos cada decisión con datos duros, no con suposiciones: enseñamos a quienes empiezan a construir con conciencia desde el primer paso, y ayudamos a las empresas a optimizar lo que ya tienen para que crezcan sin perder su esencia."
 
 ## Reglas de conversión y UX
 
@@ -58,7 +59,7 @@ Landing page de Prisma Digital (https://www.prismadigital.io/). Se despliega en 
 ## SEO
 
 - Un solo `<h1>` por página (el del hero). Jerarquía h1 → h2 (secciones) → h3 (tarjetas).
-- `<title>` ≤60 caracteres, meta description ≤155, alineados al beneficio ("duplica tus ventas online con datos").
+- `<title>` ≤60 caracteres, meta description ≤155, alineados al beneficio ("tecnología con sentido humano que te devuelve tiempo y te hace crecer con datos").
 - Keywords del avatar en h1/h2 y primeros párrafos: digitalizar negocio físico, ecosistema digital integrado, medición de eventos web y apps, reducir CPA, duplicar ventas online.
 - `alt` descriptivo en todas las imágenes ("Logo Fexmin, cliente de Prisma Digital").
 - JSON-LD `Organization` + `LocalBusiness` en el head de la ruta (ver `nueva-landing.tsx`).

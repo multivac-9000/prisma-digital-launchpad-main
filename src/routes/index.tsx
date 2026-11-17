@@ -18,9 +18,9 @@ const CANONICAL_URL = "https://www.prismadigital.io/";
 const JSON_LD = buildGraph(
   webPage({
     url: CANONICAL_URL,
-    name: "Prisma Digital — Duplica tus ventas online con datos",
+    name: "Prisma Digital — Tecnología con sentido humano",
     description:
-      "Modernizamos y medimos el ecosistema digital de negocios con años de trayectoria para duplicar sus ventas online. Agenda tu diagnóstico gratis.",
+      "Sistemas digitales e IA con sentido humano y decisiones con datos duros. Construye con conciencia o optimiza lo que ya tienes. Agenda tu diagnóstico gratis.",
     image: "https://prismadigital.io/og/og-home.png",
   }),
 );
@@ -29,24 +29,24 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       // Título ≤60 caracteres; la garantía real está en la sección #garantia.
-      { title: "Prisma Digital — Duplica tus ventas online con datos" },
+      { title: "Prisma Digital — Tecnología con sentido humano" },
       {
         name: "description",
         content:
-          "Modernizamos y medimos el ecosistema digital de negocios con años de trayectoria para duplicar sus ventas online. Agenda tu diagnóstico gratis.",
+          "Sistemas digitales e IA con sentido humano y decisiones con datos duros. Construye con conciencia o optimiza lo que ya tienes. Agenda tu diagnóstico gratis.",
       },
-      { property: "og:title", content: "Prisma Digital — Duplica tus ventas online con datos" },
+      { property: "og:title", content: "Prisma Digital — Tecnología con sentido humano" },
       {
         property: "og:description",
         content:
-          "Integramos y medimos tu ecosistema digital para duplicar tus ventas online.",
+          "Tecnología e IA con sentido humano y datos duros para crecer sin perder tu esencia.",
       },
       { property: "og:url", content: CANONICAL_URL },
-      { name: "twitter:title", content: "Prisma Digital — Duplica tus ventas online con datos" },
+      { name: "twitter:title", content: "Prisma Digital — Tecnología con sentido humano" },
       {
         name: "twitter:description",
         content:
-          "Integramos y medimos tu ecosistema digital para duplicar tus ventas online. Diagnóstico gratis.",
+          "Tecnología e IA con sentido humano y datos duros para crecer sin perder tu esencia. Diagnóstico gratis.",
       },
     ],
     links: [

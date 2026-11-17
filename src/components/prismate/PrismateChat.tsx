@@ -8,13 +8,13 @@ const SID_KEY = "prismate:sid";
 
 const SUGERENCIAS = [
   "¿Qué hace Prisma Digital?",
-  "¿Cómo miden resultados?",
-  "Quiero bajar mi CPA",
+  "Estoy empezando mi negocio",
+  "Quiero optimizar lo que ya tengo",
   "¿Tienen casos de éxito?",
 ];
 
 const BIENVENIDA =
-  "¡Hola! Soy **Prismate**, el asistente de Prisma Digital. Ayudamos a negocios con trayectoria a **duplicar sus ventas online** midiendo lo que importa. Cuéntame de tu negocio o pregúntame lo que quieras. 👇";
+  "¡Hola! Soy **Prismate**, el asistente de Prisma Digital. Diseñamos tecnología e **IA con sentido humano**, con datos duros, para que recuperes tiempo y hagas crecer tu negocio sin perder su esencia. Cuéntame de tu proyecto o pregúntame lo que quieras. 👇";
 
 type Msg = { from: "prismate" | "tu"; text: string };
 

@@ -163,19 +163,19 @@ function SlidePortada() {
 
 const identidad = [
   {
+    icon: HeartHandshake,
+    title: "Propósito",
+    body: "Liberar el tiempo y la energía de las personas detrás de cada negocio, para que la tecnología haga lo repetitivo y ellas puedan dedicarse a lo que solo un ser humano puede hacer: crear, conectar y crecer.",
+  },
+  {
     icon: Telescope,
     title: "Visión",
-    body: "Impulsar decisiones digitales basadas en datos y con propósito humano en empresas consolidadas.",
+    body: "Un futuro donde la tecnología sirve a la vida: negocios conscientes y prósperos, en los que las máquinas trabajan y las personas recuperan tiempo para su propósito, su gente y su bienestar.",
   },
   {
     icon: Target,
     title: "Misión",
-    body: "Fortalecer los pilares del ecosistema digital midiendo lo importante, con mentalidad de crecimiento.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Propósito",
-    body: "Potenciar los activos digitales de empresas que buscan modernizar su presencia en el mercado.",
+    body: "Diseñamos sistemas digitales y de inteligencia artificial con sentido humano y tomamos cada decisión con datos duros, no con suposiciones: enseñamos a quienes empiezan a construir con conciencia desde el primer paso, y ayudamos a las empresas a optimizar lo que ya tienen para que crezcan sin perder su esencia.",
   },
 ];
 

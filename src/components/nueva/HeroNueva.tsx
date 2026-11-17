@@ -18,8 +18,8 @@ type Node = {
   c: RGB;
 };
 
-const H1_LINE_1 = "Llevas años consolidando tu negocio.";
-const H1_LINE_2 = "Ahora dupliquemos tus ventas online.";
+const H1_LINE_1 = "La tecnología hace lo repetitivo.";
+const H1_LINE_2 = "Tú vuelves a crear, conectar y crecer.";
 
 /* Palabras que rotan al final del eslogan del hero. Todas riman en "-ión" para
    que el oído las lea como una variación del eslogan oficial ("Menos ilusión,
@@ -136,12 +136,13 @@ function KineticLine({
   );
 }
 
-/* HERO para empresas consolidadas: misma red neuronal de datos (motivo de
-   constelaciones de la marca) sobre una malla oscura asimétrica con grano. */
+/* HERO: tecnología e IA con sentido humano que libera tiempo a las personas
+   detrás de cada negocio. Misma red neuronal de datos (motivo de constelaciones
+   de la marca) sobre una malla oscura asimétrica con grano. */
 export default function HeroNueva({
   h1Line1 = H1_LINE_1,
   h1Line2 = H1_LINE_2,
-  description = "Integramos y optimizamos tu ecosistema digital para que dupliques tus ventas online — midiendo cada peso invertido, sin que necesites un equipo técnico propio.",
+  description = "Diseñamos sistemas digitales y de IA con sentido humano y decidimos con datos duros, no con suposiciones. Te ayudamos a construir con conciencia desde el primer paso —o a optimizar lo que ya tienes— para crecer sin perder tu esencia.",
   customTickerItems,
   ctaText = "Agenda tu Diagnóstico Gratis",
   ctaId = "agenda_diagnostico",
