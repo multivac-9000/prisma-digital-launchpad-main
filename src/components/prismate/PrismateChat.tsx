@@ -2,15 +2,24 @@ import * as React from "react";
 import { Send, Sparkles, CalendarDays } from "lucide-react";
 import { askPrismate } from "@/lib/api/prismate.functions";
 import { trackCta } from "@/components/nueva/track";
+import { buildPerfil, perfilResumen } from "@/lib/prism/perfil";
 
 const MEET_URL = "https://meet.brevo.com/prisma-digital";
 const SID_KEY = "prismate:sid";
+const RESULT_KEY = "prism:v2:last-result";
 
 const SUGERENCIAS = [
   "¿Qué hace Prisma Digital?",
   "Estoy empezando mi negocio",
   "Quiero optimizar lo que ya tengo",
   "¿Tienen casos de éxito?",
+];
+
+const SUGERENCIAS_COACH = [
+  "¿Qué hago hoy?",
+  "Mi plan de 30 días",
+  "Ideas para mi nicho",
+  "¿Cómo empiezo?",
 ];
 
 const BIENVENIDA =
@@ -97,12 +106,16 @@ export default function PrismateChat() {
   const [error, setError] = React.useState("");
   const logRef = React.useRef<HTMLOListElement>(null);
   const sidRef = React.useRef<string>("");
+  const perfilRef = React.useRef<string>("");
+  const [coach, setCoach] = React.useState<{ dominante: string; hex: string } | null>(null);
 
-  // Sesión estable por visitante (memoria del agente en n8n).
+  // Sesión estable por visitante (memoria del agente en n8n) + perfil del escaneo.
   React.useEffect(() => {
     let sid = "";
+    let code = "";
     try {
       sid = localStorage.getItem(SID_KEY) || "";
+      code = localStorage.getItem(RESULT_KEY) || "";
     } catch {}
     if (!sid) {
       const rnd =
@@ -114,7 +127,22 @@ export default function PrismateChat() {
         localStorage.setItem(SID_KEY, sid);
       } catch {}
     }
-    sidRef.current = sid;
+    // La memoria del agente es por sessionId: al traer un escaneo, se usa un hilo
+    // propio (sid + código) para que el coach no mezcle con la charla de agencia.
+    sidRef.current = code ? `${sid}-${code}` : sid;
+
+    // Si la persona ya hizo su escaneo, Prismate pasa a modo coach.
+    perfilRef.current = buildPerfil(code);
+    const resumen = perfilResumen(code);
+    if (resumen) {
+      setCoach({ dominante: resumen.dominante, hex: resumen.hex });
+      setMsgs([
+        {
+          from: "prismate",
+          text: `¡Hola! Tu luz dominante es **${resumen.dominante}** y tu nicho es **${resumen.nicho}**. Soy **Prismate** y te acompaño a convertir eso en un negocio, con pasos concretos y datos. ¿Por dónde quieres partir? 👇`,
+        },
+      ]);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -134,7 +162,9 @@ export default function PrismateChat() {
         trackCta("prismate_mensaje", "prismate-chat");
       }
       try {
-        const r = await askPrismate({ data: { message: t, sessionId: sidRef.current || "web-anon" } });
+        const r = await askPrismate({
+          data: { message: t, sessionId: sidRef.current || "web-anon", perfil: perfilRef.current || undefined },
+        });
         if (r.ok) setMsgs((m) => [...m, { from: "prismate", text: r.reply }]);
         else setError(r.msg);
       } catch {
@@ -222,7 +252,7 @@ export default function PrismateChat() {
       {/* Sugerencias (solo al inicio) */}
       {msgs.length <= 1 && !busy && (
         <div className="flex flex-wrap gap-2 px-5 pb-1">
-          {SUGERENCIAS.map((s) => (
+          {(coach ? SUGERENCIAS_COACH : SUGERENCIAS).map((s) => (
             <button
               key={s}
               type="button"

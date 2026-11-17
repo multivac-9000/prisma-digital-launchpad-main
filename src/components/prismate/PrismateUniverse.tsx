@@ -2,10 +2,13 @@ import * as React from "react";
 import { X, MessageCircle } from "lucide-react";
 import { CENTERS, CENTER_BY_ID, type CenterId } from "@/lib/prism/bands";
 import { GEOMETRY } from "@/lib/prism/geometry";
+import { computeSpectrum, decodeResult } from "@/lib/prism/score";
 import { askPrismateExternally } from "./PrismateChat";
 
 /* El 3D (three.js) se carga SOLO en el navegador (SSR-safe). */
 const LightUniverse = React.lazy(() => import("./LightUniverse"));
+
+const RESULT_KEY = "prism:v2:last-result";
 
 /* Universo de exploración: las 9 luces con la misma intensidad (aún sin escaneo). */
 const RANKING = CENTERS.map((c) => c.id);
@@ -95,6 +98,11 @@ export default function PrismateUniverse() {
   const [env, setEnv] = React.useState<{ webgl: boolean; reduced: boolean; compact: boolean } | null>(null);
   const [selected, setSelected] = React.useState<CenterId | null>(null);
   const [inView, setInView] = React.useState(false);
+  const [data, setData] = React.useState<{ intensities: Record<CenterId, number>; ranking: CenterId[]; personal: boolean }>({
+    intensities: INTENSITIES,
+    ranking: RANKING,
+    personal: false,
+  });
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -103,6 +111,15 @@ export default function PrismateUniverse() {
       reduced: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
       compact: window.innerWidth < 768,
     });
+    // Si la persona ya hizo su escaneo, el prisma muestra SU luz (intensidades reales).
+    try {
+      const code = localStorage.getItem(RESULT_KEY);
+      const r = code ? decodeResult(code) : null;
+      if (r) {
+        const s = computeSpectrum(r.answers, r.mode);
+        setData({ intensities: s.intensities, ranking: s.ranking, personal: true });
+      }
+    } catch {}
   }, []);
 
   // El 3D (y su entrada con zoom-out) se monta cuando el universo entra en pantalla.
@@ -129,7 +146,7 @@ export default function PrismateUniverse() {
     >
       {/* Título dentro del lienzo */}
       <div className="pointer-events-none absolute left-5 top-5 z-10 md:left-7 md:top-7">
-        <h2 className="font-extrabold tracking-tight text-white text-[22px] md:text-[28px]">La luz de Prismate</h2>
+        <h2 className="font-extrabold tracking-tight text-white text-[22px] md:text-[28px]">{data.personal ? "Tu universo de luz" : "La luz de Prismate"}</h2>
         <p className="mt-1 text-[13px] text-white/60 md:text-[14px]">Gira con el dedo o el mouse. Toca un color para entenderlo.</p>
       </div>
 
@@ -141,8 +158,8 @@ export default function PrismateUniverse() {
           fallback={<div className="flex h-full items-center justify-center text-sm text-white/50">Abriendo tu universo de luz…</div>}
         >
           <LightUniverse
-            intensities={INTENSITIES}
-            ranking={RANKING}
+            intensities={data.intensities}
+            ranking={data.ranking}
             selected={selected}
             onSelect={(id) => setSelected(id)}
             dive={null}
@@ -175,7 +192,7 @@ export default function PrismateUniverse() {
       {!selected && (
         <div className="absolute inset-x-0 bottom-0 z-10 overflow-x-auto px-4 pb-4 md:px-6 md:pb-5">
           <ul className="flex w-max gap-2" aria-label="Los 9 colores de Prismate">
-            {RANKING.map((id) => {
+            {data.ranking.map((id) => {
               const x = CENTER_BY_ID[id];
               return (
                 <li key={id}>

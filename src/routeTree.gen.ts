@@ -9,59 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TerminosYCondicionesRouteImport } from './routes/terminos-y-condiciones'
-import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
-import { Route as PrismateRouteImport } from './routes/prismate'
-import { Route as PresentacionDiagnosticoRouteImport } from './routes/presentacion-diagnostico'
-import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-privacidad'
-import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
-import { Route as Motordeventas360RouteImport } from './routes/motordeventas360'
-import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
-import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
-import { Route as ContactoRouteImport } from './routes/contacto'
-import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as DigitalizacionDeNegociosRouteImport } from './routes/digitalizacion-de-negocios'
+import { Route as GraciasInfinitasRouteImport } from './routes/gracias-infinitas'
+import { Route as Motordeventas360RouteImport } from './routes/motordeventas360'
+import { Route as OptimizacionDeNegociosRouteImport } from './routes/optimizacion-de-negocios'
+import { Route as PoliticaDePrivacidadRouteImport } from './routes/politica-de-privacidad'
+import { Route as PresentacionDiagnosticoRouteImport } from './routes/presentacion-diagnostico'
+import { Route as PrismateRouteImport } from './routes/prismate'
+import { Route as PromocionDeNegociosRouteImport } from './routes/promocion-de-negocios'
+import { Route as TerminosYCondicionesRouteImport } from './routes/terminos-y-condiciones'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as PrismateIndexRouteImport } from './routes/prismate.index'
+import { Route as PrismateEscaneoRouteImport } from './routes/prismate.escaneo'
 
-const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
-  id: '/terminos-y-condiciones',
-  path: '/terminos-y-condiciones',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
-  id: '/promocion-de-negocios',
-  path: '/promocion-de-negocios',
+const AssessmentRoute = AssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PrismateRoute = PrismateRouteImport.update({
-  id: '/prismate',
-  path: '/prismate',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PresentacionDiagnosticoRoute = PresentacionDiagnosticoRouteImport.update({
-  id: '/presentacion-diagnostico',
-  path: '/presentacion-diagnostico',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PoliticaDePrivacidadRoute = PoliticaDePrivacidadRouteImport.update({
-  id: '/politica-de-privacidad',
-  path: '/politica-de-privacidad',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OptimizacionDeNegociosRoute = OptimizacionDeNegociosRouteImport.update({
-  id: '/optimizacion-de-negocios',
-  path: '/optimizacion-de-negocios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Motordeventas360Route = Motordeventas360RouteImport.update({
-  id: '/motordeventas360',
-  path: '/motordeventas360',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
-  id: '/gracias-infinitas',
-  path: '/gracias-infinitas',
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DigitalizacionDeNegociosRoute =
@@ -70,19 +47,44 @@ const DigitalizacionDeNegociosRoute =
     path: '/digitalizacion-de-negocios',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ContactoRoute = ContactoRouteImport.update({
-  id: '/contacto',
-  path: '/contacto',
+const GraciasInfinitasRoute = GraciasInfinitasRouteImport.update({
+  id: '/gracias-infinitas',
+  path: '/gracias-infinitas',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AssessmentRoute = AssessmentRouteImport.update({
-  id: '/assessment',
-  path: '/assessment',
+const Motordeventas360Route = Motordeventas360RouteImport.update({
+  id: '/motordeventas360',
+  path: '/motordeventas360',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const OptimizacionDeNegociosRoute = OptimizacionDeNegociosRouteImport.update({
+  id: '/optimizacion-de-negocios',
+  path: '/optimizacion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadRoute = PoliticaDePrivacidadRouteImport.update({
+  id: '/politica-de-privacidad',
+  path: '/politica-de-privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentacionDiagnosticoRoute = PresentacionDiagnosticoRouteImport.update({
+  id: '/presentacion-diagnostico',
+  path: '/presentacion-diagnostico',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrismateRoute = PrismateRouteImport.update({
+  id: '/prismate',
+  path: '/prismate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromocionDeNegociosRoute = PromocionDeNegociosRouteImport.update({
+  id: '/promocion-de-negocios',
+  path: '/promocion-de-negocios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TerminosYCondicionesRoute = TerminosYCondicionesRouteImport.update({
+  id: '/terminos-y-condiciones',
+  path: '/terminos-y-condiciones',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -95,6 +97,16 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrismateIndexRoute = PrismateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrismateRoute,
+} as any)
+const PrismateEscaneoRoute = PrismateEscaneoRouteImport.update({
+  id: '/escaneo',
+  path: '/escaneo',
+  getParentRoute: () => PrismateRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -106,11 +118,13 @@ export interface FileRoutesByFullPath {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
-  '/prismate': typeof PrismateRoute
+  '/prismate': typeof PrismateRouteWithChildren
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/prismate/escaneo': typeof PrismateEscaneoRoute
   '/blog/': typeof BlogIndexRoute
+  '/prismate/': typeof PrismateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -122,11 +136,12 @@ export interface FileRoutesByTo {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
-  '/prismate': typeof PrismateRoute
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/prismate/escaneo': typeof PrismateEscaneoRoute
   '/blog': typeof BlogIndexRoute
+  '/prismate': typeof PrismateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,11 +154,13 @@ export interface FileRoutesById {
   '/optimizacion-de-negocios': typeof OptimizacionDeNegociosRoute
   '/politica-de-privacidad': typeof PoliticaDePrivacidadRoute
   '/presentacion-diagnostico': typeof PresentacionDiagnosticoRoute
-  '/prismate': typeof PrismateRoute
+  '/prismate': typeof PrismateRouteWithChildren
   '/promocion-de-negocios': typeof PromocionDeNegociosRoute
   '/terminos-y-condiciones': typeof TerminosYCondicionesRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/prismate/escaneo': typeof PrismateEscaneoRoute
   '/blog/': typeof BlogIndexRoute
+  '/prismate/': typeof PrismateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,7 +178,9 @@ export interface FileRouteTypes {
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
+    | '/prismate/escaneo'
     | '/blog/'
+    | '/prismate/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,11 +192,12 @@ export interface FileRouteTypes {
     | '/optimizacion-de-negocios'
     | '/politica-de-privacidad'
     | '/presentacion-diagnostico'
-    | '/prismate'
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
+    | '/prismate/escaneo'
     | '/blog'
+    | '/prismate'
   id:
     | '__root__'
     | '/'
@@ -193,7 +213,9 @@ export interface FileRouteTypes {
     | '/promocion-de-negocios'
     | '/terminos-y-condiciones'
     | '/blog/$slug'
+    | '/prismate/escaneo'
     | '/blog/'
+    | '/prismate/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,7 +228,7 @@ export interface RootRouteChildren {
   OptimizacionDeNegociosRoute: typeof OptimizacionDeNegociosRoute
   PoliticaDePrivacidadRoute: typeof PoliticaDePrivacidadRoute
   PresentacionDiagnosticoRoute: typeof PresentacionDiagnosticoRoute
-  PrismateRoute: typeof PrismateRoute
+  PrismateRoute: typeof PrismateRouteWithChildren
   PromocionDeNegociosRoute: typeof PromocionDeNegociosRoute
   TerminosYCondicionesRoute: typeof TerminosYCondicionesRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -215,74 +237,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terminos-y-condiciones': {
-      id: '/terminos-y-condiciones'
-      path: '/terminos-y-condiciones'
-      fullPath: '/terminos-y-condiciones'
-      preLoaderRoute: typeof TerminosYCondicionesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/promocion-de-negocios': {
-      id: '/promocion-de-negocios'
-      path: '/promocion-de-negocios'
-      fullPath: '/promocion-de-negocios'
-      preLoaderRoute: typeof PromocionDeNegociosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/prismate': {
-      id: '/prismate'
-      path: '/prismate'
-      fullPath: '/prismate'
-      preLoaderRoute: typeof PrismateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/presentacion-diagnostico': {
-      id: '/presentacion-diagnostico'
-      path: '/presentacion-diagnostico'
-      fullPath: '/presentacion-diagnostico'
-      preLoaderRoute: typeof PresentacionDiagnosticoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/politica-de-privacidad': {
-      id: '/politica-de-privacidad'
-      path: '/politica-de-privacidad'
-      fullPath: '/politica-de-privacidad'
-      preLoaderRoute: typeof PoliticaDePrivacidadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/optimizacion-de-negocios': {
-      id: '/optimizacion-de-negocios'
-      path: '/optimizacion-de-negocios'
-      fullPath: '/optimizacion-de-negocios'
-      preLoaderRoute: typeof OptimizacionDeNegociosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/motordeventas360': {
-      id: '/motordeventas360'
-      path: '/motordeventas360'
-      fullPath: '/motordeventas360'
-      preLoaderRoute: typeof Motordeventas360RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gracias-infinitas': {
-      id: '/gracias-infinitas'
-      path: '/gracias-infinitas'
-      fullPath: '/gracias-infinitas'
-      preLoaderRoute: typeof GraciasInfinitasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/digitalizacion-de-negocios': {
-      id: '/digitalizacion-de-negocios'
-      path: '/digitalizacion-de-negocios'
-      fullPath: '/digitalizacion-de-negocios'
-      preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacto': {
-      id: '/contacto'
-      path: '/contacto'
-      fullPath: '/contacto'
-      preLoaderRoute: typeof ContactoRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assessment': {
@@ -292,11 +251,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/digitalizacion-de-negocios': {
+      id: '/digitalizacion-de-negocios'
+      path: '/digitalizacion-de-negocios'
+      fullPath: '/digitalizacion-de-negocios'
+      preLoaderRoute: typeof DigitalizacionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gracias-infinitas': {
+      id: '/gracias-infinitas'
+      path: '/gracias-infinitas'
+      fullPath: '/gracias-infinitas'
+      preLoaderRoute: typeof GraciasInfinitasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motordeventas360': {
+      id: '/motordeventas360'
+      path: '/motordeventas360'
+      fullPath: '/motordeventas360'
+      preLoaderRoute: typeof Motordeventas360RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/optimizacion-de-negocios': {
+      id: '/optimizacion-de-negocios'
+      path: '/optimizacion-de-negocios'
+      fullPath: '/optimizacion-de-negocios'
+      preLoaderRoute: typeof OptimizacionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidad': {
+      id: '/politica-de-privacidad'
+      path: '/politica-de-privacidad'
+      fullPath: '/politica-de-privacidad'
+      preLoaderRoute: typeof PoliticaDePrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentacion-diagnostico': {
+      id: '/presentacion-diagnostico'
+      path: '/presentacion-diagnostico'
+      fullPath: '/presentacion-diagnostico'
+      preLoaderRoute: typeof PresentacionDiagnosticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prismate': {
+      id: '/prismate'
+      path: '/prismate'
+      fullPath: '/prismate'
+      preLoaderRoute: typeof PrismateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promocion-de-negocios': {
+      id: '/promocion-de-negocios'
+      path: '/promocion-de-negocios'
+      fullPath: '/promocion-de-negocios'
+      preLoaderRoute: typeof PromocionDeNegociosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terminos-y-condiciones': {
+      id: '/terminos-y-condiciones'
+      path: '/terminos-y-condiciones'
+      fullPath: '/terminos-y-condiciones'
+      preLoaderRoute: typeof TerminosYCondicionesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -313,8 +335,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prismate/': {
+      id: '/prismate/'
+      path: '/'
+      fullPath: '/prismate/'
+      preLoaderRoute: typeof PrismateIndexRouteImport
+      parentRoute: typeof PrismateRoute
+    }
+    '/prismate/escaneo': {
+      id: '/prismate/escaneo'
+      path: '/escaneo'
+      fullPath: '/prismate/escaneo'
+      preLoaderRoute: typeof PrismateEscaneoRouteImport
+      parentRoute: typeof PrismateRoute
+    }
   }
 }
+
+interface PrismateRouteChildren {
+  PrismateEscaneoRoute: typeof PrismateEscaneoRoute
+  PrismateIndexRoute: typeof PrismateIndexRoute
+}
+
+const PrismateRouteChildren: PrismateRouteChildren = {
+  PrismateEscaneoRoute: PrismateEscaneoRoute,
+  PrismateIndexRoute: PrismateIndexRoute,
+}
+
+const PrismateRouteWithChildren = PrismateRoute._addFileChildren(
+  PrismateRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -326,7 +376,7 @@ const rootRouteChildren: RootRouteChildren = {
   OptimizacionDeNegociosRoute: OptimizacionDeNegociosRoute,
   PoliticaDePrivacidadRoute: PoliticaDePrivacidadRoute,
   PresentacionDiagnosticoRoute: PresentacionDiagnosticoRoute,
-  PrismateRoute: PrismateRoute,
+  PrismateRoute: PrismateRouteWithChildren,
   PromocionDeNegociosRoute: PromocionDeNegociosRoute,
   TerminosYCondicionesRoute: TerminosYCondicionesRoute,
   BlogSlugRoute: BlogSlugRoute,
