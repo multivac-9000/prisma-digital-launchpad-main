@@ -93,7 +93,7 @@ function PrismatePage() {
       </section>
 
       {/* El chat de Prismate, conectado a n8n */}
-      <section className="nl-dark relative overflow-hidden pb-20 pt-4">
+      <section id="habla-prismate" className="nl-dark relative overflow-hidden pb-20 pt-4">
         <div className="relative mx-auto max-w-3xl px-6">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight text-balance">

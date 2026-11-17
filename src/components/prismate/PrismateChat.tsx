@@ -18,6 +18,14 @@ const BIENVENIDA =
 
 type Msg = { from: "prismate" | "tu"; text: string };
 
+/* Puente para que otras partes de la página (ej. el panel de un color del prisma)
+   le hagan una pregunta a Prismate. El chat se suscribe mientras está montado. */
+let externalSend: ((text: string) => void) | null = null;
+export function askPrismateExternally(text: string) {
+  document.getElementById("habla-prismate")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  externalSend?.(text);
+}
+
 /** Avatar: un pequeño prisma con el espectro de la marca. */
 function PrismateAvatar({ size = 36, talking = false }: { size?: number; talking?: boolean }) {
   return (
@@ -137,6 +145,14 @@ export default function PrismateChat() {
     },
     [busy],
   );
+
+  // Permite que el panel de un color del prisma envíe una pregunta a este chat.
+  React.useEffect(() => {
+    externalSend = send;
+    return () => {
+      if (externalSend === send) externalSend = null;
+    };
+  }, [send]);
 
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl border border-white/12 bg-white/[0.04] shadow-2xl backdrop-blur-sm">

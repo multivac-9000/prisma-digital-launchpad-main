@@ -1,7 +1,8 @@
 import * as React from "react";
-import { X } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { CENTERS, CENTER_BY_ID, type CenterId } from "@/lib/prism/bands";
 import { GEOMETRY } from "@/lib/prism/geometry";
+import { askPrismateExternally } from "./PrismateChat";
 
 /* El 3D (three.js) se carga SOLO en el navegador (SSR-safe). */
 const LightUniverse = React.lazy(() => import("./LightUniverse"));
@@ -72,6 +73,19 @@ function CenterPanel({ id, onClose }: { id: CenterId; onClose: () => void }) {
           <dd className="text-white/85">{c.careers.slice(0, 3).join(", ")}</dd>
         </div>
       </dl>
+      <button
+        type="button"
+        onClick={() => {
+          onClose();
+          askPrismateExternally(
+            `Mi luz dominante es ${c.name} (${c.areas.toLowerCase()}). ¿Cómo la convierto en un negocio con datos?`,
+          );
+        }}
+        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-bold text-prisma-navy transition-transform hover:scale-[1.02]"
+      >
+        <MessageCircle className="h-4 w-4" aria-hidden="true" />
+        Habla con Prismate sobre {c.name}
+      </button>
     </aside>
   );
 }
