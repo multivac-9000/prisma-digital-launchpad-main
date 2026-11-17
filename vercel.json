@@ -2,5 +2,9 @@
   "buildCommand": "bun run build",
   "env": {
     "DANGEROUSLY_DEPLOY_VULNERABLE_TANSTACK_START_XSS": "1"
-  }
+  },
+  "rewrites": [
+    { "source": "/prismate", "destination": "https://PRISMATE-DEPLOY-URL.vercel.app/prismate" },
+    { "source": "/prismate/:path*", "destination": "https://PRISMATE-DEPLOY-URL.vercel.app/prismate/:path*" }
+  ]
 }
